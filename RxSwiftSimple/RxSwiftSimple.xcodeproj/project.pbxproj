@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		3DE72F175C1093017A532D99 /* Pods_RxSwiftSimple.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC6D2271396FEE0A5270948B /* Pods_RxSwiftSimple.framework */; };
+		5C0237B4223F484A009CFAD1 /* TakeuntilViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C0237B3223F484A009CFAD1 /* TakeuntilViewController.swift */; };
+		5C0237B8223FBD77009CFAD1 /* DisposeBagViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C0237B7223FBD77009CFAD1 /* DisposeBagViewController.swift */; };
 		5C5EEB19222E0DB8004E99A7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5EEB18222E0DB8004E99A7 /* AppDelegate.swift */; };
 		5C5EEB1B222E0DB8004E99A7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5EEB1A222E0DB8004E99A7 /* ViewController.swift */; };
 		5C5EEB1E222E0DB8004E99A7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5C5EEB1C222E0DB8004E99A7 /* Main.storyboard */; };
@@ -17,6 +19,8 @@
 
 /* Begin PBXFileReference section */
 		2FF0A5E46B7227F598E56B10 /* Pods-RxSwiftSimple.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RxSwiftSimple.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RxSwiftSimple/Pods-RxSwiftSimple.debug.xcconfig"; sourceTree = "<group>"; };
+		5C0237B3223F484A009CFAD1 /* TakeuntilViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TakeuntilViewController.swift; sourceTree = "<group>"; };
+		5C0237B7223FBD77009CFAD1 /* DisposeBagViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisposeBagViewController.swift; sourceTree = "<group>"; };
 		5C5EEB15222E0DB8004E99A7 /* RxSwiftSimple.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RxSwiftSimple.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5C5EEB18222E0DB8004E99A7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5C5EEB1A222E0DB8004E99A7 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -49,6 +53,28 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		5C0237B5223F4917009CFAD1 /* System */ = {
+			isa = PBXGroup;
+			children = (
+				5C5EEB18222E0DB8004E99A7 /* AppDelegate.swift */,
+				5C5EEB1C222E0DB8004E99A7 /* Main.storyboard */,
+				5C5EEB1F222E0DC4004E99A7 /* Assets.xcassets */,
+				5C5EEB21222E0DC4004E99A7 /* LaunchScreen.storyboard */,
+				5C5EEB24222E0DC4004E99A7 /* Info.plist */,
+			);
+			path = System;
+			sourceTree = "<group>";
+		};
+		5C0237B6223F4936009CFAD1 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				5C5EEB1A222E0DB8004E99A7 /* ViewController.swift */,
+				5C0237B7223FBD77009CFAD1 /* DisposeBagViewController.swift */,
+				5C0237B3223F484A009CFAD1 /* TakeuntilViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
 		5C5EEB0C222E0DB8004E99A7 = {
 			isa = PBXGroup;
 			children = (
@@ -70,12 +96,8 @@
 		5C5EEB17222E0DB8004E99A7 /* RxSwiftSimple */ = {
 			isa = PBXGroup;
 			children = (
-				5C5EEB18222E0DB8004E99A7 /* AppDelegate.swift */,
-				5C5EEB1A222E0DB8004E99A7 /* ViewController.swift */,
-				5C5EEB1C222E0DB8004E99A7 /* Main.storyboard */,
-				5C5EEB1F222E0DC4004E99A7 /* Assets.xcassets */,
-				5C5EEB21222E0DC4004E99A7 /* LaunchScreen.storyboard */,
-				5C5EEB24222E0DC4004E99A7 /* Info.plist */,
+				5C0237B6223F4936009CFAD1 /* Controller */,
+				5C0237B5223F4917009CFAD1 /* System */,
 			);
 			path = RxSwiftSimple;
 			sourceTree = "<group>";
@@ -189,6 +211,7 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-RxSwiftSimple/Pods-RxSwiftSimple-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/RxAtomic/RxAtomic.framework",
+				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
 				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
@@ -196,6 +219,7 @@
 			);
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxAtomic.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -210,6 +234,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5C0237B4223F484A009CFAD1 /* TakeuntilViewController.swift in Sources */,
+				5C0237B8223FBD77009CFAD1 /* DisposeBagViewController.swift in Sources */,
 				5C5EEB1B222E0DB8004E99A7 /* ViewController.swift in Sources */,
 				5C5EEB19222E0DB8004E99A7 /* AppDelegate.swift in Sources */,
 			);
@@ -359,7 +385,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = RxSwiftSimple/Info.plist;
+				INFOPLIST_FILE = RxSwiftSimple/System/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -377,7 +403,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = RxSwiftSimple/Info.plist;
+				INFOPLIST_FILE = RxSwiftSimple/System/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
