@@ -29,5 +29,4 @@ class DisposeBagViewController: UIViewController {
     func settingUI() -> () {
         self.title = "Tokeuntil操作"
     }
-
 }
