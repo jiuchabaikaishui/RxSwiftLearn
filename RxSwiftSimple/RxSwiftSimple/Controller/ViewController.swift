@@ -29,6 +29,12 @@ struct ViewControllerVM {
                 tableView.deselectRow(at: indexPath, animated: true)
             })
         ]),
+        TableViewSectionVM(title: "为何", rows: [
+            TableViewRowVM(title: "绑定", detail: "从GitHub仓库的搜索", selected: true, selectedAction: { (controller, tableView, indexPath) in
+                controller.performSegue(withIdentifier: "MainToBanding", sender: tableView.cellForRow(at: indexPath))
+                tableView.deselectRow(at: indexPath, animated: true)
+            })
+        ]),
         TableViewSectionVM(title: "基础", rows: [
             TableViewRowVM(title: "interval操作", detail: "interval操作示例", selected: false, selectedAction: { controller, tableView, indexPath in
                 let scheduler = SerialDispatchQueueScheduler(qos: .default)

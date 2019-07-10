@@ -16,6 +16,7 @@
 		5C5EEB20222E0DC4004E99A7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5C5EEB1F222E0DC4004E99A7 /* Assets.xcassets */; };
 		5C5EEB23222E0DC4004E99A7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5C5EEB21222E0DC4004E99A7 /* LaunchScreen.storyboard */; };
 		5CDAB16E22D4C3FD00CD63E1 /* UsageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDAB16D22D4C3FC00CD63E1 /* UsageViewController.swift */; };
+		5CDAB17022D58D0D00CD63E1 /* BandingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDAB16F22D58D0D00CD63E1 /* BandingViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,7 @@
 		5C5EEB22222E0DC4004E99A7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5C5EEB24222E0DC4004E99A7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5CDAB16D22D4C3FC00CD63E1 /* UsageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsageViewController.swift; sourceTree = "<group>"; };
+		5CDAB16F22D58D0D00CD63E1 /* BandingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BandingViewController.swift; sourceTree = "<group>"; };
 		BC6D2271396FEE0A5270948B /* Pods_RxSwiftSimple.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RxSwiftSimple.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D36134C8C73FFB7282AECB53 /* Pods-RxSwiftSimple.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RxSwiftSimple.release.xcconfig"; path = "Pods/Target Support Files/Pods-RxSwiftSimple/Pods-RxSwiftSimple.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -72,6 +74,7 @@
 			children = (
 				5C5EEB1A222E0DB8004E99A7 /* ViewController.swift */,
 				5CDAB16D22D4C3FC00CD63E1 /* UsageViewController.swift */,
+				5CDAB16F22D58D0D00CD63E1 /* BandingViewController.swift */,
 				5C0237B7223FBD77009CFAD1 /* DisposeBagViewController.swift */,
 				5C0237B3223F484A009CFAD1 /* TakeuntilViewController.swift */,
 			);
@@ -241,6 +244,7 @@
 				5C0237B8223FBD77009CFAD1 /* DisposeBagViewController.swift in Sources */,
 				5C5EEB1B222E0DB8004E99A7 /* ViewController.swift in Sources */,
 				5C5EEB19222E0DB8004E99A7 /* AppDelegate.swift in Sources */,
+				5CDAB17022D58D0D00CD63E1 /* BandingViewController.swift in Sources */,
 				5CDAB16E22D4C3FD00CD63E1 /* UsageViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
