@@ -14,6 +14,7 @@ class TakeuntilViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.settingUI()
+        
         _ = Observable<Int>.interval(0.3, scheduler: SerialDispatchQueueScheduler(qos: .default)).takeUntil(self.rx.deallocated).subscribe { (event) in
                 print(event)
         }

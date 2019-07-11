@@ -32,7 +32,6 @@ struct ViewControllerVM {
         TableViewSectionVM(title: "为何", rows: [
             TableViewRowVM(title: "绑定", detail: "从GitHub仓库的搜索", selected: true, selectedAction: { (controller, tableView, indexPath) in
                 controller.performSegue(withIdentifier: "MainToBanding", sender: tableView.cellForRow(at: indexPath))
-                tableView.deselectRow(at: indexPath, animated: true)
             })
         ]),
         TableViewSectionVM(title: "基础", rows: [
@@ -43,18 +42,21 @@ struct ViewControllerVM {
                 }
 
                 Thread.sleep(forTimeInterval: 2)
-
+                
+                print("dispose")
                 subscription.dispose()
-
-                tableView.deselectRow(at: indexPath, animated: true)
             }),
             TableViewRowVM(title: "DisposeBag", detail: "DisposeBag使用示例", selected: false, selectedAction: { controller, tableView, indexPath in
                 controller.performSegue(withIdentifier: "MainToDisposeBag", sender: tableView.cellForRow(at: indexPath))
-                tableView.deselectRow(at: indexPath, animated: true)
             }),
             TableViewRowVM(title: "takeUntil操作", detail: "takeUntil操作示例", selected: false, selectedAction: { controller, tableView, indexPath in
                 controller.performSegue(withIdentifier: "MainToTakeuntil", sender: tableView.cellForRow(at: indexPath))
-                tableView.deselectRow(at: indexPath, animated: true)
+            }),
+            TableViewRowVM(title: "隐含的Observable保证", detail: "一个事件未完成时不能发送第二个事件", selected: true, selectedAction: { (controller, tableView, indexPath) in
+                Observable<Int>.interval(0.2, scheduler: ConcurrentDispatchQueueScheduler(qos: .default)).subscribe({ (event) in
+                    print("任务1")
+                    print("任务2")
+                })
             })
         ])
     ]
@@ -100,6 +102,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         let row = vm.data[indexPath.section].rows[indexPath.row]
         if let action = row.selectedAction {
             action(self, tableView, indexPath)
+        }
+        if row.selected {
+            tableView.deselectRow(at: indexPath, animated: true)
         }
     }
 }

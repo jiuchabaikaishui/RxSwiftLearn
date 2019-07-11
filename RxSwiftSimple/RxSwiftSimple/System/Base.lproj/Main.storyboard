@@ -193,7 +193,21 @@
                     <view key="view" contentMode="scaleToFill" id="Afa-qg-fnG">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aPm-sf-DqH">
+                                <rect key="frame" x="172" y="617" width="31" height="30"/>
+                                <state key="normal" title="清理"/>
+                                <connections>
+                                    <action selector="clearAction:" destination="8zL-MN-gT4" eventType="touchUpInside" id="lCB-cj-mrF"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="hgQ-iq-eHf" firstAttribute="bottom" secondItem="aPm-sf-DqH" secondAttribute="bottom" constant="20" id="HfY-9f-YmP"/>
+                            <constraint firstItem="hgQ-iq-eHf" firstAttribute="trailing" secondItem="aPm-sf-DqH" secondAttribute="trailing" constant="172" id="gSG-ei-vxx"/>
+                            <constraint firstItem="aPm-sf-DqH" firstAttribute="leading" secondItem="hgQ-iq-eHf" secondAttribute="leading" constant="172" id="z4c-vL-DJq"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="hgQ-iq-eHf"/>
                     </view>
                 </viewController>
