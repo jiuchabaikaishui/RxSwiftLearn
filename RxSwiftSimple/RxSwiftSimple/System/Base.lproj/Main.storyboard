@@ -51,30 +51,15 @@
                     <navigationItem key="navigationItem" title="RxSwift文档" id="K1t-XZ-aBd"/>
                     <connections>
                         <outlet property="tableView" destination="h7A-77-y3D" id="1Y7-Cp-eGD"/>
-                        <segue destination="PDZ-nG-8GN" kind="show" identifier="MainToTakeuntil" id="1hg-jq-LMk"/>
                         <segue destination="8zL-MN-gT4" kind="show" identifier="MainToDisposeBag" id="Rsd-bN-1vt"/>
                         <segue destination="u54-va-eT9" kind="show" identifier="MainToUsage" id="avi-x1-fJm"/>
                         <segue destination="QoI-Mt-4Eg" kind="show" identifier="MainToBanding" id="8Eb-VC-B6q"/>
+                        <segue destination="Bok-mK-hcc" kind="show" identifier="MainToImplicit" id="dso-zs-UgA"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-583.20000000000005" y="-72.413793103448285"/>
-        </scene>
-        <!--Takeuntil View Controller-->
-        <scene sceneID="CmI-1u-a30">
-            <objects>
-                <viewController id="PDZ-nG-8GN" customClass="TakeuntilViewController" customModule="RxSwiftSimple" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="5dc-5p-pT4">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <viewLayoutGuide key="safeArea" id="AE4-eO-HqC"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="UHQ-RL-cAS" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="190" y="698"/>
         </scene>
         <!--Usage View Controller-->
         <scene sceneID="jqz-PC-b9R">
@@ -197,6 +182,7 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aPm-sf-DqH">
                                 <rect key="frame" x="172" y="617" width="31" height="30"/>
                                 <state key="normal" title="清理"/>
+                                <state key="selected" title="开始"/>
                                 <connections>
                                     <action selector="clearAction:" destination="8zL-MN-gT4" eventType="touchUpInside" id="lCB-cj-mrF"/>
                                 </connections>
@@ -205,8 +191,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="hgQ-iq-eHf" firstAttribute="bottom" secondItem="aPm-sf-DqH" secondAttribute="bottom" constant="20" id="HfY-9f-YmP"/>
-                            <constraint firstItem="hgQ-iq-eHf" firstAttribute="trailing" secondItem="aPm-sf-DqH" secondAttribute="trailing" constant="172" id="gSG-ei-vxx"/>
-                            <constraint firstItem="aPm-sf-DqH" firstAttribute="leading" secondItem="hgQ-iq-eHf" secondAttribute="leading" constant="172" id="z4c-vL-DJq"/>
+                            <constraint firstItem="aPm-sf-DqH" firstAttribute="centerX" secondItem="Afa-qg-fnG" secondAttribute="centerX" id="vfa-gh-IFu"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="hgQ-iq-eHf"/>
                     </view>
@@ -214,6 +199,43 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zgu-T2-Xkj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="191" y="-72"/>
+        </scene>
+        <!--Implicit View Controller-->
+        <scene sceneID="hke-lw-FbY">
+            <objects>
+                <viewController id="Bok-mK-hcc" customClass="ImplicitViewController" customModule="RxSwiftSimple" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="5nK-Z3-PyM">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="N54-Cc-kKO">
+                                <rect key="frame" x="172" y="617" width="31" height="30"/>
+                                <state key="normal" title="清理"/>
+                                <state key="selected" title="开始"/>
+                                <connections>
+                                    <action selector="clearAction:" destination="Bok-mK-hcc" eventType="touchUpInside" id="Hk5-Jb-fSd"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="任务1永远比任务2先执行" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QPK-Wn-e3i">
+                                <rect key="frame" x="92" y="588" width="191" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="wRe-U6-TEU" firstAttribute="bottom" secondItem="N54-Cc-kKO" secondAttribute="bottom" constant="20" id="QRX-gy-F31"/>
+                            <constraint firstItem="QPK-Wn-e3i" firstAttribute="centerX" secondItem="5nK-Z3-PyM" secondAttribute="centerX" id="QUP-XM-lXg"/>
+                            <constraint firstItem="N54-Cc-kKO" firstAttribute="centerX" secondItem="5nK-Z3-PyM" secondAttribute="centerX" id="cYy-cS-g7Q"/>
+                            <constraint firstItem="N54-Cc-kKO" firstAttribute="top" secondItem="QPK-Wn-e3i" secondAttribute="bottom" constant="8" id="wV1-K1-cau"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="wRe-U6-TEU"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="F7o-Sf-OVs" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1017" y="-72"/>
         </scene>
     </scenes>
 </document>

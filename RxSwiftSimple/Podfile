@@ -6,7 +6,8 @@ target 'RxSwiftSimple' do
   use_frameworks!
 
   # Pods for RxSwiftSimple
-    pod 'RxSwift', '~> 4.4.1'
-    pod 'RxCocoa', '~> 4.4.2'
+    pod 'RxSwift', '~> 5.0.0'
+    pod 'RxCocoa', '~> 5.0.0'
+    pod 'SnapKit', '~> 5.0.0'
 
 end
