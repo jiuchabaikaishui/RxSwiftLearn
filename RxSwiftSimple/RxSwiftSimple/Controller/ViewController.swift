@@ -22,6 +22,29 @@ struct TableViewSectionVM {
     var title = ""
     var rows = [TableViewRowVM]()
 }
+func myInterval(_ interval: DispatchTimeInterval) -> Observable<Int> {
+    return Observable.create({ (observer) -> Disposable in
+        print("Subscribed")
+        let timer = DispatchSource.makeTimerSource(queue: DispatchQueue.global())
+        timer.schedule(deadline: DispatchTime.now() + interval, repeating: interval)
+        let cancel = Disposables.create {
+            print("Disposed")
+            timer.cancel()
+        }
+        
+        var next = 0
+        timer.setEventHandler(handler: {
+            if cancel.isDisposed {
+                return
+            }
+            observer.onNext(next)
+            next += 1
+        })
+        timer.resume()
+        
+        return cancel
+    })
+}
 struct ViewControllerVM {
     let data = [
         TableViewSectionVM(title: "简介", rows: [
@@ -97,6 +120,50 @@ struct ViewControllerVM {
                 let _ = stringCounter.subscribe({ (n) in
                     print(n)
                 })
+                print("Ended ----")
+            }),
+            TableViewRowVM(title: "创建Observable执行工作", detail: "创建自定义interval操作符，这相当于调度队列调度程序的实现", selected: true, pushed: false, selectedAction: { (controller, tableView, indexPath) in
+                let counter = myInterval(.milliseconds(100))
+                let subscription = counter.subscribe({ (n) in
+                    print(n)
+                })
+                Thread.sleep(forTimeInterval: 0.5)
+                subscription.dispose()
+                print("Ended ----")
+                
+                let counter1 = myInterval(.milliseconds(100))
+                print("Started ----")
+                let subscription1 = counter1.subscribe({ (n) in
+                    print("First \(n)")
+                })
+                let subscription2 = counter1.subscribe({ (n) in
+                    print("Second \(n)")
+                })
+                Thread.sleep(forTimeInterval: 0.5)
+                subscription1.dispose()
+                Thread.sleep(forTimeInterval: 0.5)
+                subscription2.dispose()
+                print("Ended ----")
+            }),
+            TableViewRowVM(title: "just", detail: "RxSwift提供了一个just方法，该方法创建一个在订阅时返回一个元素的序列", selected: true, pushed: false, selectedAction: { (controller, tableView, indexPath) in
+                let counter = myInterval(.milliseconds(100)).replay(1).refCount()
+                
+                print("Started ----")
+                let subscription1 = counter.subscribe({ (n) in
+                    print("First \(n)")
+                })
+                let subscription2 = counter.subscribe({ (n) in
+                    print("Second \(n)")
+                })
+                let subscription3 = counter.subscribe({ (n) in
+                    print("Third \(n)")
+                })
+                Thread.sleep(forTimeInterval: 0.5)
+                subscription1.dispose()
+                Thread.sleep(forTimeInterval: 0.5)
+                subscription2.dispose()
+                Thread.sleep(forTimeInterval: 0.5)
+                subscription3.dispose()
                 print("Ended ----")
             })
         ])
