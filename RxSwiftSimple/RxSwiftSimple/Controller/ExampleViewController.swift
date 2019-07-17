@@ -9,6 +9,7 @@
 import UIKit
 import RxCocoa
 import RxSwift
+import SnapKit
 
 class ExampleViewController: UIViewController {
 
@@ -116,5 +117,28 @@ class ImplicitViewController: ExampleViewController {
             disposeBag = DisposeBag()
         }
         sender.isSelected = !sender.isSelected
+    }
+}
+class KVOViewController: ExampleViewController {
+    weak var viewT: UIView?
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        let v = UIView()
+        v.backgroundColor = UIColor.cyan
+        view.addSubview(v)
+        viewT = v
+        v.snp.makeConstraints { (maker) in
+            maker.width.height.equalTo(44)
+            maker.center.equalTo(view)
+        }
+        
+        _ = self.rx.observeWeakly(CGPoint.self, "viewT.center").subscribe { (e) in
+            print(e)
+        }
+        
+        _ = self.rx.observe(UIView.self, "viewT").subscribe({ (e) in
+            print(e)
+        })
     }
 }

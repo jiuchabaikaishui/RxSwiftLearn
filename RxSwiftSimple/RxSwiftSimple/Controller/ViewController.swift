@@ -45,6 +45,44 @@ func myInterval(_ interval: DispatchTimeInterval) -> Observable<Int> {
         return cancel
     })
 }
+extension ObservableType {
+    func myMap<R>(transform: @escaping (Element) -> R) -> Observable<R> {
+        return Observable.create({ (observer) -> Disposable in
+            let subscription = self.subscribe({ (e) in
+                switch e {
+                case .next(let value):
+                    let result = transform(value)
+                    observer.onNext(result)
+                case .error(let error):
+                    observer.onError(error)
+                case .completed:
+                    observer.onCompleted()
+                }
+            })
+            
+            return subscription
+        })
+    }
+    func myDebug(_ identifier: String) -> Observable<Self.Element> {
+        return Observable<Element>.create({ (observer) -> Disposable in
+            print("subscribed \(identifier)")
+            
+            let subscription = self.subscribe({ (e) in
+                print("event \(identifier)  \(e)")
+                switch e {
+                case .next(let value):
+                    observer.onNext(value)
+                case .error(let error):
+                    observer.onError(error)
+                case .completed:
+                    observer.onCompleted()
+                }
+            })
+            
+            return subscription
+        })
+    }
+}
 struct ViewControllerVM {
     let data = [
         TableViewSectionVM(title: "简介", rows: [
@@ -122,8 +160,9 @@ struct ViewControllerVM {
                 })
                 print("Ended ----")
             }),
-            TableViewRowVM(title: "创建Observable执行工作", detail: "创建自定义interval操作符，这相当于调度队列调度程序的实现", selected: true, pushed: false, selectedAction: { (controller, tableView, indexPath) in
+            TableViewRowVM(title: "创建Observable执行工作", detail: "创建前使用的interval操作符，这相当于调度队列调度程序的实际实现", selected: true, pushed: false, selectedAction: { (controller, tableView, indexPath) in
                 let counter = myInterval(.milliseconds(100))
+                print("Started ----")
                 let subscription = counter.subscribe({ (n) in
                     print(n)
                 })
@@ -145,7 +184,7 @@ struct ViewControllerVM {
                 subscription2.dispose()
                 print("Ended ----")
             }),
-            TableViewRowVM(title: "just", detail: "RxSwift提供了一个just方法，该方法创建一个在订阅时返回一个元素的序列", selected: true, pushed: false, selectedAction: { (controller, tableView, indexPath) in
+            TableViewRowVM(title: "共享订阅和share操作符", detail: "希望多个观察者仅从一个订阅共享事件（元素）使用share操作符", selected: true, pushed: false, selectedAction: { (controller, tableView, indexPath) in
                 let counter = myInterval(.milliseconds(100)).replay(1).refCount()
                 
                 print("Started ----")
@@ -155,16 +194,59 @@ struct ViewControllerVM {
                 let subscription2 = counter.subscribe({ (n) in
                     print("Second \(n)")
                 })
-                let subscription3 = counter.subscribe({ (n) in
-                    print("Third \(n)")
-                })
                 Thread.sleep(forTimeInterval: 0.5)
                 subscription1.dispose()
                 Thread.sleep(forTimeInterval: 0.5)
                 subscription2.dispose()
-                Thread.sleep(forTimeInterval: 0.5)
-                subscription3.dispose()
                 print("Ended ----")
+            }),
+            TableViewRowVM(title: "自定义操作符", detail: "实现未优化的map操作符", selected: true, pushed: false, selectedAction: { (controller, tableView, indexPath) in
+                let subscription = myInterval(.milliseconds(100)).myMap(transform: { (e) -> String in
+                    return "This is simply \(e)"
+                }).subscribe({ (n) in
+                    print(n)
+                })
+                
+                Thread.sleep(forTimeInterval: 0.5)
+                subscription.dispose()
+            }),
+            TableViewRowVM(title: "debug", detail: "debug运算符将所有事件打印到标准输出，也可以添加标记这些事件", selected: true, pushed: false, selectedAction: { (controller, tableView, indexPath) in
+                let subscription = myInterval(.milliseconds(100)).debug("my probe").map({ (e) in
+                    return "This is simply \(e)"
+                }).subscribe({ (n) in
+                    print(n)
+                })
+                
+                Thread.sleep(forTimeInterval: 0.5)
+                subscription.dispose()
+            }),
+            TableViewRowVM(title: "自定义deBug操作符", detail: "实现与上面自定义操作符类似", selected: true, pushed: false, selectedAction: { (controller, tableView, indexPath) in
+                let subscription = myInterval(.milliseconds(100)).myDebug("my probe").map({ (e) in
+                    return "This is simply \(e)"
+                }).subscribe({ (n) in
+                    print(n)
+                })
+                
+                Thread.sleep(forTimeInterval: 0.5)
+                subscription.dispose()
+            }),
+            TableViewRowVM(title: "自定义deBug操作符", detail: "实现与上面自定义操作符类似", selected: true, pushed: false, selectedAction: { (controller, tableView, indexPath) in
+                let subscription = myInterval(.milliseconds(100)).myDebug("my probe").map({ (e) in
+                    return "This is simply \(e)"
+                }).subscribe({ (n) in
+                    print(n)
+                })
+                
+                Thread.sleep(forTimeInterval: 0.5)
+                subscription.dispose()
+            }),
+            TableViewRowVM(title: "KVO", detail: "RxSwift支持rx.observe和rx.observeWeakly两种KVO方式，rx.observe性能高，因为它只是一个KVO机制的简单包装，使用场景有限", selected: true, pushed: true, selectedAction: { (controller, tableView, indexPath) in
+                let dis = KVOViewController()
+                if let title = (controller as? ViewController)?.vm.rowVM(indexPath: indexPath)?.title {
+                    dis.title = title
+                }
+                
+                controller.navigationController?.pushViewController(dis, animated: true)
             })
         ])
     ]
