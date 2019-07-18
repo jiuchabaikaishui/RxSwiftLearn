@@ -247,6 +247,14 @@ struct ViewControllerVM {
                 }
                 
                 controller.navigationController?.pushViewController(dis, animated: true)
+            }),
+            TableViewRowVM(title: "发送HTTP请求", detail: "RxSwift支持rx.observe和rx.observeWeakly两种KVO方式，rx.observe性能高，因为它只是一个KVO机制的简单包装，使用场景有限", selected: true, pushed: true, selectedAction: { (controller, tableView, indexPath) in
+                let dis = HTTPViewController()
+                if let title = (controller as? ViewController)?.vm.rowVM(indexPath: indexPath)?.title {
+                    dis.title = title
+                }
+                
+                controller.navigationController?.pushViewController(dis, animated: true)
             })
         ])
     ]

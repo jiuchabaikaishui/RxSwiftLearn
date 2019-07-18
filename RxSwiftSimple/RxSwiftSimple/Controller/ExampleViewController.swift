@@ -10,6 +10,7 @@ import UIKit
 import RxCocoa
 import RxSwift
 import SnapKit
+import NVActivityIndicatorView
 
 class ExampleViewController: UIViewController {
 
@@ -120,25 +121,70 @@ class ImplicitViewController: ExampleViewController {
     }
 }
 class KVOViewController: ExampleViewController {
-    weak var viewT: UIView?
+    @objc dynamic weak var viewT: UIView?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         let v = UIView()
         v.backgroundColor = UIColor.cyan
         view.addSubview(v)
         viewT = v
-        v.snp.makeConstraints { (maker) in
-            maker.width.height.equalTo(44)
-            maker.center.equalTo(view)
+        viewT?.snp.makeConstraints { (maker) in
+            maker.width.height.equalTo(44.0)
+            maker.center.equalTo(view).offset(10.0)
         }
+        
+        _ = self.rx.observe(CGPoint.self, "view.center").subscribe({ (e) in
+            print(e)
+        })
         
         _ = self.rx.observeWeakly(CGPoint.self, "viewT.center").subscribe { (e) in
             print(e)
         }
-        
-        _ = self.rx.observe(UIView.self, "viewT").subscribe({ (e) in
-            print(e)
+    }
+}
+class HTTPViewController: ExampleViewController, NVActivityIndicatorViewable {
+    @objc func buttonAction(sender: UIButton) {
+        startAnimating()
+        let _ = URLSession.shared.rx.response(request: URLRequest.init(url: URL(string: "https://ditu.amap.com/service/regeo?longitude=121.04925573429551&latitude=31.315590522490712")!)).debug("my request").flatMap({ (response: HTTPURLResponse, data: Data) -> Observable<String> in
+            if 200 ..< 300 ~= response.statusCode {
+                return Observable<String>.create({ (observer) -> Disposable in
+                    observer.onNext(String(data: data, encoding: .utf8) ?? "")
+                    observer.onCompleted()
+                    
+                    return Disposables.create()
+                })
+            }
+            else {
+                return Observable.error(NSError(domain: "xxx", code: 111, userInfo: nil))
+            }
+        }).subscribe({ (event) in
+            if let data = event.element?.data(using: .utf8) {
+                do {
+                    print(try JSONSerialization.jsonObject(with: data, options: .allowFragments))
+                } catch {
+                    print("数据解析失败！")
+                }
+            }
+            self.stopAnimating()
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + .milliseconds(2), execute: {
+                //                activityIndicatorView.stopAnimating()
+            })
         })
+    }
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        let button = UIButton(type: .system)
+        button.setTitle("请求", for: .normal)
+        button.addTarget(self, action: #selector(buttonAction(sender:)), for: .touchUpOutside)
+        view.addSubview(button)
+        button.snp.makeConstraints { (maker) in
+            maker.bottom.equalTo(self.view.safeAreaInsets.bottom)
+            maker.centerX.equalTo(self.view)
+            maker.width.height.equalTo(50)
+        }
+        
     }
 }
