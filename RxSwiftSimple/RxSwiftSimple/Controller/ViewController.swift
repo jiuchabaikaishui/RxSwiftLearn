@@ -22,29 +22,6 @@ struct TableViewSectionVM {
     var title = ""
     var rows = [TableViewRowVM]()
 }
-func myInterval(_ interval: DispatchTimeInterval) -> Observable<Int> {
-    return Observable.create({ (observer) -> Disposable in
-        print("Subscribed")
-        let timer = DispatchSource.makeTimerSource(queue: DispatchQueue.global())
-        timer.schedule(deadline: DispatchTime.now() + interval, repeating: interval)
-        let cancel = Disposables.create {
-            print("Disposed")
-            timer.cancel()
-        }
-        
-        var next = 0
-        timer.setEventHandler(handler: {
-            if cancel.isDisposed {
-                return
-            }
-            observer.onNext(next)
-            next += 1
-        })
-        timer.resume()
-        
-        return cancel
-    })
-}
 extension ObservableType {
     func myMap<R>(transform: @escaping (Element) -> R) -> Observable<R> {
         return Observable.create({ (observer) -> Disposable in
@@ -84,6 +61,30 @@ extension ObservableType {
     }
 }
 struct ViewControllerVM {
+    static var debugSubscribe: Disposable? = nil
+    static func myInterval(_ interval: DispatchTimeInterval) -> Observable<Int> {
+        return Observable.create({ (observer) -> Disposable in
+            print("Subscribed")
+            let timer = DispatchSource.makeTimerSource(queue: DispatchQueue.global())
+            timer.schedule(deadline: DispatchTime.now() + interval, repeating: interval)
+            let cancel = Disposables.create {
+                print("Disposed")
+                timer.cancel()
+            }
+            
+            var next = 0
+            timer.setEventHandler(handler: {
+                if cancel.isDisposed {
+                    return
+                }
+                observer.onNext(next)
+                next += 1
+            })
+            timer.resume()
+            
+            return cancel
+        })
+    }
     let data = [
         TableViewSectionVM(title: "简介", rows: [
             TableViewRowVM(title: "用法", detail: "从GitHub仓库的搜索", selected: true, pushed: true, selectedAction: { (controller, tableView, indexPath) in
@@ -160,7 +161,7 @@ struct ViewControllerVM {
                 })
                 print("Ended ----")
             }),
-            TableViewRowVM(title: "创建Observable执行工作", detail: "创建前使用的interval操作符，这相当于调度队列调度程序的实际实现", selected: true, pushed: false, selectedAction: { (controller, tableView, indexPath) in
+            TableViewRowVM(title: "创建Observable执行工作", detail: "创建前面使用的interval操作符，这相当于调度队列调度程序的实际实现", selected: true, pushed: false, selectedAction: { (controller, tableView, indexPath) in
                 let counter = myInterval(.milliseconds(100))
                 print("Started ----")
                 let subscription = counter.subscribe({ (n) in
@@ -230,15 +231,15 @@ struct ViewControllerVM {
                 Thread.sleep(forTimeInterval: 0.5)
                 subscription.dispose()
             }),
-            TableViewRowVM(title: "自定义deBug操作符", detail: "实现与上面自定义操作符类似", selected: true, pushed: false, selectedAction: { (controller, tableView, indexPath) in
-                let subscription = myInterval(.milliseconds(100)).myDebug("my probe").map({ (e) in
-                    return "This is simply \(e)"
-                }).subscribe({ (n) in
-                    print(n)
-                })
-                
-                Thread.sleep(forTimeInterval: 0.5)
-                subscription.dispose()
+            TableViewRowVM(title: "调试内存泄漏", detail: "在调试模式下，Rx在全局变量Resources.total中跟踪所有的已分配资源。如果想要一些资源泄漏检测逻辑，最简单的方法是定期打印RxSwift.Resources.total", selected: true, pushed: false, selectedAction: { (controller, tableView, indexPath) in
+                if let subscribe = ViewControllerVM.debugSubscribe {
+                    subscribe.dispose()
+                    ViewControllerVM.debugSubscribe = nil
+                } else {
+                    ViewControllerVM.debugSubscribe = Observable<Int>.interval(.seconds(2), scheduler: MainScheduler.instance).subscribe { (_) in
+                        print("Resource count \(RxSwift.Resources.total)")
+                    }
+                }
             }),
             TableViewRowVM(title: "KVO", detail: "RxSwift支持rx.observe和rx.observeWeakly两种KVO方式，rx.observe性能高，因为它只是一个KVO机制的简单包装，使用场景有限", selected: true, pushed: true, selectedAction: { (controller, tableView, indexPath) in
                 let dis = KVOViewController()
@@ -248,8 +249,18 @@ struct ViewControllerVM {
                 
                 controller.navigationController?.pushViewController(dis, animated: true)
             }),
-            TableViewRowVM(title: "发送HTTP请求", detail: "RxSwift支持rx.observe和rx.observeWeakly两种KVO方式，rx.observe性能高，因为它只是一个KVO机制的简单包装，使用场景有限", selected: true, pushed: true, selectedAction: { (controller, tableView, indexPath) in
+            TableViewRowVM(title: "发送HTTP请求", detail: "构建http请求，默认情况下，URLSession不会在MainScheduler中返回结果", selected: true, pushed: true, selectedAction: { (controller, tableView, indexPath) in
                 let dis = HTTPViewController()
+                if let title = (controller as? ViewController)?.vm.rowVM(indexPath: indexPath)?.title {
+                    dis.title = title
+                }
+                
+                controller.navigationController?.pushViewController(dis, animated: true)
+            })
+        ]),
+        TableViewSectionVM(title: "特征", rows: [
+            TableViewRowVM(title: "绑定", detail: "Single是Observable的变体，它总是保证发出单个元素或错误，而不是发出一系列元素。", selected: true, pushed: true, selectedAction: { (controller, tableView, indexPath) in
+                let dis = SingleViewController()
                 if let title = (controller as? ViewController)?.vm.rowVM(indexPath: indexPath)?.title {
                     dis.title = title
                 }

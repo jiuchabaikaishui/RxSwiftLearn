@@ -17,9 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        let _ = Observable<Int>.interval(.seconds(2), scheduler: MainScheduler.instance).subscribe { (_) in
-            print("Resource count \(RxSwift.Resources.total)")
-        }
+        
         return true
     }
 

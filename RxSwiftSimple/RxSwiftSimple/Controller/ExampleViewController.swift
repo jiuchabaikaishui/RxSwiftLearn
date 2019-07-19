@@ -12,8 +12,11 @@ import RxSwift
 import SnapKit
 import NVActivityIndicatorView
 
-class ExampleViewController: UIViewController {
 
+class ExampleViewController: UIViewController {
+    deinit {
+        print("\(self)销毁了！")
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -28,16 +31,19 @@ class ExampleViewController: UIViewController {
     }
 }
 
+
 class BandingViewController: ExampleViewController {
+    let bag = DisposeBag()
     @IBOutlet weak var firstName: UITextField!
     @IBOutlet weak var lastName: UITextField!
     @IBOutlet weak var greetingLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let _ = Observable.combineLatest(firstName.rx.text.orEmpty, lastName.rx.text.orEmpty) { $0 + " " + $1 }.map { "Greetings, \($0)" }.bind(to: greetingLabel.rx.text)
+        Observable.combineLatest(firstName.rx.text.orEmpty, lastName.rx.text.orEmpty) { $0 + " " + $1 }.map { "Greetings, \($0)" }.bind(to: greetingLabel.rx.text).disposed(by: bag)
     }
 }
+
 
 class DisposeBagViewController: ExampleViewController {
     var disposeBag = DisposeBag()
@@ -45,16 +51,13 @@ class DisposeBagViewController: ExampleViewController {
     func intObservable(queue: DispatchQueue, milliseconds: Int) -> Observable<Int> {
         return Observable<Int>.create { (observer) -> Disposable in
             var element = 0
-            func next(work: @escaping (_ value: Int) -> ()) {
-                work(element)
-                queue.asyncAfter(deadline: DispatchTime.now() + .milliseconds(milliseconds), execute: {
-                    element += 1
-                    next(work: work)
-                })
-            }
-            next(work: { (value) in
-                observer.onNext(value)
+            observer.onNext(element)
+            
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + .milliseconds(milliseconds), execute: {
+                element += 1
+                observer.onNext(element)
             })
+            
             return Disposables.create()
         }
     }
@@ -67,7 +70,7 @@ class DisposeBagViewController: ExampleViewController {
     func work() {
         intObservable(queue: DispatchQueue.global(), milliseconds: 300).subscribe { (event) in
             print("序列1：\(event)")
-            }.disposed(by: DisposeBag())//立即清理
+            }.dispose()//立即清理
         Observable<Int>.interval(.milliseconds(300), scheduler: SerialDispatchQueueScheduler(qos: .default)).subscribe { (event) in
             print("序列2：\(event)")
             }.disposed(by: self.disposeBag)//延迟清理
@@ -86,6 +89,7 @@ class DisposeBagViewController: ExampleViewController {
     }
 }
 
+
 class TakeuntilViewController: ExampleViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -95,6 +99,7 @@ class TakeuntilViewController: ExampleViewController {
         }
     }
 }
+
 
 class ImplicitViewController: ExampleViewController {
     var disposeBag = DisposeBag()
@@ -120,9 +125,12 @@ class ImplicitViewController: ExampleViewController {
         sender.isSelected = !sender.isSelected
     }
 }
+
+
 class KVOViewController: ExampleViewController {
-    @objc dynamic weak var viewT: UIView?
+    let bag = DisposeBag()
     
+    @objc dynamic weak var viewT: UIView?
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -135,56 +143,133 @@ class KVOViewController: ExampleViewController {
             maker.center.equalTo(view).offset(10.0)
         }
         
-        _ = self.rx.observe(CGPoint.self, "view.center").subscribe({ (e) in
+        rx.observe(CGPoint.self, "view.center", retainSelf: false).subscribe { (e) in
             print(e)
-        })
+        }.disposed(by: bag)
         
-        _ = self.rx.observeWeakly(CGPoint.self, "viewT.center").subscribe { (e) in
+        rx.observeWeakly(CGPoint.self, "viewT.center").subscribe { (e) in
             print(e)
-        }
+        }.disposed(by: bag)
     }
 }
+
+
 class HTTPViewController: ExampleViewController, NVActivityIndicatorViewable {
-    @objc func buttonAction(sender: UIButton) {
-        startAnimating()
-        let _ = URLSession.shared.rx.response(request: URLRequest.init(url: URL(string: "https://ditu.amap.com/service/regeo?longitude=121.04925573429551&latitude=31.315590522490712")!)).debug("my request").flatMap({ (response: HTTPURLResponse, data: Data) -> Observable<String> in
-            if 200 ..< 300 ~= response.statusCode {
-                return Observable<String>.create({ (observer) -> Disposable in
-                    observer.onNext(String(data: data, encoding: .utf8) ?? "")
-                    observer.onCompleted()
-                    
-                    return Disposables.create()
-                })
-            }
-            else {
-                return Observable.error(NSError(domain: "xxx", code: 111, userInfo: nil))
-            }
-        }).subscribe({ (event) in
-            if let data = event.element?.data(using: .utf8) {
+    var bag = DisposeBag()
+    let req = URLSession.shared.rx.response(request: URLRequest.init(url: URL(string: "https://ditu.amap.com/service/regeo?longitude=121.04925573429551&latitude=31.315590522490712")!)).debug("my request").flatMap({ (response: HTTPURLResponse, data: Data) -> Observable<Any> in
+        if 200 ..< 300 ~= response.statusCode {
+            return Observable<Any>.create({ (observer) -> Disposable in
                 do {
-                    print(try JSONSerialization.jsonObject(with: data, options: .allowFragments))
+                    observer.onNext(try JSONSerialization.jsonObject(with: data, options: .allowFragments))
                 } catch {
+                    observer.onError(NSError(domain: "数据解析失败！", code: 1111, userInfo: nil))
                     print("数据解析失败！")
                 }
-            }
-            self.stopAnimating()
-            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + .milliseconds(2), execute: {
-                //                activityIndicatorView.stopAnimating()
+                
+                return Disposables.create()
             })
-        })
+        }
+        else {
+            return Observable.error(NSError(domain: "网络请求失败！", code: 2222, userInfo: nil))
+        }
+    }).observeOn(MainScheduler.instance).replay(1).refCount()
+    
+    @objc func buttonAction(sender: UIButton) {
+        startAnimating()
+        req.subscribe({ (event) in
+            print(event.element ?? "没有数据！")
+            self.stopAnimating()
+            self.bag = DisposeBag()
+        }).disposed(by: bag)
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         let button = UIButton(type: .system)
         button.setTitle("请求", for: .normal)
-        button.addTarget(self, action: #selector(buttonAction(sender:)), for: .touchUpOutside)
+        button.addTarget(self, action: #selector(buttonAction(sender:)), for: .touchUpInside)
         view.addSubview(button)
         button.snp.makeConstraints { (maker) in
-            maker.bottom.equalTo(self.view.safeAreaInsets.bottom)
+            maker.bottom.equalTo(self.view.safeAreaLayoutGuide.snp.bottom)
             maker.centerX.equalTo(self.view)
             maker.width.height.equalTo(50)
         }
+    }
+}
+
+
+class SingleViewController: ExampleViewController, NVActivityIndicatorViewable {
+    var bag = DisposeBag()
+    
+    @objc func firstAction(sender: UIButton) {
+        startAnimating()
+        getReq("ReactiveX/RxSwift").subscribe({ (event) in
+            switch event {
+            case .success(let json):
+                print("JSON: ", json)
+            case .error(let error):
+                print("Error: ", error)
+            }
+            self.stopAnimating()
+        }).disposed(by: bag)
+    }
+    @objc func secondAction(sender: UIButton) {
+        startAnimating()
+        getReq("ReactiveX/RxSwift").subscribe(onSuccess: { (json) in
+            print("JSON: ", json)
+            self.stopAnimating()
+        }, onError: { (error) in
+            print("Error: ", error)
+            self.stopAnimating()
+        }).disposed(by: bag)
+    }
+    
+    func getReq(_ repo: String) -> Single<Any> {
+        return Single<Any>.create { (single) -> Disposable in
+            let tast = URLSession.shared.dataTask(with: URL(string: "https://api.github.com/repos/\(repo)")!, completionHandler: { (data, _, error) in
+                if let error = error {
+                    single(.error(error))
+                    return
+                }
+                guard let data = data, let json = try? JSONSerialization.jsonObject(with: data, options: .mutableLeaves) else {
+                    single(.error(NSError(domain: "数据无法解析", code: 1111, userInfo: nil)))
+                    return
+                }
+                
+                single(.success(json))
+            })
+            
+            tast.resume()
+            
+            return Disposables.create {
+                tast.cancel()
+            }
+        }
+    }
+    override func viewDidLoad() {
+        super.viewDidLoad()
         
+        let firstButton = UIButton(type: .system)
+        firstButton.setTitle("方法一", for: .normal)
+        firstButton.addTarget(self, action: #selector(firstAction(sender:)), for: .touchUpInside)
+        view.addSubview(firstButton)
+        firstButton.snp.makeConstraints { (maker) in
+            maker.bottom.equalTo(self.view.safeAreaLayoutGuide.snp.bottom)
+            maker.height.equalTo(50)
+            maker.left.equalTo(self.view.safeAreaLayoutGuide.snp.left).offset(8.0)
+            maker.right.equalTo(self.view.snp.centerX).offset(-8.0)
+        }
+        
+        let secondButton = UIButton(type: .system)
+        secondButton.setTitle("方法二", for: .normal)
+        secondButton.addTarget(self, action: #selector(secondAction(sender:)), for: .touchUpInside)
+        view.addSubview(secondButton)
+        secondButton.snp.makeConstraints { (maker) in
+            maker.bottom.equalTo(self.view.safeAreaLayoutGuide.snp.bottom)
+            maker.height.equalTo(50)
+            maker.left.equalTo(self.view.snp.centerX).offset(8.0)
+            maker.right.equalTo(self.view.safeAreaLayoutGuide.snp.right).offset(-8.0)
+        }
     }
 }
