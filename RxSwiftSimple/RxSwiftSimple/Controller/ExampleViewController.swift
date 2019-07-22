@@ -273,3 +273,149 @@ class SingleViewController: ExampleViewController, NVActivityIndicatorViewable {
         }
     }
 }
+
+
+class CompletableViewController: ExampleViewController, NVActivityIndicatorViewable {
+    var bag = DisposeBag()
+    
+    @objc func firstAction(sender: UIButton) {
+        startAnimating()
+        cacheLocally().subscribe { (completable) in
+            switch completable {
+            case .completed:
+                print("数据存储完成！")
+            case .error(let error):
+                print(error)
+            }
+            self.stopAnimating()
+        }.disposed(by: bag)
+    }
+    @objc func secondAction(sender: UIButton) {
+        startAnimating()
+        cacheLocally().subscribe(onCompleted: {
+            print("数据存储完成！")
+            self.stopAnimating()
+        }) { (error) in
+            print(error)
+            self.stopAnimating()
+        }.disposed(by: bag)
+    }
+    
+    func cacheLocally() -> Completable {
+        return Completable.create { (completable) -> Disposable in
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2, execute: {
+                let random = arc4random()%2
+                if random == 0 {
+                    // 模拟存储本地数据
+                    completable(.completed)
+                } else {
+                    completable(.error(NSError(domain: "数据存储出错啦", code: 1111, userInfo: nil)))
+                }
+            })
+            
+            return Disposables.create()
+        }
+    }
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        let firstButton = UIButton(type: .system)
+        firstButton.setTitle("方法一", for: .normal)
+        firstButton.addTarget(self, action: #selector(firstAction(sender:)), for: .touchUpInside)
+        view.addSubview(firstButton)
+        firstButton.snp.makeConstraints { (maker) in
+            maker.bottom.equalTo(self.view.safeAreaLayoutGuide.snp.bottom)
+            maker.height.equalTo(50)
+            maker.left.equalTo(self.view.safeAreaLayoutGuide.snp.left).offset(8.0)
+            maker.right.equalTo(self.view.snp.centerX).offset(-8.0)
+        }
+        
+        let secondButton = UIButton(type: .system)
+        secondButton.setTitle("方法二", for: .normal)
+        secondButton.addTarget(self, action: #selector(secondAction(sender:)), for: .touchUpInside)
+        view.addSubview(secondButton)
+        secondButton.snp.makeConstraints { (maker) in
+            maker.bottom.equalTo(self.view.safeAreaLayoutGuide.snp.bottom)
+            maker.height.equalTo(50)
+            maker.left.equalTo(self.view.snp.centerX).offset(8.0)
+            maker.right.equalTo(self.view.safeAreaLayoutGuide.snp.right).offset(-8.0)
+        }
+    }
+}
+
+
+class MaybeViewController: ExampleViewController, NVActivityIndicatorViewable {
+    var bag = DisposeBag()
+    
+    @objc func firstAction(sender: UIButton) {
+        startAnimating()
+        generateString().subscribe { (maybe) in
+            switch maybe {
+            case .success(let element):
+                print(element)
+            case .error(let error):
+                print(error)
+            case .completed:
+                print("我完成啦！")
+            }
+            self.stopAnimating()
+        }.disposed(by: bag)
+    }
+    @objc func secondAction(sender: UIButton) {
+        startAnimating()
+        generateString().subscribe(onSuccess: { (element) in
+            print(element)
+            self.stopAnimating()
+        }, onError: { (error) in
+            print(error)
+            self.stopAnimating()
+        }) {
+            print("我完成啦！")
+            self.stopAnimating()
+        }.disposed(by: bag)
+    }
+    
+    func generateString() -> Maybe<String> {
+        return Maybe<String>.create(subscribe: { (maybe) -> Disposable in
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2, execute: {
+                let random = arc4random()%3
+                switch random {
+                case 0:
+                    maybe(.success("我成功啦！"))
+                case 1:
+                    maybe(.completed)
+                default:
+                    maybe(.error(NSError(domain: "我失败啦！", code: 1111, userInfo: nil)))
+                }
+            })
+            
+            return Disposables.create()
+        })
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        let firstButton = UIButton(type: .system)
+        firstButton.setTitle("方法一", for: .normal)
+        firstButton.addTarget(self, action: #selector(firstAction(sender:)), for: .touchUpInside)
+        view.addSubview(firstButton)
+        firstButton.snp.makeConstraints { (maker) in
+            maker.bottom.equalTo(self.view.safeAreaLayoutGuide.snp.bottom)
+            maker.height.equalTo(50)
+            maker.left.equalTo(self.view.safeAreaLayoutGuide.snp.left).offset(8.0)
+            maker.right.equalTo(self.view.snp.centerX).offset(-8.0)
+        }
+        
+        let secondButton = UIButton(type: .system)
+        secondButton.setTitle("方法二", for: .normal)
+        secondButton.addTarget(self, action: #selector(secondAction(sender:)), for: .touchUpInside)
+        view.addSubview(secondButton)
+        secondButton.snp.makeConstraints { (maker) in
+            maker.bottom.equalTo(self.view.safeAreaLayoutGuide.snp.bottom)
+            maker.height.equalTo(50)
+            maker.left.equalTo(self.view.snp.centerX).offset(8.0)
+            maker.right.equalTo(self.view.safeAreaLayoutGuide.snp.right).offset(-8.0)
+        }
+    }
+}
