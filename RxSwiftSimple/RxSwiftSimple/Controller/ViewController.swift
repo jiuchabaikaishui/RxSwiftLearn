@@ -283,6 +283,26 @@ struct ViewControllerVM {
                 
                 controller.navigationController?.pushViewController(dis, animated: true)
             })
+        ]),
+        TableViewSectionVM(title: "Schedulers", rows: [
+            TableViewRowVM(title: "observeOn", detail: "要在不同的Schedulers上执行工作，使用observeOn(scheduler)操作符。", selected: true, pushed: false, selectedAction: { (controller, tableView, indexPath) in
+                _ = Observable<Void>.create({ (observer) -> Disposable in
+                    observer.onNext(())
+                    return Disposables.create()
+                }).observeOn(ConcurrentDispatchQueueScheduler(qos: .background)).map({ (n) in
+                    print(Thread.current)
+                }).observeOn(MainScheduler.instance).map({ (n) in
+                    print(Thread.current)
+                }).subscribe({ _ in })
+            }),
+            TableViewRowVM(title: "subscribeOn", detail: "要在特定scheduler上启动序列生成元素（subscribe方法）并调用dispose，请使用subscribeOn(scheduler)。", selected: true, pushed: false, selectedAction: { (controller, tableView, indexPath) in
+                _ = Observable<Void>.create({ (observer) -> Disposable in
+                    observer.onNext(())
+                    return Disposables.create()
+                }).subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background)).subscribe({ (e) in
+                    print(Thread.current)
+                })
+            })
         ])
     ]
     
