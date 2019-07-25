@@ -419,3 +419,113 @@ class MaybeViewController: ExampleViewController, NVActivityIndicatorViewable {
         }
     }
 }
+
+
+class ValuesViewController: ExampleViewController {
+    @IBOutlet weak var a: UITextField!
+    @IBOutlet weak var b: UITextField!
+    @IBOutlet weak var c: UILabel!
+    @IBOutlet weak var d: UILabel!
+    var bag = DisposeBag()
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        if ((Int(a.text ?? "") as Int?) ?? 0) + ((Int(b.text ?? "") as Int?) ?? 0) >= 0 {
+            c.text = "c = \(Int(a.text!)! + Int(b.text!)!) is positive"
+        }
+        
+        Observable.combineLatest(a.rx.text, b.rx.text, resultSelector: { ((Int($0!) as Int?) ?? 0) + ((Int($1!) as Int?) ?? 0) }).filter { $0 >= 0 }.map { "c = \($0) is positive"}.bind(to: d.rx.text).disposed(by: bag)
+    }
+}
+
+
+class SimpleBindingViewController: ExampleViewController {
+    @IBOutlet weak var number: UITextField!
+    @IBOutlet weak var result: UILabel!
+    var bag = DisposeBag()
+    
+    struct Prime {
+        let value: Int
+        var isPrime: Bool {
+            get {
+                if value < 2 {
+                    return false
+                }
+                for i in 2..<value {
+                    if value%i == 0 {
+                        return false
+                    }
+                }
+                
+                return true
+            }
+        }
+    }
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        number.rx.text.map { Prime(value: Int($0 ?? "") as Int? ?? 0) }.map { "\($0.value) \($0.isPrime ? "是" : "不是")素数！" }.bind(to: result.rx.text).disposed(by: bag)
+    }
+}
+
+
+class InputIValidationViewController: ExampleViewController {
+    @IBOutlet weak var name: UITextField!
+    @IBOutlet weak var error: UILabel!
+    var bag = DisposeBag()
+    
+    enum Availability {
+        case available(message: String)
+        case taken(message: String)
+        case invalid(message: String)
+        case pending(message: String)
+        
+        var message: String {
+            switch self {
+            case .available(let message),
+                 .taken(let message),
+                 .invalid(let message),
+                 .pending(let message):
+                
+                return message
+            }
+        }
+    }
+    struct API {
+        static func usernameAvailable(_ username: String) -> Observable<Bool> {
+            return Observable<Bool>.create({ (observer) -> Disposable in
+                DispatchQueue.global().async {
+                    Thread.sleep(forTimeInterval: TimeInterval(2 + arc4random()%3))
+                    DispatchQueue.main.async {
+                        if arc4random()%2 == 0 {
+                            observer.onNext(false)
+                        } else {
+                            observer.onNext(true)
+                        }
+                    }
+                }
+                
+                return Disposables.create()
+            })
+        }
+    }
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        name.rx.text.map { (n) -> Observable<Availability> in
+            guard let username = n, !username.isEmpty else {
+                return Observable.just(.invalid(message: "用户名不能为空."))
+            }
+            
+            let loadingValue = Availability.pending(message: "检查可用性……")
+            return API.usernameAvailable(username).map({ (available) -> Availability in
+                if available {
+                    return .available(message: "用户名有效")
+                } else {
+                    return .invalid(message: "用户名无效")
+                }
+            }).startWith(loadingValue)
+            }.switchLatest().subscribe(onNext: { [unowned self] (validity) in
+                self.error.text = validity.message
+            }).disposed(by: bag)
+    }
+}
