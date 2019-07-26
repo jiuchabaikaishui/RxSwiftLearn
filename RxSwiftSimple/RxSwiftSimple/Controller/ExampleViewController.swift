@@ -461,10 +461,18 @@ class SimpleBindingViewController: ExampleViewController {
             }
         }
     }
+    func wolframAlphaIsPrime(_ value: Int) -> Observable<Prime> {
+        return Observable<Prime>.create({ (observer) -> Disposable in
+            observer.onNext(Prime(value: value))
+            observer.onCompleted()
+            
+            return Disposables.create()
+        })
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        number.rx.text.map { Prime(value: Int($0 ?? "") as Int? ?? 0) }.map { "\($0.value) \($0.isPrime ? "是" : "不是")素数！" }.bind(to: result.rx.text).disposed(by: bag)
+        number.rx.text.map { [unowned self] in self.wolframAlphaIsPrime( Int($0 ?? "") as Int? ?? 0) }.concat().map { "\($0.value) \($0.isPrime ? "是" : "不是")素数！" }.bind(to: result.rx.text).disposed(by: bag)
     }
 }
 

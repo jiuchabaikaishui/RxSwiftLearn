@@ -320,13 +320,13 @@ struct ViewControllerVM {
             })
         ]),
         TableViewSectionVM(title: "示例", rows: [
-            TableViewRowVM(title: "绑定值", detail: "要在特定scheduler上启动序列生成元素（subscribe方法）并调用dispose，请使用subscribeOn(scheduler)。", selected: true, pushed: true, selectedAction: { (controller, tableView, indexPath) in
+            TableViewRowVM(title: "绑定值", detail: "在这个示例中体会命令式与响应式编程的差异。", selected: true, pushed: true, selectedAction: { (controller, tableView, indexPath) in
                 controller.performSegue(withIdentifier: "MainToValues", sender: tableView.cellForRow(at: indexPath))
             }),
-            TableViewRowVM(title: "简单UI绑定", detail: "要在特定scheduler上启动序列生成元素（subscribe方法）并调用dispose，请使用subscribeOn(scheduler)。", selected: true, pushed: true, selectedAction: { (controller, tableView, indexPath) in
+            TableViewRowVM(title: "简单UI绑定", detail: "一个简单的UI绑定示例。", selected: true, pushed: true, selectedAction: { (controller, tableView, indexPath) in
                 controller.performSegue(withIdentifier: "MainToSimpleBinding", sender: tableView.cellForRow(at: indexPath))
             }),
-            TableViewRowVM(title: "自动输入验证", detail: "要在特定scheduler上启动序列生成元素（subscribe方法）并调用dispose，请使用subscribeOn(scheduler)。", selected: true, pushed: true, selectedAction: { (controller, tableView, indexPath) in
+            TableViewRowVM(title: "自动输入验证", detail: "此示例包含具有进度通知的复杂异步UI验证逻辑。", selected: true, pushed: true, selectedAction: { (controller, tableView, indexPath) in
                 controller.performSegue(withIdentifier: "MainToInputIValidation", sender: tableView.cellForRow(at: indexPath))
             })
         ])

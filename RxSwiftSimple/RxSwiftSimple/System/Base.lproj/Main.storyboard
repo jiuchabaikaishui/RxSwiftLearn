@@ -233,13 +233,13 @@
                                 <rect key="frame" x="43" y="72" width="316" height="30"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="2" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="8va-pv-KX2">
                                 <rect key="frame" x="44" y="130" width="315" height="30"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="= c" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wZY-5L-bpo">
                                 <rect key="frame" x="16" y="163.5" width="25" height="21"/>
@@ -328,7 +328,7 @@
                                 <rect key="frame" x="16" y="285" width="343" height="30"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" keyboardType="phonePad"/>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="请输入一个数：" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eRE-7H-1J7">
                                 <rect key="frame" x="16" y="256" width="122" height="21"/>
@@ -378,13 +378,21 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="请输入用户名：" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AG4-SN-cNs">
+                                <rect key="frame" x="16" y="256" width="122" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="xfW-qy-q6E" firstAttribute="trailing" secondItem="Vpo-lK-zLr" secondAttribute="trailing" constant="16" id="PB3-oq-1xq"/>
                             <constraint firstItem="9kX-Ym-10V" firstAttribute="centerY" secondItem="l8j-67-xDb" secondAttribute="centerY" id="VYu-74-Gxb"/>
                             <constraint firstItem="Vpo-lK-zLr" firstAttribute="leading" secondItem="xfW-qy-q6E" secondAttribute="leading" constant="16" id="XtJ-ze-ccx"/>
+                            <constraint firstItem="Vpo-lK-zLr" firstAttribute="top" secondItem="AG4-SN-cNs" secondAttribute="bottom" constant="8" id="Z7L-Eg-cie"/>
                             <constraint firstItem="9kX-Ym-10V" firstAttribute="top" secondItem="Vpo-lK-zLr" secondAttribute="bottom" constant="8" id="ZfW-cS-BSj"/>
+                            <constraint firstItem="AG4-SN-cNs" firstAttribute="leading" secondItem="xfW-qy-q6E" secondAttribute="leading" constant="16" id="dKz-IY-Rje"/>
                             <constraint firstItem="9kX-Ym-10V" firstAttribute="centerX" secondItem="l8j-67-xDb" secondAttribute="centerX" id="s7P-4b-nnv"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="xfW-qy-q6E"/>
