@@ -8,17 +8,24 @@
 
 /* Begin PBXBuildFile section */
 		3DE72F175C1093017A532D99 /* Pods_RxSwiftSimple.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC6D2271396FEE0A5270948B /* Pods_RxSwiftSimple.framework */; };
+		5C176B4222EFD99600ED7BAA /* ViewModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C176B4122EFD99600ED7BAA /* ViewModels.swift */; };
+		5C176B4522EFDA0800ED7BAA /* Views.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C176B4422EFDA0800ED7BAA /* Views.swift */; };
+		5C176B4D22EFDB0500ED7BAA /* Services.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C176B4C22EFDB0500ED7BAA /* Services.swift */; };
 		5C5EEB19222E0DB8004E99A7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5EEB18222E0DB8004E99A7 /* AppDelegate.swift */; };
 		5C5EEB1B222E0DB8004E99A7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5EEB1A222E0DB8004E99A7 /* ViewController.swift */; };
 		5C5EEB1E222E0DB8004E99A7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5C5EEB1C222E0DB8004E99A7 /* Main.storyboard */; };
 		5C5EEB20222E0DC4004E99A7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5C5EEB1F222E0DC4004E99A7 /* Assets.xcassets */; };
 		5C5EEB23222E0DC4004E99A7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5C5EEB21222E0DC4004E99A7 /* LaunchScreen.storyboard */; };
+		5CCC124222F2E00900749189 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CCC124122F2E00900749189 /* Extensions.swift */; };
 		5CDAB16E22D4C3FD00CD63E1 /* UsageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDAB16D22D4C3FC00CD63E1 /* UsageViewController.swift */; };
 		5CDAB17322D867B500CD63E1 /* ExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDAB17222D867B400CD63E1 /* ExampleViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		2FF0A5E46B7227F598E56B10 /* Pods-RxSwiftSimple.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RxSwiftSimple.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RxSwiftSimple/Pods-RxSwiftSimple.debug.xcconfig"; sourceTree = "<group>"; };
+		5C176B4122EFD99600ED7BAA /* ViewModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModels.swift; sourceTree = "<group>"; };
+		5C176B4422EFDA0800ED7BAA /* Views.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views.swift; sourceTree = "<group>"; };
+		5C176B4C22EFDB0500ED7BAA /* Services.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Services.swift; sourceTree = "<group>"; };
 		5C5EEB15222E0DB8004E99A7 /* RxSwiftSimple.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RxSwiftSimple.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5C5EEB18222E0DB8004E99A7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5C5EEB1A222E0DB8004E99A7 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -26,6 +33,7 @@
 		5C5EEB1F222E0DC4004E99A7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5C5EEB22222E0DC4004E99A7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5C5EEB24222E0DC4004E99A7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5CCC124122F2E00900749189 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		5CDAB16D22D4C3FC00CD63E1 /* UsageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsageViewController.swift; sourceTree = "<group>"; };
 		5CDAB17222D867B400CD63E1 /* ExampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleViewController.swift; sourceTree = "<group>"; };
 		BC6D2271396FEE0A5270948B /* Pods_RxSwiftSimple.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RxSwiftSimple.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -75,6 +83,30 @@
 			path = Controller;
 			sourceTree = "<group>";
 		};
+		5C176B4022EFD96700ED7BAA /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				5C176B4122EFD99600ED7BAA /* ViewModels.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		5C176B4322EFD9F600ED7BAA /* View */ = {
+			isa = PBXGroup;
+			children = (
+				5C176B4422EFDA0800ED7BAA /* Views.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		5C176B4922EFDAF500ED7BAA /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				5C176B4C22EFDB0500ED7BAA /* Services.swift */,
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
 		5C5EEB0C222E0DB8004E99A7 = {
 			isa = PBXGroup;
 			children = (
@@ -96,10 +128,22 @@
 		5C5EEB17222E0DB8004E99A7 /* RxSwiftSimple */ = {
 			isa = PBXGroup;
 			children = (
+				5CCC123E22F2D88E00749189 /* Extension */,
+				5C176B4922EFDAF500ED7BAA /* Service */,
+				5C176B4322EFD9F600ED7BAA /* View */,
+				5C176B4022EFD96700ED7BAA /* ViewModel */,
 				5C0237B6223F4936009CFAD1 /* Controller */,
 				5C0237B5223F4917009CFAD1 /* System */,
 			);
 			path = RxSwiftSimple;
+			sourceTree = "<group>";
+		};
+		5CCC123E22F2D88E00749189 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				5CCC124122F2E00900749189 /* Extensions.swift */,
+			);
+			path = Extension;
 			sourceTree = "<group>";
 		};
 		8AF03387C4996D0299B78E67 /* Frameworks */ = {
@@ -240,6 +284,10 @@
 			files = (
 				5C5EEB1B222E0DB8004E99A7 /* ViewController.swift in Sources */,
 				5C5EEB19222E0DB8004E99A7 /* AppDelegate.swift in Sources */,
+				5C176B4522EFDA0800ED7BAA /* Views.swift in Sources */,
+				5CCC124222F2E00900749189 /* Extensions.swift in Sources */,
+				5C176B4D22EFDB0500ED7BAA /* Services.swift in Sources */,
+				5C176B4222EFD99600ED7BAA /* ViewModels.swift in Sources */,
 				5CDAB17322D867B500CD63E1 /* ExampleViewController.swift in Sources */,
 				5CDAB16E22D4C3FD00CD63E1 /* UsageViewController.swift in Sources */,
 			);

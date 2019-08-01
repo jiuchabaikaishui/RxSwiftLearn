@@ -14,6 +14,8 @@ import NVActivityIndicatorView
 
 
 class ExampleViewController: UIViewController {
+    var bag = DisposeBag()
+    
     deinit {
         print("\(self)销毁了！")
     }
@@ -33,7 +35,6 @@ class ExampleViewController: UIViewController {
 
 
 class BandingViewController: ExampleViewController {
-    let bag = DisposeBag()
     @IBOutlet weak var firstName: UITextField!
     @IBOutlet weak var lastName: UITextField!
     @IBOutlet weak var greetingLabel: UILabel!
@@ -128,8 +129,6 @@ class ImplicitViewController: ExampleViewController {
 
 
 class KVOViewController: ExampleViewController {
-    let bag = DisposeBag()
-    
     @objc dynamic weak var viewT: UIView?
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -155,7 +154,6 @@ class KVOViewController: ExampleViewController {
 
 
 class HTTPViewController: ExampleViewController, NVActivityIndicatorViewable {
-    var bag = DisposeBag()
     let req = URLSession.shared.rx.response(request: URLRequest.init(url: URL(string: "https://ditu.amap.com/service/regeo?longitude=121.04925573429551&latitude=31.315590522490712")!)).debug("my request").flatMap({ (response: HTTPURLResponse, data: Data) -> Observable<Any> in
         if 200 ..< 300 ~= response.statusCode {
             return Observable<Any>.create({ (observer) -> Disposable in
@@ -200,8 +198,6 @@ class HTTPViewController: ExampleViewController, NVActivityIndicatorViewable {
 
 
 class SingleViewController: ExampleViewController, NVActivityIndicatorViewable {
-    var bag = DisposeBag()
-    
     @objc func firstAction(sender: UIButton) {
         startAnimating()
         getReq("ReactiveX/RxSwift").subscribe({ (event) in
@@ -276,8 +272,6 @@ class SingleViewController: ExampleViewController, NVActivityIndicatorViewable {
 
 
 class CompletableViewController: ExampleViewController, NVActivityIndicatorViewable {
-    var bag = DisposeBag()
-    
     @objc func firstAction(sender: UIButton) {
         startAnimating()
         cacheLocally().subscribe { (completable) in
@@ -345,8 +339,6 @@ class CompletableViewController: ExampleViewController, NVActivityIndicatorViewa
 
 
 class MaybeViewController: ExampleViewController, NVActivityIndicatorViewable {
-    var bag = DisposeBag()
-    
     @objc func firstAction(sender: UIButton) {
         startAnimating()
         generateString().subscribe { (maybe) in
@@ -426,7 +418,6 @@ class ValuesViewController: ExampleViewController {
     @IBOutlet weak var b: UITextField!
     @IBOutlet weak var c: UILabel!
     @IBOutlet weak var d: UILabel!
-    var bag = DisposeBag()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -442,7 +433,6 @@ class ValuesViewController: ExampleViewController {
 class SimpleBindingViewController: ExampleViewController {
     @IBOutlet weak var number: UITextField!
     @IBOutlet weak var result: UILabel!
-    var bag = DisposeBag()
     
     struct Prime {
         let value: Int
@@ -480,7 +470,6 @@ class SimpleBindingViewController: ExampleViewController {
 class InputIValidationViewController: ExampleViewController {
     @IBOutlet weak var name: UITextField!
     @IBOutlet weak var error: UILabel!
-    var bag = DisposeBag()
     
     enum Availability {
         case available(message: String)
@@ -535,5 +524,54 @@ class InputIValidationViewController: ExampleViewController {
             }.switchLatest().subscribe(onNext: { [unowned self] (validity) in
                 self.error.text = validity.message
             }).disposed(by: bag)
+    }
+}
+
+
+class NumbersViewController: ExampleViewController {
+    @IBOutlet weak var number1: UITextField!
+    @IBOutlet weak var number2: UITextField!
+    @IBOutlet weak var number3: UITextField!
+    @IBOutlet weak var result: UILabel!
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        Observable.combineLatest(number1.rx.text.orEmpty, number2.rx.text.orEmpty, number3.rx.text.orEmpty) { (value1, value2, value3) -> Int in
+            return (Int(value1) ?? 0) + (Int(value2) ?? 0) + (Int(value3) ?? 0)
+            }.map { $0.description }.bind(to: result.rx.text).disposed(by: bag)
+    }
+}
+
+
+class ValidViewController: ExampleViewController {
+    @IBOutlet weak var username: UITextField!
+    @IBOutlet weak var usernameValid: UILabel!
+    @IBOutlet weak var password: UITextField!
+    @IBOutlet weak var passwordValid: UILabel!
+    @IBOutlet weak var button: UIButton!
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        let minUsernameLength = 6
+        let minPasswordLength = 6
+        usernameValid.text = "用户名至少\(minUsernameLength)个字符……"
+        passwordValid.text = "密码至少\(minUsernameLength)个字符……"
+        
+        let usernameV = username.rx.text.orEmpty.map { $0.count >= minUsernameLength }.share(replay: 1)
+        let passwordV = password.rx.text.orEmpty.map { $0.count >= minPasswordLength }.share(replay: 1)
+        let buttonV = Observable.combineLatest(usernameV, passwordV) { $0 && $1 }.share(replay: 1)
+        
+        usernameV.bind(to: password.rx.isEnabled).disposed(by: bag)
+        usernameV.bind(to: usernameValid.rx.isHidden).disposed(by: bag)
+        passwordV.bind(to: passwordValid.rx.isHidden).disposed(by: bag)
+        buttonV.bind(to: button.rx.isEnabled).disposed(by: bag)
+        button.rx.tap.subscribe {[unowned self] (_) in
+            let alert = UIAlertController(title: "提示", message: "登录成功！", preferredStyle: .alert)
+            let ok = UIAlertAction(title: "OK", style: .default, handler: nil)
+            alert.addAction(ok)
+            self.present(alert, animated: true, completion: nil)
+        }.disposed(by: bag)
     }
 }
