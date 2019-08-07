@@ -46,3 +46,10 @@ extension Reactive where Base: CLLocationManager {
         return CLLocationManagerDelegateProxy.proxy(for: base).didChangeAuthorizationSubject
     }
 }
+extension Reactive where Base: UILabel {
+    var coordinate: Binder<CLLocationCoordinate2D> {
+        return Binder(base, binding: { (label, location) in
+            label.text = "Lat: \(location.latitude)\nLon: \(location.longitude)"
+        })
+    }
+}

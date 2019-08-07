@@ -10,7 +10,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class ViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate {
     @IBOutlet weak var tableView: UITableView!
     let vm = ViewControllerVM()
     

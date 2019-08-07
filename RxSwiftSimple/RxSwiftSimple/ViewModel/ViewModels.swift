@@ -338,8 +338,11 @@ struct ViewControllerVM {
             }),
             TableViewRowVM(title: "定位", detail: "绑定。", selected: true, pushed: true, selectedAction: { (controller, tableView, indexPath) in
                 controller.performSegue(withIdentifier: "MainToLoction", sender: tableView.cellForRow(at: indexPath))
+            }),
+            TableViewRowVM(title: "GitHub注册", detail: "绑定。", selected: true, pushed: true, selectedAction: { (controller, tableView, indexPath) in
+                controller.performSegue(withIdentifier: "MainToLoction", sender: tableView.cellForRow(at: indexPath))
             })
-            ])
+        ])
     ]
     
     func rowVM(indexPath: IndexPath) -> TableViewRowVM? {

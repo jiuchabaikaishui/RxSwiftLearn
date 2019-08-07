@@ -283,10 +283,10 @@
             </objects>
             <point key="canvasLocation" x="191" y="-72"/>
         </scene>
-        <!--View Controller-->
+        <!--Location View Controller-->
         <scene sceneID="6sU-Xg-gLb">
             <objects>
-                <viewController id="lu1-FM-sja" sceneMemberID="viewController">
+                <viewController id="lu1-FM-sja" customClass="LocationViewController" customModule="RxSwiftSimple" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="HC3-Rt-pUH">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -301,10 +301,10 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="似乎打开了地理位置" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9g7-db-Zbw">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="  " textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9g7-db-Zbw">
                                 <rect key="frame" x="16" y="241" width="343" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="1" green="0.0" blue="0.028078071959999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="似乎打开了地理位置" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5c4-Ro-QFH">
@@ -330,10 +330,50 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="ffS-mc-HO6"/>
                     </view>
+                    <connections>
+                        <outlet property="button" destination="P0p-rc-5sy" id="v18-8O-LNh"/>
+                        <outlet property="button1" destination="A6o-7u-VlT" id="VFB-L4-GVU"/>
+                        <outlet property="label" destination="9g7-db-Zbw" id="cJg-gx-jw8"/>
+                        <outlet property="noGeolocationView" destination="CAh-b6-tf2" id="xff-EQ-4OX"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FfC-sd-8H9" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <view contentMode="scaleToFill" id="CAh-b6-tf2">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="请在应用程序首选项中启用它" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fPP-V1-L8k">
+                            <rect key="frame" x="8" y="290" width="359" height="20.5"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="A6o-7u-VlT">
+                            <rect key="frame" x="118.5" y="318.5" width="138" height="30"/>
+                            <state key="normal" title="打开应用程序首选项"/>
+                        </button>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="此应用程序不支持地理定位" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Q9M-js-GMC">
+                            <rect key="frame" x="8" y="261.5" width="359" height="20.5"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="fPP-V1-L8k" firstAttribute="top" secondItem="Q9M-js-GMC" secondAttribute="bottom" constant="8" id="6KA-pT-0iq"/>
+                        <constraint firstItem="A6o-7u-VlT" firstAttribute="top" secondItem="fPP-V1-L8k" secondAttribute="bottom" constant="8" id="Hpg-CU-Chu"/>
+                        <constraint firstItem="A6o-7u-VlT" firstAttribute="centerY" secondItem="CAh-b6-tf2" secondAttribute="centerY" id="arH-2k-JTz"/>
+                        <constraint firstItem="fPP-V1-L8k" firstAttribute="leading" secondItem="8oo-F9-ZF7" secondAttribute="leading" constant="8" id="bSa-25-xYX"/>
+                        <constraint firstItem="8oo-F9-ZF7" firstAttribute="trailing" secondItem="Q9M-js-GMC" secondAttribute="trailing" constant="8" id="fjw-sT-cXw"/>
+                        <constraint firstItem="A6o-7u-VlT" firstAttribute="centerX" secondItem="CAh-b6-tf2" secondAttribute="centerX" id="rTK-Oj-HUv"/>
+                        <constraint firstItem="8oo-F9-ZF7" firstAttribute="trailing" secondItem="fPP-V1-L8k" secondAttribute="trailing" constant="8" id="rpf-uX-qzv"/>
+                        <constraint firstItem="Q9M-js-GMC" firstAttribute="leading" secondItem="8oo-F9-ZF7" secondAttribute="leading" constant="8" id="xhb-Xb-gnc"/>
+                    </constraints>
+                    <viewLayoutGuide key="safeArea" id="8oo-F9-ZF7"/>
+                </view>
             </objects>
-            <point key="canvasLocation" x="-1338.4000000000001" y="698.5007496251875"/>
+            <point key="canvasLocation" x="-2068" y="699"/>
         </scene>
         <!--Valid View Controller-->
         <scene sceneID="ool-dO-2rr">

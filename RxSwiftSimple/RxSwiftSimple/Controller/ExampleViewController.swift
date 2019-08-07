@@ -11,14 +11,17 @@ import RxCocoa
 import RxSwift
 import SnapKit
 import NVActivityIndicatorView
+import CoreLocation
 
 
-class ExampleViewController: UIViewController {
+class BaseViewController: UIViewController {
     var bag = DisposeBag()
     
     deinit {
         print("\(self)销毁了！")
     }
+}
+class ExampleViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -573,5 +576,36 @@ class ValidViewController: ExampleViewController {
             alert.addAction(ok)
             self.present(alert, animated: true, completion: nil)
         }.disposed(by: bag)
+    }
+}
+
+
+class LocationViewController: ExampleViewController {
+    @IBOutlet weak var noGeolocationView: UIView!
+    @IBOutlet weak var label: UILabel!
+    @IBOutlet weak var button: UIButton!
+    @IBOutlet weak var button1: UIButton!
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        self.view.addSubview(noGeolocationView)
+        noGeolocationView.snp.makeConstraints { (maker) in
+            maker.left.top.right.bottom.equalTo(view)
+        }
+        
+        let service = GeoLocationService.instance
+        
+        service.authorized.drive(noGeolocationView.rx.isHidden).disposed(by: bag)
+        
+        service.location.drive(label.rx.coordinate).disposed(by: bag)
+        
+        button.rx.tap.bind {[unowned self] in self.openAppPreferences() }.disposed(by: bag)
+        
+        button1.rx.tap.bind {[unowned self] in self.openAppPreferences() }.disposed(by: bag)
+    }
+    
+    private func openAppPreferences() {
+        UIApplication.shared.openURL(URL(string: UIApplication.openSettingsURLString)!)
     }
 }
