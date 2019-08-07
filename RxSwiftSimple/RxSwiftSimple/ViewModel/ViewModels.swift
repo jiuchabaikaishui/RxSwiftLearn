@@ -23,44 +23,6 @@ struct TableViewSectionVM {
     var title = ""
     var rows = [TableViewRowVM]()
 }
-extension ObservableType {
-    func myMap<R>(transform: @escaping (Element) -> R) -> Observable<R> {
-        return Observable.create({ (observer) -> Disposable in
-            let subscription = self.subscribe({ (e) in
-                switch e {
-                case .next(let value):
-                    let result = transform(value)
-                    observer.onNext(result)
-                case .error(let error):
-                    observer.onError(error)
-                case .completed:
-                    observer.onCompleted()
-                }
-            })
-            
-            return subscription
-        })
-    }
-    func myDebug(_ identifier: String) -> Observable<Self.Element> {
-        return Observable<Element>.create({ (observer) -> Disposable in
-            print("subscribed \(identifier)")
-            
-            let subscription = self.subscribe({ (e) in
-                print("event \(identifier)  \(e)")
-                switch e {
-                case .next(let value):
-                    observer.onNext(value)
-                case .error(let error):
-                    observer.onError(error)
-                case .completed:
-                    observer.onCompleted()
-                }
-            })
-            
-            return subscription
-        })
-    }
-}
 struct ViewControllerVM {
     static var debugSubscribe: Disposable? = nil
     static func myInterval(_ interval: DispatchTimeInterval) -> Observable<Int> {
@@ -354,5 +316,30 @@ struct ViewControllerVM {
         }
         
         return nil
+    }
+}
+
+class SignupObservableVM {
+    let validatedUsername: Observable<ValidationResult>
+    let validatedPassword: Observable<ValidationResult>
+    let validatedRepeatedPassword: Observable<ValidationResult>
+    
+    let signupEnabled: Observable<Bool>
+    
+    let signin: Observable<Bool>
+    
+    init(input: (username: Observable<String>, password: Observable<String>, repeatedPassword: Observable<String>, loginTaps: Observable<Void>), dependency: (API: GithubApi, service: GitHubValidationService)) {
+        let api = dependency.API
+        let service = dependency.service
+        
+        validatedUsername = input.username.flatMapLatest({ (name) in
+            return service.validateUsername(name).observeOn(MainScheduler.instance).catchErrorJustReturn(.failed(message: "服务器抱错"))
+        })
+        
+        validatedPassword = input.password.map({ (password) in
+            return service.validatePassword(password)
+        }).share(replay: 1)
+        
+        validatedRepeatedPassword = Observable.combineLatest(input.password, input.repeatedPassword, resultSelector: service.validateRepeatedPassword).share(replay: 1)
     }
 }

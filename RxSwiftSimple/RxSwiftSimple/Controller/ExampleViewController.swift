@@ -606,6 +606,38 @@ class LocationViewController: ExampleViewController {
     }
     
     private func openAppPreferences() {
-        UIApplication.shared.openURL(URL(string: UIApplication.openSettingsURLString)!)
+        UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
+    }
+}
+
+
+class SignupObservableViewController: ExampleViewController {
+    @IBOutlet weak var usernameOutlet: UITextField!
+    @IBOutlet weak var usernameValidationOutlet: UILabel!
+    @IBOutlet weak var passwordOutlet: UITextField!
+    @IBOutlet weak var passwordValidationOutlet: UILabel!
+    @IBOutlet weak var repeatOutlet: UITextField!
+    @IBOutlet weak var repeatValidationOutlet: UILabel!
+    @IBOutlet weak var signupOutlet: UIButton!
+    @IBOutlet weak var signingupOutlet: UIActivityIndicatorView!
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+    }
+}
+
+
+class SignupDriverViewController: ExampleViewController {
+    @IBOutlet weak var usernameOutlet: UITextField!
+    @IBOutlet weak var usernameValidationOutlet: UILabel!
+    @IBOutlet weak var passwordOutlet: UITextField!
+    @IBOutlet weak var passwordValidationOutlet: UILabel!
+    @IBOutlet weak var repeatOutlet: UITextField!
+    @IBOutlet weak var repeatValidationOutlet: UILabel!
+    @IBOutlet weak var signupOutlet: UIButton!
+    @IBOutlet weak var signingupOutlet: UIActivityIndicatorView!
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
     }
 }
