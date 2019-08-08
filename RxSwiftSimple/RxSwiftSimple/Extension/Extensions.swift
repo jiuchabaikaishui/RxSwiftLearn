@@ -97,4 +97,25 @@ extension Reactive where Base: UILabel {
             label.text = "Lat: \(location.latitude)\nLon: \(location.longitude)"
         })
     }
+    var validationResult: Binder<ValidationResult> {
+        return Binder(base, binding: { (label, result) in
+            label.textColor = result.textColor
+            label.text = result.description
+        })
+    }
+    
+}
+
+
+extension ObservableConvertibleType {
+    func trackActivity(_ indicator: ActivityIndicator) -> Observable<Element> {
+        return indicator.trackActivityOfObservable(self)
+    }
+}
+
+
+extension String {
+    var URLEscaped: String {
+        return self.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ?? ""
+    }
 }

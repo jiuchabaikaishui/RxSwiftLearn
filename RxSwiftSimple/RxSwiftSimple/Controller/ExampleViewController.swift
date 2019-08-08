@@ -623,6 +623,31 @@ class SignupObservableViewController: ExampleViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let vm = SignupObservableVM(input: (username: usernameOutlet.rx.text.orEmpty.asObservable(), password: passwordOutlet.rx.text.orEmpty.asObservable(), repeatedPassword: repeatOutlet.rx.text.orEmpty.asObservable(), loginTaps: signupOutlet.rx.tap.asObservable()), dependency: (API: GitHubDefaultAPI.shareApi, service: GitHubDefaultValidationService(GitHubDefaultAPI.shareApi)))
+        
+        vm.signupEnabled.subscribe(onNext: { (valid) in
+            self.signupOutlet.isEnabled = valid
+            self.signupOutlet.alpha = valid ? 1.0 : 0.5
+        }).disposed(by: bag)
+        
+        vm.validatedUsername.bind(to: usernameValidationOutlet.rx.validationResult).disposed(by: bag)
+        
+        vm.validatedPassword.bind(to: passwordValidationOutlet.rx.validationResult).disposed(by: bag)
+        
+        vm.validatedRepeatedPassword.bind(to: repeatValidationOutlet.rx.validationResult).disposed(by: bag)
+        
+        vm.signingIn.bind(to: signingupOutlet.rx.isAnimating).disposed(by: bag)
+        
+        vm.signedIn.subscribe(onNext: { (signed) in
+            print("用户登录\(signed ? "成功" : "失败")")
+        }).disposed(by: bag)
+        
+        let tap = UITapGestureRecognizer()
+        tap.rx.event.subscribe(onNext: { (tap) in
+            self.view.endEditing(true)
+        }).disposed(by: bag)
+        view.addGestureRecognizer(tap)
     }
 }
 

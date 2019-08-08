@@ -302,7 +302,7 @@ struct ViewControllerVM {
                 controller.performSegue(withIdentifier: "MainToLoction", sender: tableView.cellForRow(at: indexPath))
             }),
             TableViewRowVM(title: "GitHub注册", detail: "绑定。", selected: true, pushed: true, selectedAction: { (controller, tableView, indexPath) in
-                controller.performSegue(withIdentifier: "MainToLoction", sender: tableView.cellForRow(at: indexPath))
+                controller.performSegue(withIdentifier: "MainToSignupObservable", sender: tableView.cellForRow(at: indexPath))
             })
         ])
     ]
@@ -326,7 +326,9 @@ class SignupObservableVM {
     
     let signupEnabled: Observable<Bool>
     
-    let signin: Observable<Bool>
+    let signedIn: Observable<Bool>
+    
+    let signingIn: Observable<Bool>
     
     init(input: (username: Observable<String>, password: Observable<String>, repeatedPassword: Observable<String>, loginTaps: Observable<Void>), dependency: (API: GithubApi, service: GitHubValidationService)) {
         let api = dependency.API
@@ -341,5 +343,20 @@ class SignupObservableVM {
         }).share(replay: 1)
         
         validatedRepeatedPassword = Observable.combineLatest(input.password, input.repeatedPassword, resultSelector: service.validateRepeatedPassword).share(replay: 1)
+        
+        let signingIn = ActivityIndicator()
+        self.signingIn = signingIn.asObservable()
+        
+        let up = Observable.combineLatest(input.username, input.password) { (username: $0, password: $1) }
+        signedIn = input.loginTaps.withLatestFrom(up).flatMapLatest({ (pair) in
+            return api.signup(pair.username, password: pair.password).observeOn(MainScheduler.instance).catchErrorJustReturn(false).trackActivity(signingIn)
+        }).flatMapLatest({ (loggedIn) -> Observable<Bool> in
+            let message = loggedIn ? "登录GitHub" : "GitHub登录失败"
+            return DefaultWireFrame().promptFor("提示", message: message, cancelAction: "确定", actions: []).map({ _ in loggedIn })
+        }).share(replay: 1)
+        
+        signupEnabled = Observable.combineLatest(validatedUsername, validatedPassword, validatedRepeatedPassword, signingIn.asObservable(), resultSelector: { (un, pd, repd, sign) in
+            un.isValidate && pd.isValidate && repd.isValidate && !sign
+        }).distinctUntilChanged().share(replay: 1)
     }
 }

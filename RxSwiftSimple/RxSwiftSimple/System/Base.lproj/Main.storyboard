@@ -61,8 +61,8 @@
                         <segue destination="EFG-js-caX" kind="show" identifier="MainToNumbers" id="YZS-ZT-Xy8"/>
                         <segue destination="p8O-R1-pi9" kind="show" identifier="MainToValid" id="nH0-jT-isn"/>
                         <segue destination="lu1-FM-sja" kind="show" identifier="MainToLoction" id="tTg-F3-S0T"/>
-                        <segue destination="cQg-Fq-ZNM" kind="show" id="5B4-2Q-oJt"/>
-                        <segue destination="EuY-Us-Kdk" kind="show" id="uXv-VQ-SYV"/>
+                        <segue destination="cQg-Fq-ZNM" kind="show" identifier="MainToSignupObservable" id="5B4-2Q-oJt"/>
+                        <segue destination="EuY-Us-Kdk" kind="show" identifier="MainToSignupDriver" id="uXv-VQ-SYV"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
