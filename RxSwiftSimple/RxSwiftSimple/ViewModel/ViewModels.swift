@@ -303,6 +303,9 @@ struct ViewControllerVM {
             }),
             TableViewRowVM(title: "GitHub注册", detail: "绑定。", selected: true, pushed: true, selectedAction: { (controller, tableView, indexPath) in
                 controller.performSegue(withIdentifier: "MainToSignupObservable", sender: tableView.cellForRow(at: indexPath))
+            }),
+            TableViewRowVM(title: "GitHub登录", detail: "绑定。", selected: true, pushed: true, selectedAction: { (controller, tableView, indexPath) in
+                controller.performSegue(withIdentifier: "MainToSignupDriver", sender: tableView.cellForRow(at: indexPath))
             })
         ])
     ]
@@ -334,7 +337,7 @@ class SignupObservableVM {
         let api = dependency.API
         let service = dependency.service
         
-        validatedUsername = input.username.flatMapLatest({ (name) in
+        validatedUsername = input.username.distinctUntilChanged().flatMapLatest({ (name) in
             return service.validateUsername(name).observeOn(MainScheduler.instance).catchErrorJustReturn(.failed(message: "服务器抱错"))
         })
         
@@ -358,5 +361,46 @@ class SignupObservableVM {
         signupEnabled = Observable.combineLatest(validatedUsername, validatedPassword, validatedRepeatedPassword, signingIn.asObservable(), resultSelector: { (un, pd, repd, sign) in
             un.isValidate && pd.isValidate && repd.isValidate && !sign
         }).distinctUntilChanged().share(replay: 1)
+    }
+}
+
+
+class SignupDriverVM {
+    let usernameValidated: Driver<ValidationResult>
+    let passwordValidated: Driver<ValidationResult>
+    let repeatedPasswordValidated: Driver<ValidationResult>
+    
+    let signupEnabled: Driver<Bool>
+    let signedIn: Driver<Bool>
+    let signingIn: Driver<Bool>
+    
+    init(input: (username: Driver<String>, password: Driver<String>, repeatedPassword: Driver<String>, loginTaps: Signal<()>), depandency: (API: GithubApi, service: GitHubValidationService)) {
+        usernameValidated = input.username.flatMapLatest({
+            return depandency.service.validateUsername($0).asDriver(onErrorJustReturn: .failed(message: "连接服务器失败"))
+        })
+        
+        passwordValidated = input.password.map({
+            return depandency.service.validatePassword($0)
+        })
+        
+        repeatedPasswordValidated = Driver.combineLatest(input.password, input.repeatedPassword, resultSelector: {
+            return (password: $0, repeatedPassword: $1)
+        }).map({
+            return depandency.service.validateRepeatedPassword($0.password, repeatPassword: $0.repeatedPassword)
+        })
+        
+        let signingIn = ActivityIndicator()
+        self.signingIn = signingIn.asDriver(onErrorJustReturn: false)
+        
+        signedIn = input.loginTaps.withLatestFrom(Driver.combineLatest(input.username, input.password, resultSelector: { (username: $0, password: $1) } )).flatMapLatest({
+            return depandency.API.signup($0.username, password: $0.password).trackActivity(signingIn).asDriver(onErrorJustReturn: false)
+        }).flatMapLatest({ (loggedIn) in
+            let message = loggedIn ? "登录GitHub" : "GitHub登录失败"
+            return DefaultWireFrame().promptFor("提示", message: message, cancelAction: "确定", actions: []).map({ (_) in loggedIn }).asDriver(onErrorJustReturn: false)
+        })
+        
+        signupEnabled = Driver.combineLatest(usernameValidated, passwordValidated, repeatedPasswordValidated, signingIn, resultSelector: { (un, pw, repw, sign) in
+            return un.isValidate && pw.isValidate && repw.isValidate && !sign
+        })
     }
 }

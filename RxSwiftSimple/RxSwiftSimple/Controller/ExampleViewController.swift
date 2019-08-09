@@ -664,5 +664,22 @@ class SignupDriverViewController: ExampleViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let vm = SignupDriverVM(input: (username: usernameOutlet.rx.text.orEmpty.asDriver(), password: passwordOutlet.rx.text.orEmpty.asDriver(), repeatedPassword: repeatOutlet.rx.text.orEmpty.asDriver(), loginTaps: signupOutlet.rx.tap.asSignal()), depandency: (API: GitHubDefaultAPI.shareApi, service: GitHubDefaultValidationService(GitHubDefaultAPI.shareApi)))
+        
+        vm.signupEnabled.drive(onNext: {
+            self.signupOutlet.isEnabled = $0
+            self.signupOutlet.alpha = $0 ? 1.0 : 0.5
+        }).disposed(by: bag)
+        
+        vm.usernameValidated.drive(usernameValidationOutlet.rx.validationResult).disposed(by: bag)
+        vm.passwordValidated.drive(passwordValidationOutlet.rx.validationResult).disposed(by: bag)
+        vm.repeatedPasswordValidated.drive(repeatValidationOutlet.rx.validationResult).disposed(by: bag)
+        
+        vm.signingIn.drive(signingupOutlet.rx.isAnimating).disposed(by: bag)
+        
+        vm.signedIn.drive(onNext: {
+            print("用户登录\($0 ? "成功" : "失败")")
+        }).disposed(by: bag)
     }
 }
