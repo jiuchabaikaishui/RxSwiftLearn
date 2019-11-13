@@ -42,3 +42,54 @@ class DefaultWireFrame: WireFrame {
         })
     }
 }
+
+func nonMarkedText(_ textInput: UITextInput) -> String? {
+    let start = textInput.beginningOfDocument
+    let end = textInput.endOfDocument
+    
+    guard let rangeAll = textInput.textRange(from: start, to: end), let text = textInput.text(in: rangeAll) else {
+        return nil
+    }
+    
+    guard let markTextRange = textInput.markedTextRange else {
+        return text
+    }
+    
+    guard let startRange = textInput.textRange(from: start, to: markTextRange.start), let endRange = textInput.textRange(from: end, to: markTextRange.end) else {
+        return text
+    }
+    
+    return (textInput.text(in: startRange) ?? "") + (textInput.text(in: endRange) ?? "")
+}
+infix operator <->: AdditionPrecedence
+func <-><Base>(textInput: TextInput<Base>, relay: BehaviorRelay<String>) -> Disposable {
+    let bind = relay.bind(to: textInput.text)
+    let bindRelay = textInput.text.subscribe(onNext: { (n) in
+        if let nonMarkedText = nonMarkedText(textInput.base), nonMarkedText != relay.value {
+            relay.accept(nonMarkedText)
+        }
+    }, onCompleted: {
+        bind.dispose()
+    })
+    
+    return Disposables.create(bind, bindRelay)
+}
+func <-><T>(property: ControlProperty<T>, relay: BehaviorRelay<T>) -> Disposable {
+#if DEBUG
+    if T.self == String.self {
+        fatalError("It is ok to delete this message, but this is here to warn that you are maybe trying to bind to some `rx.text` property directly to relay.\n" +
+            "That will usually work ok, but for some languages that use IME, that simplistic method could cause unexpected issues because it will return intermediate results while text is being inputed.\n" +
+            "REMEDY: Just use `textField <-> relay` instead of `textField.rx.text <-> relay`.\n" +
+        "Find out more here: https://github.com/ReactiveX/RxSwift/issues/649\n")
+    }
+#endif
+    
+    let bind = relay.bind(to: property)
+    let bindRelay = property.subscribe(onNext: { (n) in
+        relay.accept(n)
+    }, onCompleted: {
+        bind.dispose()
+    })
+    
+    return Disposables.create(bind, bindRelay)
+}

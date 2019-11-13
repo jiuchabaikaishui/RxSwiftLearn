@@ -306,6 +306,9 @@ struct ViewControllerVM {
             }),
             TableViewRowVM(title: "GitHub登录", detail: "绑定。", selected: true, pushed: true, selectedAction: { (controller, tableView, indexPath) in
                 controller.performSegue(withIdentifier: "MainToSignupDriver", sender: tableView.cellForRow(at: indexPath))
+            }),
+            TableViewRowVM(title: "GitHub登录", detail: "绑定。", selected: true, pushed: true, selectedAction: { (controller, tableView, indexPath) in
+                controller.performSegue(withIdentifier: "MainToWrappers", sender: tableView.cellForRow(at: indexPath))
             })
         ])
     ]
