@@ -428,7 +428,8 @@ class ValuesViewController: ExampleViewController {
             c.text = "c = \(Int(a.text!)! + Int(b.text!)!) is positive"
         }
         
-        Observable.combineLatest(a.rx.text, b.rx.text, resultSelector: { ((Int($0!) as Int?) ?? 0) + ((Int($1!) as Int?) ?? 0) }).filter { $0 >= 0 }.map { "c = \($0) is positive"}.bind(to: d.rx.text).disposed(by: bag)
+        Observable.combineLatest(a.rx.text.orEmpty.map({ Int($0) ?? 0 }), b.rx.text.orEmpty.map({ Int($0) ?? 0 })) { $0 + $1 }.filter {  $0 >= 0 }.map { "c = \($0) is positive" }.bind(to: d.rx.text).disposed(by: bag)
+//        Observable.combineLatest(a.rx.text, b.rx.text, resultSelector: { ((Int($0!) as Int?) ?? 0) + ((Int($1!) as Int?) ?? 0) }).filter { $0 >= 0 }.map { "c = \($0) is positive"}.bind(to: d.rx.text).disposed(by: bag)
     }
 }
 
