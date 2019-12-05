@@ -309,6 +309,9 @@ struct ViewControllerVM {
             }),
             TableViewRowVM(title: "GitHub登录", detail: "绑定。", selected: true, pushed: true, selectedAction: { (controller, tableView, indexPath) in
                 controller.performSegue(withIdentifier: "MainToWrappers", sender: tableView.cellForRow(at: indexPath))
+            }),
+            TableViewRowVM(title: "计算器", detail: "绑定。", selected: true, pushed: true, selectedAction: { (controller, tableView, indexPath) in
+                controller.performSegue(withIdentifier: "MainToCalculator", sender: tableView.cellForRow(at: indexPath))
             })
         ])
     ]
@@ -326,8 +329,11 @@ struct ViewControllerVM {
 }
 
 class SignupObservableVM {
+    // 用户名有效的序列
     let validatedUsername: Observable<ValidationResult>
+    // 密码有效的序列
     let validatedPassword: Observable<ValidationResult>
+    // 重复密码有效的序列
     let validatedRepeatedPassword: Observable<ValidationResult>
     
     let signupEnabled: Observable<Bool>
@@ -341,7 +347,7 @@ class SignupObservableVM {
         let service = dependency.service
         
         validatedUsername = input.username.distinctUntilChanged().flatMapLatest({ (name) in
-            return service.validateUsername(name).observeOn(MainScheduler.instance).catchErrorJustReturn(.failed(message: "服务器抱错"))
+            return service.validateUsername(name).observeOn(MainScheduler.instance).catchErrorJustReturn(.failed(message: "服务器报错"))
         })
         
         validatedPassword = input.password.map({ (password) in

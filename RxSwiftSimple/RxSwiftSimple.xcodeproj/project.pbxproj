@@ -22,6 +22,7 @@
 		5CD466A922FAB4CB003FC8FC /* Commons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CD466A822FAB4CB003FC8FC /* Commons.swift */; };
 		5CDAB16E22D4C3FD00CD63E1 /* UsageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDAB16D22D4C3FC00CD63E1 /* UsageViewController.swift */; };
 		5CDAB17322D867B500CD63E1 /* ExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDAB17222D867B400CD63E1 /* ExampleViewController.swift */; };
+		6E2F662523964D2F0005EBCC /* Calculator.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6E2F662423964D2F0005EBCC /* Calculator.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +43,7 @@
 		5CD466A822FAB4CB003FC8FC /* Commons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Commons.swift; sourceTree = "<group>"; };
 		5CDAB16D22D4C3FC00CD63E1 /* UsageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsageViewController.swift; sourceTree = "<group>"; };
 		5CDAB17222D867B400CD63E1 /* ExampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleViewController.swift; sourceTree = "<group>"; };
+		6E2F662423964D2F0005EBCC /* Calculator.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Calculator.storyboard; sourceTree = "<group>"; };
 		BC6D2271396FEE0A5270948B /* Pods_RxSwiftSimple.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RxSwiftSimple.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D36134C8C73FFB7282AECB53 /* Pods-RxSwiftSimple.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RxSwiftSimple.release.xcconfig"; path = "Pods/Target Support Files/Pods-RxSwiftSimple/Pods-RxSwiftSimple.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -85,6 +87,7 @@
 				5C5EEB1A222E0DB8004E99A7 /* ViewController.swift */,
 				5CDAB17222D867B400CD63E1 /* ExampleViewController.swift */,
 				5CDAB16D22D4C3FC00CD63E1 /* UsageViewController.swift */,
+				6E2F662423964D2F0005EBCC /* Calculator.storyboard */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -249,6 +252,7 @@
 			files = (
 				5C5EEB23222E0DC4004E99A7 /* LaunchScreen.storyboard in Resources */,
 				5C5EEB20222E0DC4004E99A7 /* Assets.xcassets in Resources */,
+				6E2F662523964D2F0005EBCC /* Calculator.storyboard in Resources */,
 				5C5EEB1E222E0DB8004E99A7 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

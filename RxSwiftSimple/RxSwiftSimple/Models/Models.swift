@@ -56,16 +56,6 @@ extension ValidationResult {
     }
 }
 
-enum SignupState {
-    case signedUp(signedUp: Bool)
-}
-
-
-enum RetryResult {
-    case retry
-    case cancel
-}
-
 struct ActivityToken<E>: ObservableConvertibleType, Disposable {
     let _source: Observable<E>
     let _dispose: Cancelable
@@ -87,7 +77,9 @@ class ActivityIndicator: SharedSequenceConvertibleType {
     typealias Element = Bool
     typealias SharingStrategy = DriverSharingStrategy
     
+    // 锁
     let lock = NSRecursiveLock()
+    // 计数
     let relay = BehaviorRelay(value: 0)
     let loading: SharedSequence<SharingStrategy, Bool>
     

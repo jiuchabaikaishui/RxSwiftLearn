@@ -35,9 +35,7 @@ class DefaultWireFrame: WireFrame {
             DefaultWireFrame.rootViewController().present(alert, animated: animated, completion: completion)
             
             return Disposables.create {
-                alert.dismiss(animated: animated, completion: {
-                    observer.onNext(cancelAction)
-                })
+                alert.dismiss(animated: animated, completion: nil)
             }
         })
     }

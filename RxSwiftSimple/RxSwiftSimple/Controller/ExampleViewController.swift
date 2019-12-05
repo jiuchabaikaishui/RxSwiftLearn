@@ -668,10 +668,12 @@ class SignupDriverViewController: ExampleViewController {
         
         let vm = SignupDriverVM(input: (username: usernameOutlet.rx.text.orEmpty.asDriver(), password: passwordOutlet.rx.text.orEmpty.asDriver(), repeatedPassword: repeatOutlet.rx.text.orEmpty.asDriver(), loginTaps: signupOutlet.rx.tap.asSignal()), depandency: (API: GitHubDefaultAPI.shareApi, service: GitHubDefaultValidationService(GitHubDefaultAPI.shareApi)))
         
-        vm.signupEnabled.drive(onNext: {
-            self.signupOutlet.isEnabled = $0
-            self.signupOutlet.alpha = $0 ? 1.0 : 0.5
-        }).disposed(by: bag)
+        vm.signupEnabled.drive(signupOutlet.rx.isEnabled).disposed(by: bag)
+        vm.signupEnabled.map { $0 ? 1.0 : 0.5 }.drive(signupOutlet.rx.alpha).disposed(by: bag)
+//        vm.signupEnabled.drive(onNext: {
+//            self.signupOutlet.isEnabled = $0
+//            self.signupOutlet.alpha = $0 ? 1.0 : 0.5
+//        }).disposed(by: bag)
         
         vm.usernameValidated.drive(usernameValidationOutlet.rx.validationResult).disposed(by: bag)
         vm.passwordValidated.drive(passwordValidationOutlet.rx.validationResult).disposed(by: bag)
@@ -685,10 +687,6 @@ class SignupDriverViewController: ExampleViewController {
     }
 }
 
-struct User {
-    var name: String
-    var age: Int
-}
 class WrappersViewController: ExampleViewController {
     @IBOutlet var pan: UITapGestureRecognizer!
     @IBOutlet weak var item: UIBarButtonItem!
@@ -754,13 +752,6 @@ class WrappersViewController: ExampleViewController {
             self.debug("UITextField attributedText \($0?.description ?? "")")
         }).disposed(by: bag)
         
-        let user = User(name: "张三", age: 4)
-        let userDefault = UserDefaults.standard
-        userDefault.set(user, forKey: "User")
-        userDefault.synchronize()
-        let u = userDefault.value(forKey: "User")
-        print(u as! User);
-        
         datePicker.rx.date.subscribe(onNext: {
             self.debug("UIDatePicker date \($0)")
         }).disposed(by: bag)
@@ -769,12 +760,14 @@ class WrappersViewController: ExampleViewController {
             let alter = UIAlertController(title: "ActionSheet", message: "这是ActionSheet", preferredStyle: .actionSheet)
             let action = UIAlertAction(title: "确定", style: .default, handler: nil)
             alter.addAction(action)
+            self.present(alter, animated: true, completion: nil)
         }).disposed(by: bag)
         
         alter.rx.tap.subscribe(onNext: {
             let alter = UIAlertController(title: "Alter", message: "这是Alter", preferredStyle: .alert)
             let action = UIAlertAction(title: "确定", style: .default, handler: nil)
             alter.addAction(action)
+            self.present(alter, animated: true, completion: nil)
         }).disposed(by: bag)
         
         let textViewV = BehaviorRelay(value: "")
@@ -796,3 +789,31 @@ class WrappersViewController: ExampleViewController {
     }
 }
 
+
+class CalculatorViewController: BaseViewController {
+    @IBOutlet weak var signLabel: UILabel!
+    @IBOutlet weak var resultLabel: UILabel!
+    
+    @IBOutlet weak var clearButton: UIButton!
+    @IBOutlet weak var changeSignButton: UIButton!
+    @IBOutlet weak var percentButton: UIButton!
+    
+    @IBOutlet weak var equalButton: UIButton!
+    @IBOutlet weak var plusButton: UIButton!
+    @IBOutlet weak var minusButton: UIButton!
+    @IBOutlet weak var multiplyButton: UIButton!
+    @IBOutlet weak var divideButton: UIButton!
+    
+    @IBOutlet weak var dotButton: UIButton!
+    @IBOutlet weak var zeroButton: UIButton!
+    @IBOutlet weak var oneButton: UIButton!
+    @IBOutlet weak var twoButton: UIButton!
+    @IBOutlet weak var threeButton: UIButton!
+    @IBOutlet weak var fourButton: UIButton!
+    @IBOutlet weak var fiveButton: UIButton!
+    @IBOutlet weak var sixButton: UIButton!
+    @IBOutlet weak var sevenButton: UIButton!
+    @IBOutlet weak var eightButton: UIButton!
+    @IBOutlet weak var nineButton: UIButton!
+    
+}
