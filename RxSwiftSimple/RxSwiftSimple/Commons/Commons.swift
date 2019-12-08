@@ -20,6 +20,15 @@ class DefaultWireFrame: WireFrame {
     private static func rootViewController() -> UIViewController {
         return UIApplication.shared.keyWindow!.rootViewController!
     }
+    
+    /// 提示框
+    /// - Parameters:
+    ///   - title: 标题
+    ///   - message: 消息
+    ///   - cancelAction: 取消按钮
+    ///   - actions: 其他按钮
+    ///   - animated: 动画
+    ///   - completion: 完成操作
     func promptFor<Action: CustomStringConvertible>(_ title: String, message: String, cancelAction: Action, actions: [Action], animated: Bool = true, completion: (() -> Void)? = nil) -> Observable<Action> {
         return Observable.create({ (observer) -> Disposable in
             let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
@@ -34,8 +43,8 @@ class DefaultWireFrame: WireFrame {
             
             DefaultWireFrame.rootViewController().present(alert, animated: animated, completion: completion)
             
-            return Disposables.create {
-                alert.dismiss(animated: animated, completion: nil)
+            return Disposables.create { [weak alert] in
+                alert?.dismiss(animated: animated, completion: nil)
             }
         })
     }

@@ -627,10 +627,12 @@ class SignupObservableViewController: ExampleViewController {
         
         let vm = SignupObservableVM(input: (username: usernameOutlet.rx.text.orEmpty.asObservable(), password: passwordOutlet.rx.text.orEmpty.asObservable(), repeatedPassword: repeatOutlet.rx.text.orEmpty.asObservable(), loginTaps: signupOutlet.rx.tap.asObservable()), dependency: (API: GitHubDefaultAPI.shareApi, service: GitHubDefaultValidationService(GitHubDefaultAPI.shareApi)))
         
-        vm.signupEnabled.subscribe(onNext: { (valid) in
-            self.signupOutlet.isEnabled = valid
-            self.signupOutlet.alpha = valid ? 1.0 : 0.5
+        vm.signupEnabled.subscribe(onNext: { [weak self] (valid) in
+            self?.signupOutlet.isEnabled = valid
+            self?.signupOutlet.alpha = valid ? 1.0 : 0.5
         }).disposed(by: bag)
+//        vm.signupEnabled.bind(to: signupOutlet.rx.isEnabled).disposed(by: bag)
+//        vm.signupEnabled.map { $0 ? 1.0 : 0.5 }.bind(to: signupOutlet.rx.alpha).disposed(by: bag)
         
         vm.validatedUsername.bind(to: usernameValidationOutlet.rx.validationResult).disposed(by: bag)
         
@@ -645,8 +647,8 @@ class SignupObservableViewController: ExampleViewController {
         }).disposed(by: bag)
         
         let tap = UITapGestureRecognizer()
-        tap.rx.event.subscribe(onNext: { (tap) in
-            self.view.endEditing(true)
+        tap.rx.event.subscribe(onNext: { [weak self] (tap) in
+            self?.view.endEditing(true)
         }).disposed(by: bag)
         view.addGestureRecognizer(tap)
     }
@@ -675,9 +677,9 @@ class SignupDriverViewController: ExampleViewController {
 //            self.signupOutlet.alpha = $0 ? 1.0 : 0.5
 //        }).disposed(by: bag)
         
-        vm.usernameValidated.drive(usernameValidationOutlet.rx.validationResult).disposed(by: bag)
-        vm.passwordValidated.drive(passwordValidationOutlet.rx.validationResult).disposed(by: bag)
-        vm.repeatedPasswordValidated.drive(repeatValidationOutlet.rx.validationResult).disposed(by: bag)
+    vm.usernameValidated.drive(usernameValidationOutlet.rx.validationResult).disposed(by: bag)
+    vm.passwordValidated.drive(passwordValidationOutlet.rx.validationResult).disposed(by: bag)
+    vm.repeatedPasswordValidated.drive(repeatValidationOutlet.rx.validationResult).disposed(by: bag)
         
         vm.signingIn.drive(signingupOutlet.rx.isAnimating).disposed(by: bag)
         

@@ -12,6 +12,7 @@ import RxSwift
 import CoreLocation
 
 
+/// 定位服务
 class GeoLocationService {
     static let instance = GeoLocationService()
     private (set) var authorized: Driver<Bool>
@@ -49,6 +50,7 @@ class GeoLocationService {
 }
 
 
+/// github接口
 class GitHubDefaultAPI: GithubApi {
     let session: URLSession
     init(_ session: URLSession) {
@@ -57,29 +59,45 @@ class GitHubDefaultAPI: GithubApi {
     
     static let shareApi = GitHubDefaultAPI(URLSession.shared)
     
+    /// 检验用户名是否有效
+    /// - Parameter username: 用户名
     func usernameAvailable(_ username: String) -> Observable<Bool> {
         let url = URL(string: "https://github.com/\(username.URLEscaped)")!
         let request = URLRequest(url: url)
         
+        // 直接获取github用户数据
         return session.rx.response(request: request).map({ (pair) -> Bool in
-            return pair.response.statusCode == 404
+            // 如果404错误则用户名无效
+            return pair.response.statusCode != 404
         }).catchErrorJustReturn(false)
     }
     
+    /// 登录
+    /// - Parameters:
+    ///   - username: 用户名
+    ///   - password: 密码
     func signup(_ username: String, password: String) -> Observable<Bool> {
-        let result = arc4random()%2 == 0 ? false : true
-        return Observable.just(result).delay(.seconds(1 + Int(arc4random()%3)), scheduler: MainScheduler.instance)
+        // 四分之一的几率失败
+        let result = arc4random()%4 == 0 ? false : true
+        // 模拟网络请求
+        return Observable.just(result).delay(.milliseconds(1000 + Int(arc4random()%3000)), scheduler: MainScheduler.instance)
     }
 }
 
 
+/// 服务
 class GitHubDefaultValidationService: GitHubValidationService {
+    /// 接口
     let api: GithubApi
+    
+    /// 密码最少位数
+    let minPasswordCount = 6
+    /// 密码最大位数
+    let maxPasswordCount = 24
+    
     init(_ api: GithubApi) {
         self.api = api
     }
-    
-    let minPasswordCount = 6
     
     func validateUsername(_ username: String) -> Observable<ValidationResult> {
         if username.isEmpty {
@@ -103,7 +121,9 @@ class GitHubDefaultValidationService: GitHubValidationService {
         }
         
         if password.count < minPasswordCount {
-            return .failed(message: "密码不能小于6位")
+            return .failed(message: "密码不能小于\(minPasswordCount)6位")
+        } else if password.count > maxPasswordCount {
+            return .failed(message: "密码不能大于于\(maxPasswordCount)位")
         }
         
         return .ok(message: "密码可用")

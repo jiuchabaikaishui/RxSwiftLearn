@@ -10,18 +10,24 @@ import Foundation
 import RxCocoa
 import RxSwift
 
+/// 有效结果
 enum ValidationResult {
-    case ok(message: String)
-    case empty
-    case validating
-    case failed(message: String)
+    case ok(message: String)// 有效
+    case empty // 空
+    case validating // 验证中
+    case failed(message: String) // 失败
 }
 
+/// 有效的颜色
 struct ValidationColors {
-    static let okColor = UIColor(red: 138.0 / 255.0, green: 221.0 / 255.0, blue: 109.0 / 255.0, alpha: 1.0)
-    static let errorColor = UIColor.red
+    static let defaultColor = UIColor.black // 默认黑色
+    static let okColor = UIColor(red: 138.0 / 255.0, green: 221.0 / 255.0, blue: 109.0 / 255.0, alpha: 1.0) // 有效为绿色
+    static let errorColor = UIColor.red // 失败为红色
 }
+
+/// 有效结果扩展
 extension ValidationResult {
+    /// 是否有效
     var isValidate: Bool {
         switch self {
         case .ok:
@@ -30,6 +36,8 @@ extension ValidationResult {
             return false
         }
     }
+    
+    /// 描述
     var description: String {
         switch self {
         case let .ok(message):
@@ -42,20 +50,23 @@ extension ValidationResult {
             return message
         }
     }
+    
+    /// 文本颜色
     var textColor: UIColor {
         switch self {
         case .ok:
             return ValidationColors.okColor
         case .empty:
-            return UIColor.black
+            return ValidationColors.defaultColor
         case .validating:
-            return UIColor.black
+            return ValidationColors.defaultColor
         case .failed:
             return ValidationColors.errorColor
         }
     }
 }
 
+/// 活动令牌
 struct ActivityToken<E>: ObservableConvertibleType, Disposable {
     let _source: Observable<E>
     let _dispose: Cancelable
@@ -73,39 +84,104 @@ struct ActivityToken<E>: ObservableConvertibleType, Disposable {
     }
 }
 
+/// 活动指示器
 class ActivityIndicator: SharedSequenceConvertibleType {
     typealias Element = Bool
     typealias SharingStrategy = DriverSharingStrategy
     
-    // 锁
+    /// 锁
     let lock = NSRecursiveLock()
-    // 计数
+    /// 计数序列
     let relay = BehaviorRelay(value: 0)
+    /// 加载序列
     let loading: SharedSequence<SharingStrategy, Bool>
     
     init() {
         loading = relay.asDriver().map({ $0 > 0 }).distinctUntilChanged()
     }
     
+    /// 增量计数
     func increment() {
         lock.lock()
         relay.accept(relay.value + 1)
         lock.unlock()
     }
+    /// 减量计数
     func decrement() {
         lock.lock()
         relay.accept(relay.value - 1)
         lock.unlock()
     }
-    func asSharedSequence() -> SharedSequence<DriverSharingStrategy, Bool> {
-        return loading
-    }
+    
+    /// 跟踪活动
+    /// - Parameter source: 源序列
     func trackActivityOfObservable<Source: ObservableConvertibleType>(_ source: Source) -> Observable<Source.Element> {
-        return Observable.using({ () -> ActivityToken<Source.Element> in
-            self.increment()
-            return ActivityToken(source: source.asObservable(), disposeAction: self.decrement)
+        return Observable.using({ [weak self] () -> ActivityToken<Source.Element> in
+            // 增量计数
+            self?.increment()
+            // 返回一个Disposable
+            return ActivityToken(source: source.asObservable(), disposeAction: self?.decrement ?? {})
         }, observableFactory: { (t) in
+            // 返回一个序列
             t.asObservable()
         })
     }
+    
+    /// 遵守协议
+    func asSharedSequence() -> SharedSequence<DriverSharingStrategy, Bool> {
+        return loading
+    }
+}
+
+
+/// 运算符
+enum Operator {
+    case addition // 加
+    case subtruction // 减
+    case multiplication // 乘
+    case division // 除
+}
+
+/// 计算器命令
+enum CalculatorCommand {
+    case clear // 输入清除号
+    case changeSign // 输入变换符号
+    case percent // 输入百分号
+    case operation(Operator) // 输入基本运算符
+    case equal // 输入等号
+    case addNumber(Character) // 输入数字
+    case addDoc // 输入小数点
+}
+
+enum CalculatorState {
+    case oneOperand(screen: String) // 一个操作数
+    case oneOperandAndOperator(operand: Double, operator: Operator) // 一个操作数和一个操作符
+    case twoOperandAndOperator(operand: Double, operator: Operator, screen: String) // 两个个操作数和一个操作符
+}
+
+extension CalculatorState {
+    static let inital = CalculatorState.oneOperand(screen: "")
+    
+    func mapScreen(transform: (String) -> String) -> CalculatorState {
+        switch self {
+        case let .oneOperand(screen: screen):
+            return .oneOperand(screen: transform(screen))
+        case let .oneOperandAndOperator(operand: operand, operator: operat):
+            return .twoOperandAndOperator(operand: operand, operator: operat, screen: transform(""))
+        case let .twoOperandAndOperator(operand: operand, operator: operat, screen: screen):
+            return .twoOperandAndOperator(operand: operand, operator: operat, screen: transform(screen))
+        }
+    }
+    
+    var screen: String {
+        switch self {
+        case let .oneOperand(screen: screen):
+            return screen
+        case let .oneOperandAndOperator(operand: _, operator: operat):
+            return ""
+        case let .twoOperandAndOperator(operand: _, operator: operat, screen: screen):
+            return screen
+        }
+    }
+    
 }
