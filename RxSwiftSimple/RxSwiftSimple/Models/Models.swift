@@ -142,6 +142,21 @@ enum Operator {
     case division // 除
 }
 
+extension Operator {
+    var sign: String {
+        switch self {
+        case .addition:
+            return "+"
+        case .subtruction:
+            return "-"
+        case .multiplication:
+            return "x"
+        case .division:
+            return "/"
+        }
+    }
+}
+
 /// 计算器命令
 enum CalculatorCommand {
     case clear // 输入清除号
@@ -153,15 +168,20 @@ enum CalculatorCommand {
     case addDoc // 输入小数点
 }
 
+
 enum CalculatorState {
     case oneOperand(screen: String) // 一个操作数
     case oneOperandAndOperator(operand: Double, operator: Operator) // 一个操作数和一个操作符
     case twoOperandAndOperator(operand: Double, operator: Operator, screen: String) // 两个个操作数和一个操作符
 }
 
+
 extension CalculatorState {
+    /// 初始状态
     static let inital = CalculatorState.oneOperand(screen: "")
     
+    /// 转换屏幕上的数据
+    /// - Parameter transform: 转换闭包
     func mapScreen(transform: (String) -> String) -> CalculatorState {
         switch self {
         case let .oneOperand(screen: screen):
@@ -173,15 +193,38 @@ extension CalculatorState {
         }
     }
     
+    /// 屏幕显示数据
     var screen: String {
         switch self {
         case let .oneOperand(screen: screen):
             return screen
-        case let .oneOperandAndOperator(operand: _, operator: operat):
+        case .oneOperandAndOperator(operand: _, operator: _):
             return ""
-        case let .twoOperandAndOperator(operand: _, operator: operat, screen: screen):
+        case let .twoOperandAndOperator(operand: _, operator: _, screen: screen):
             return screen
         }
     }
     
+    var sign: String {
+        switch self {
+        case .oneOperand(screen: _):
+            return ""
+        case let .oneOperandAndOperator(operand: _, operator: o):
+            return o.sign
+        case let .twoOperandAndOperator(operand: _, operator: o, screen: _):
+            return o.sign
+        }
+    }
+    
+    func reduce(state: CalculatorState, command: CalculatorCommand) -> CalculatorState {
+        switch command {
+        case .clear:
+            return CalculatorState.inital
+        case .changeSign:
+            return state.mapScreen(transform: { $0 })
+            
+        default:
+        return CalculatorState.inital
+        }
+    }
 }
