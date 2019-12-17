@@ -818,9 +818,9 @@ class CalculatorViewController: BaseViewController {
     @IBOutlet weak var eightButton: UIButton!
     @IBOutlet weak var nineButton: UIButton!
     
-    let observable = Observable<CalculatorState>.deferred { () -> Observable<CalculatorState> in
-        let subject = ReplaySubject<CalculatorState>.create(bufferSize: 1)
-        
-//        let events: Observable<CalculatorCommand> = Observable.mer
-    }
+//    let observable = Observable<CalculatorState>.deferred { () -> Observable<CalculatorState> in
+//        let subject = ReplaySubject<CalculatorState>.create(bufferSize: 1)
+//
+//        let events: Observable<CalculatorCommand> = Observable.merge(<#T##sources: [Observable<_>]##[Observable<_>]#>)
+//    }
 }

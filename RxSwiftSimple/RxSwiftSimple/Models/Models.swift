@@ -155,6 +155,19 @@ extension Operator {
             return "/"
         }
     }
+    
+    var perform: (Double, Double) -> Double {
+        switch self {
+        case .addition:
+            return (+)
+        case .subtruction:
+            return (-)
+        case .multiplication:
+            return (*)
+        case .division:
+            return (/)
+        }
+    }
 }
 
 /// 计算器命令
@@ -177,8 +190,10 @@ enum CalculatorState {
 
 
 extension CalculatorState {
+    /// 初始屏幕显示文本
+    static let initalScreen = "0"
     /// 初始状态
-    static let inital = CalculatorState.oneOperand(screen: "")
+    static let inital = CalculatorState.oneOperand(screen: CalculatorState.initalScreen)
     
     /// 转换屏幕上的数据
     /// - Parameter transform: 转换闭包
@@ -187,7 +202,7 @@ extension CalculatorState {
         case let .oneOperand(screen: screen):
             return .oneOperand(screen: transform(screen))
         case let .oneOperandAndOperator(operand: operand, operator: operat):
-            return .twoOperandAndOperator(operand: operand, operator: operat, screen: transform(""))
+            return .twoOperandAndOperator(operand: operand, operator: operat, screen: transform(CalculatorState.initalScreen))
         case let .twoOperandAndOperator(operand: operand, operator: operat, screen: screen):
             return .twoOperandAndOperator(operand: operand, operator: operat, screen: transform(screen))
         }
@@ -199,7 +214,7 @@ extension CalculatorState {
         case let .oneOperand(screen: screen):
             return screen
         case .oneOperandAndOperator(operand: _, operator: _):
-            return ""
+            return CalculatorState.initalScreen
         case let .twoOperandAndOperator(operand: _, operator: _, screen: screen):
             return screen
         }
@@ -216,15 +231,43 @@ extension CalculatorState {
         }
     }
     
-    func reduce(state: CalculatorState, command: CalculatorCommand) -> CalculatorState {
+    func reduce(command: CalculatorCommand) -> CalculatorState {
         switch command {
         case .clear:
             return CalculatorState.inital
         case .changeSign:
-            return state.mapScreen(transform: { $0 })
-            
-        default:
-        return CalculatorState.inital
+            return self.mapScreen { (screen) -> String in
+                if screen[screen.startIndex] == "-" {
+                    let result = screen[screen.index(after: screen.startIndex)..<screen.endIndex]
+                    return String(result)
+                } else {
+                    return "-" + screen
+                }
+            }
+        case .percent:
+            return self.mapScreen { return "\((Double($0) ?? 0.0)/100.0)" }
+        case .operation(let o):
+            switch self {
+            case let .oneOperand(screen: screen):
+                return .oneOperandAndOperator(operand: Double(screen) ?? 0.0, operator: o)
+            case let .oneOperandAndOperator(operand: operand, operator: _):
+                return .oneOperandAndOperator(operand: operand, operator: o)
+            case let .twoOperandAndOperator(operand: operand, operator: oo, screen: screen):
+                return .twoOperandAndOperator(operand: oo.perform(operand, Double(screen) ?? 0.0), operator: o, screen: CalculatorState.initalScreen)
+            }
+        case .equal:
+            switch self {
+            case .oneOperand(screen: _):
+                return self
+            case let .oneOperandAndOperator(operand: operand, operator: _):
+                return .oneOperand(screen: "\(operand)")
+            case let .twoOperandAndOperator(operand: operand, operator: oo, screen: screen):
+                return .oneOperand(screen: "\(oo.perform(operand, Double(screen) ?? 0.0))")
+            }
+        case let .addNumber(c):
+            return self.mapScreen(transform: { $0 == CalculatorState.initalScreen ? String(c) : $0 + String(c) })
+        case .addDoc:
+            return self.mapScreen(transform: { $0.contains(".") ? $0 : $0 + "." })
         }
     }
 }
