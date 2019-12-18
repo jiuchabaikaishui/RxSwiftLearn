@@ -818,9 +818,35 @@ class CalculatorViewController: BaseViewController {
     @IBOutlet weak var eightButton: UIButton!
     @IBOutlet weak var nineButton: UIButton!
     
-//    let observable = Observable<CalculatorState>.deferred { () -> Observable<CalculatorState> in
-//        let subject = ReplaySubject<CalculatorState>.create(bufferSize: 1)
-//
-//        let events: Observable<CalculatorCommand> = Observable.merge(<#T##sources: [Observable<_>]##[Observable<_>]#>)
-//    }
+    override func viewDidLoad() {
+        // 所有操作的Observable<CalculatorCommand>数组
+        let events: [Observable<CalculatorCommand>] = [
+            clearButton.rx.tap.map({ CalculatorCommand.clear }),
+            changeSignButton.rx.tap.map({ CalculatorCommand.changeSign }),
+            percentButton.rx.tap.map({ CalculatorCommand.percent }),
+            equalButton.rx.tap.map({ CalculatorCommand.equal }),
+            plusButton.rx.tap.map({ CalculatorCommand.operation(Operator.addition) }),
+            minusButton.rx.tap.map({ CalculatorCommand.operation(Operator.subtruction) }),
+            multiplyButton.rx.tap.map({ CalculatorCommand.operation(Operator.multiplication) }),
+            divideButton.rx.tap.map({ CalculatorCommand.operation(Operator.division) }),
+            dotButton.rx.tap.map({ CalculatorCommand.addDoc }),
+            zeroButton.rx.tap.map({ CalculatorCommand.addNumber("0") }),
+            oneButton.rx.tap.map({ CalculatorCommand.addNumber("1") }),
+            twoButton.rx.tap.map({ CalculatorCommand.addNumber("2") }),
+            threeButton.rx.tap.map({ CalculatorCommand.addNumber("3") }),
+            fourButton.rx.tap.map({ CalculatorCommand.addNumber("4") }),
+            fiveButton.rx.tap.map({ CalculatorCommand.addNumber("5") }),
+            sixButton.rx.tap.map({ CalculatorCommand.addNumber("6") }),
+            sevenButton.rx.tap.map({ CalculatorCommand.addNumber("7") }),
+            eightButton.rx.tap.map({ CalculatorCommand.addNumber("8") }),
+            nineButton.rx.tap.map({ CalculatorCommand.addNumber("9") })
+        ]
+        
+        let initState = CalculatorState.inital
+        let scheduler = MainScheduler.instance
+        Observable.merge(events).scan(initState) { $0.reduce(command: $1) }.subscribeOn(MainScheduler.instance).startWith(initState).observeOn(scheduler).subscribe(onNext: { (state) in
+            self.signLabel.text = state.sign
+            self.resultLabel.text = state.screen
+            }).disposed(by: bag)
+    }
 }

@@ -191,7 +191,7 @@ enum CalculatorState {
 
 extension CalculatorState {
     /// 初始屏幕显示文本
-    static let initalScreen = "0"
+    static let initalScreen = ""
     /// 初始状态
     static let inital = CalculatorState.oneOperand(screen: CalculatorState.initalScreen)
     
@@ -237,7 +237,9 @@ extension CalculatorState {
             return CalculatorState.inital
         case .changeSign:
             return self.mapScreen { (screen) -> String in
-                if screen[screen.startIndex] == "-" {
+                if screen.count == 0 {
+                    return "-"
+                } else if screen[screen.startIndex] == "-" {
                     let result = screen[screen.index(after: screen.startIndex)..<screen.endIndex]
                     return String(result)
                 } else {
@@ -260,14 +262,32 @@ extension CalculatorState {
             case .oneOperand(screen: _):
                 return self
             case let .oneOperandAndOperator(operand: operand, operator: _):
-                return .oneOperand(screen: "\(operand)")
+                return .oneOperand(screen: "\(operand)".removedMantisse)
             case let .twoOperandAndOperator(operand: operand, operator: oo, screen: screen):
-                return .oneOperand(screen: "\(oo.perform(operand, Double(screen) ?? 0.0))")
+                return .oneOperand(screen: "\(oo.perform(operand, Double(screen) ?? 0.0))".removedMantisse)
             }
         case let .addNumber(c):
-            return self.mapScreen(transform: { $0 == CalculatorState.initalScreen ? String(c) : $0 + String(c) })
+            return self.mapScreen { (screen) -> String in
+                if screen == CalculatorState.initalScreen {
+                    return String(c)
+                } else if screen == "-0" {
+                    return "-" + String(c)
+                } else {
+                    return screen + String(c)
+                }
+            }
         case .addDoc:
-            return self.mapScreen(transform: { $0.contains(".") ? $0 : $0 + "." })
+            return self.mapScreen(transform: { $0.contains(".") || $0 == CalculatorState.initalScreen ? $0 : $0 + "." })
+        }
+    }
+}
+
+extension String {
+    var removedMantisse: String {
+        if self.contains(".") && (self.last == "0" || self.last == ".") {
+            return String(self[..<self.index(before: self.endIndex)]).removedMantisse
+        } else {
+            return self
         }
     }
 }

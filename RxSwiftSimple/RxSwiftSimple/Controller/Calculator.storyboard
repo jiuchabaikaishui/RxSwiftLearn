@@ -301,7 +301,7 @@
                         <outlet property="divideButton" destination="tW5-A7-YcU" id="WEJ-4I-86A"/>
                         <outlet property="dotButton" destination="d9F-Z0-CQU" id="3rr-xq-pUk"/>
                         <outlet property="eightButton" destination="9WB-0x-FFY" id="BQX-1X-bXA"/>
-                        <outlet property="equalButton" destination="JSu-KW-dLZ" id="T2F-Zf-FEU"/>
+                        <outlet property="equalButton" destination="gCk-Z3-M4A" id="Og6-zm-FVq"/>
                         <outlet property="fiveButton" destination="zdx-dq-o3x" id="mFl-Rr-L4h"/>
                         <outlet property="fourButton" destination="a4s-fp-skv" id="hNm-bX-5Ri"/>
                         <outlet property="minusButton" destination="FH6-0f-O8O" id="R0l-mu-NWx"/>
@@ -309,14 +309,14 @@
                         <outlet property="nineButton" destination="6J8-hy-9c0" id="kCE-XC-8lt"/>
                         <outlet property="oneButton" destination="C5r-Z3-hHe" id="BBh-UG-hdZ"/>
                         <outlet property="percentButton" destination="fY3-H8-VFg" id="krP-iA-gwZ"/>
-                        <outlet property="plusButton" destination="JSu-KW-dLZ" id="HJM-IA-YlL"/>
+                        <outlet property="plusButton" destination="JSu-KW-dLZ" id="6sw-55-h58"/>
                         <outlet property="resultLabel" destination="wiQ-R7-9Bz" id="0Xy-wS-qa4"/>
                         <outlet property="sevenButton" destination="DMC-tr-7Fr" id="ckh-D0-zeM"/>
                         <outlet property="signLabel" destination="RF9-Qe-XZT" id="VKU-Pf-7kl"/>
                         <outlet property="sixButton" destination="lls-VI-hj4" id="GtX-t9-ZZ4"/>
                         <outlet property="threeButton" destination="ziL-7G-mAj" id="uKd-8R-Y47"/>
                         <outlet property="twoButton" destination="Ofv-5c-5Qh" id="7zV-UB-uFE"/>
-                        <outlet property="zeroButton" destination="C5r-Z3-hHe" id="PcR-Kb-8Ik"/>
+                        <outlet property="zeroButton" destination="PpG-4w-hZp" id="Keg-Lg-j0J"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GpX-Mw-695" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
