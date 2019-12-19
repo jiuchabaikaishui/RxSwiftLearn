@@ -819,7 +819,7 @@ class CalculatorViewController: BaseViewController {
     @IBOutlet weak var nineButton: UIButton!
     
     override func viewDidLoad() {
-        // 所有操作的Observable<CalculatorCommand>数组
+        /// 所有操作的Observable<CalculatorCommand>数组
         let events: [Observable<CalculatorCommand>] = [
             clearButton.rx.tap.map({ CalculatorCommand.clear }),
             changeSignButton.rx.tap.map({ CalculatorCommand.changeSign }),
@@ -842,11 +842,31 @@ class CalculatorViewController: BaseViewController {
             nineButton.rx.tap.map({ CalculatorCommand.addNumber("9") })
         ]
         
+        /// 初始状态
         let initState = CalculatorState.inital
+        /// 操作线程
         let scheduler = MainScheduler.instance
-        Observable.merge(events).scan(initState) { $0.reduce(command: $1) }.subscribeOn(MainScheduler.instance).startWith(initState).observeOn(scheduler).subscribe(onNext: { (state) in
+        /// 绑定
+        Observable.deferred({ Observable.merge(events).scan(initState) { $0.reduce(command: $1) }.subscribeOn(MainScheduler.instance).startWith(initState).observeOn(scheduler) }).subscribe(onNext: { (state) in
             self.signLabel.text = state.sign
             self.resultLabel.text = state.screen
             }).disposed(by: bag)
+    }
+}
+
+
+class ImagePickerController: BaseViewController {
+    @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var cameraButton: UIButton!
+    @IBOutlet weak var galleryButton: UIButton!
+    @IBOutlet weak var cropButton: UIButton!
+    
+    override func viewDidLoad() {
+        /// 拍照是否可用
+        cameraButton.isEnabled = UIImagePickerController.isSourceTypeAvailable(.camera)
+        
+//        cameraButton.rx.tap.flatMapLatest { [weak self] (_) -> ObservableConvertibleType in
+//            
+//        }
     }
 }

@@ -312,6 +312,9 @@ struct ViewControllerVM {
             }),
             TableViewRowVM(title: "计算器", detail: "绑定。", selected: true, pushed: true, selectedAction: { (controller, tableView, indexPath) in
                 controller.performSegue(withIdentifier: "MainToCalculator", sender: tableView.cellForRow(at: indexPath))
+            }),
+            TableViewRowVM(title: "图片采集", detail: "绑定。", selected: true, pushed: true, selectedAction: { (controller, tableView, indexPath) in
+                controller.performSegue(withIdentifier: "MainToImagePicker", sender: tableView.cellForRow(at: indexPath))
             })
         ])
     ]
