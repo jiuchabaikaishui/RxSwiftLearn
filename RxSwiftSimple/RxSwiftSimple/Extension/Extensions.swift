@@ -118,4 +118,60 @@ extension String {
     var URLEscaped: String {
         return self.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ?? ""
     }
+    var removedMantisse: String {
+        if self.contains(".") && (self.last == "0" || self.last == ".") {
+            return String(self[..<self.index(before: self.endIndex)]).removedMantisse
+        } else {
+            return self
+        }
+    }
+}
+
+
+func dismissViewController(viewController: UIViewController, animated: Bool) {
+    /// 是否有控制器在进程中没有显示或消失
+    if viewController.isBeingPresented || viewController.isBeingDismissed {
+        DispatchQueue.main.async {// 异步递归调用
+            dismissViewController(viewController: viewController, animated: animated)
+        }
+    } else if viewController.presentingViewController != nil {
+        viewController.dismiss(animated: animated, completion: nil)
+    }
+}
+
+extension Reactive where Base: UIImagePickerController {
+    public var didCancel: Observable<()> {
+        return delegate.methodInvoked(#selector(UIImagePickerControllerDelegate.imagePickerControllerDidCancel(_:))).map { (_) -> () in }
+    }
+    
+    static func createWithParent(parent: UIViewController?, animated: Bool, configureImagePicker: @escaping (UIImagePickerController) throws -> Void) -> Observable<UIImagePickerController> {
+        return Observable.create { [weak parent] (observer) -> Disposable in
+            let imagePicker = UIImagePickerController()
+            let dismissDisposable = imagePicker.rx.didCancel.subscribe(onNext: { [weak imagePicker] (_) in
+                guard let imagePicker = imagePicker else {
+                    return
+                }
+                
+                dismissViewController(viewController: imagePicker, animated: animated)
+            })
+            
+            do {
+                try configureImagePicker(imagePicker)
+            } catch let error {
+                observer.onError(error)
+                return Disposables.create()
+            }
+            
+            guard let parent = parent else {
+                observer.onCompleted()
+                return Disposables.create()
+            }
+            parent.present(imagePicker, animated: animated, completion: nil)
+            observer.onNext(imagePicker)
+            
+            return Disposables.create(dismissDisposable, Disposables.create {
+                dismissViewController(viewController: imagePicker, animated: animated)
+            })
+        }
+    }
 }

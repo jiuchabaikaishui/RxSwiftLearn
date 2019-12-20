@@ -281,13 +281,3 @@ extension CalculatorState {
         }
     }
 }
-
-extension String {
-    var removedMantisse: String {
-        if self.contains(".") && (self.last == "0" || self.last == ".") {
-            return String(self[..<self.index(before: self.endIndex)]).removedMantisse
-        } else {
-            return self
-        }
-    }
-}
