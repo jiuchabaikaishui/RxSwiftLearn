@@ -8,10 +8,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Image Picker View Controller-->
+        <!--Image Picker Controller-->
         <scene sceneID="Qpl-qi-AnR">
             <objects>
-                <viewController id="2Jc-FR-uZu" customClass="ImagePickerViewController" customModule="RxSwiftSimple" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="2Jc-FR-uZu" customClass="ImagePickerController" customModule="RxSwiftSimple" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="6NT-zG-Uyr">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -52,10 +52,10 @@
                         <viewLayoutGuide key="safeArea" id="LIc-rE-ogM"/>
                     </view>
                     <connections>
-                        <outlet property="cameraButton" destination="Kpa-h2-zPy" id="v5k-Na-ACt"/>
-                        <outlet property="cropButton" destination="UwB-6A-qHJ" id="cAw-jk-QDw"/>
-                        <outlet property="galleryButton" destination="XcM-b8-3oR" id="yoI-V7-gH6"/>
-                        <outlet property="imageView" destination="3Fr-KR-aCD" id="7sE-ql-0R9"/>
+                        <outlet property="cameraButton" destination="Kpa-h2-zPy" id="Yrc-1g-iX7"/>
+                        <outlet property="cropButton" destination="UwB-6A-qHJ" id="FZc-vM-nqo"/>
+                        <outlet property="galleryButton" destination="XcM-b8-3oR" id="aPF-mN-FxJ"/>
+                        <outlet property="imageView" destination="3Fr-KR-aCD" id="f2R-Jd-Idu"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uUa-W7-U0R" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

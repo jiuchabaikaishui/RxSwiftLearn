@@ -139,14 +139,33 @@ func dismissViewController(viewController: UIViewController, animated: Bool) {
     }
 }
 
+private func castOrThrow<T>(resultType: T.Type, object: Any) throws -> T {
+    guard let resultValue = object as? T else {
+        throw RxCocoaError.castingError(object: object, targetType: resultType)
+    }
+    
+    return resultValue
+}
+
 extension Reactive where Base: UIImagePickerController {
     public var didCancel: Observable<()> {
         return delegate.methodInvoked(#selector(UIImagePickerControllerDelegate.imagePickerControllerDidCancel(_:))).map { (_) -> () in }
     }
+    public var didFinishPickingMediaWithInfo: Observable<[UIImagePickerController.InfoKey: AnyObject]> {
+        return delegate.methodInvoked(#selector(UIImagePickerControllerDelegate.imagePickerController(_:didFinishPickingMediaWithInfo:))).map {
+            return try castOrThrow(resultType: Dictionary<UIImagePickerController.InfoKey, AnyObject>.self, object: $0[1])
+        }
+    }
     
-    static func createWithParent(parent: UIViewController?, animated: Bool, configureImagePicker: @escaping (UIImagePickerController) throws -> Void) -> Observable<UIImagePickerController> {
+    /// 创建图片选择控制器Observable
+    /// - Parameters:
+    ///   - parent: 父控制器
+    ///   - animated: 动画
+    ///   - configureImagePicker: 配置闭包
+    static func createWithParent(parent: UIViewController?, animated: Bool = true, configureImagePicker: @escaping (UIImagePickerController) throws -> Void) -> Observable<UIImagePickerController> {
         return Observable.create { [weak parent] (observer) -> Disposable in
             let imagePicker = UIImagePickerController()
+            // 取消操作
             let dismissDisposable = imagePicker.rx.didCancel.subscribe(onNext: { [weak imagePicker] (_) in
                 guard let imagePicker = imagePicker else {
                     return
@@ -155,6 +174,7 @@ extension Reactive where Base: UIImagePickerController {
                 dismissViewController(viewController: imagePicker, animated: animated)
             })
             
+            // 处理配置闭包
             do {
                 try configureImagePicker(imagePicker)
             } catch let error {
