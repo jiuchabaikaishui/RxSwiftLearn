@@ -884,6 +884,6 @@ class ImagePickerController: BaseViewController {
                 picker.sourceType = .photoLibrary
                 picker.allowsEditing = true
                 }.flatMap { $0.rx.didFinishPickingMediaWithInfo }.take(1)
-        }.map { $0[.originalImage] as? UIImage }.bind(to: imageView.rx.image).disposed(by: bag)
+        }.map { $0[.editedImage] as? UIImage }.bind(to: imageView.rx.image).disposed(by: bag)
     }
 }

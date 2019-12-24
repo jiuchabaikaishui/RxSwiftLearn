@@ -152,8 +152,8 @@ extension Reactive where Base: UIImagePickerController {
         return delegate.methodInvoked(#selector(UIImagePickerControllerDelegate.imagePickerControllerDidCancel(_:))).map { (_) -> () in }
     }
     public var didFinishPickingMediaWithInfo: Observable<[UIImagePickerController.InfoKey: AnyObject]> {
-        return delegate.methodInvoked(#selector(UIImagePickerControllerDelegate.imagePickerController(_:didFinishPickingMediaWithInfo:))).map {
-            return try castOrThrow(resultType: Dictionary<UIImagePickerController.InfoKey, AnyObject>.self, object: $0[1])
+        return delegate.methodInvoked(#selector(UIImagePickerControllerDelegate.imagePickerController(_:didFinishPickingMediaWithInfo:))).map { (a) in
+            return try castOrThrow(resultType: Dictionary<UIImagePickerController.InfoKey, AnyObject>.self, object: a[1])
         }
     }
     
@@ -187,7 +187,7 @@ extension Reactive where Base: UIImagePickerController {
                 return Disposables.create()
             }
             parent.present(imagePicker, animated: animated, completion: nil)
-            observer.onNext(imagePicker)
+            observer.on(.next(imagePicker))
             
             return Disposables.create(dismissDisposable, Disposables.create {
                 dismissViewController(viewController: imagePicker, animated: animated)

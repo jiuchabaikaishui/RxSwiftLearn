@@ -281,3 +281,9 @@ extension CalculatorState {
         }
     }
 }
+
+class RxImagePickerDelegateProxy: RxNavigationControllerDelegateProxy, UIImagePickerControllerDelegate {
+    public init(imagePicker: UIImagePickerController) {
+        super.init(navigationController: imagePicker)
+    }
+}
