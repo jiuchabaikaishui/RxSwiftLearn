@@ -195,3 +195,10 @@ extension Reactive where Base: UIImagePickerController {
         }
     }
 }
+
+
+extension Reactive where Base: UIPickerView {
+    public var delegate: DelegateProxy<UIPickerView, UIPickerViewDelegate> {
+        return RxPickerViewDelegateProxy.proxy(for: base)
+    }
+}

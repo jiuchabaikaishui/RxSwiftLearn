@@ -24,6 +24,19 @@
 		5CDAB17322D867B500CD63E1 /* ExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDAB17222D867B400CD63E1 /* ExampleViewController.swift */; };
 		6E2F662523964D2F0005EBCC /* Calculator.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6E2F662423964D2F0005EBCC /* Calculator.storyboard */; };
 		6E494DA723AB142100B08D2E /* ImagePicker.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6E494DA623AB142000B08D2E /* ImagePicker.storyboard */; };
+		6EFA4BE323B3082200943616 /* PickerView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6EFA4BE223B3082200943616 /* PickerView.storyboard */; };
+		6EFA4BE723B30BF500943616 /* ImagePickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EFA4BE623B30BF500943616 /* ImagePickerController.swift */; };
+		6EFA4BE923B30C4000943616 /* CalculatorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EFA4BE823B30C4000943616 /* CalculatorViewController.swift */; };
+		6EFA4BEB23B30C8400943616 /* WrappersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EFA4BEA23B30C8400943616 /* WrappersViewController.swift */; };
+		6EFA4BED23B30DB700943616 /* SignupDriverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EFA4BEC23B30DB700943616 /* SignupDriverViewController.swift */; };
+		6EFA4BEF23B30DFB00943616 /* SignupObservableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EFA4BEE23B30DFB00943616 /* SignupObservableViewController.swift */; };
+		6EFA4BF123B30E2B00943616 /* LocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EFA4BF023B30E2B00943616 /* LocationViewController.swift */; };
+		6EFA4BF323B30E8D00943616 /* ValidViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EFA4BF223B30E8D00943616 /* ValidViewController.swift */; };
+		6EFA4BF523B30EC500943616 /* NumbersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EFA4BF423B30EC500943616 /* NumbersViewController.swift */; };
+		6EFA4BF723B30EED00943616 /* InputIValidationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EFA4BF623B30EEC00943616 /* InputIValidationViewController.swift */; };
+		6EFA4BF923B30F2500943616 /* SimpleBindingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EFA4BF823B30F2500943616 /* SimpleBindingViewController.swift */; };
+		6EFA4BFB23B30F4F00943616 /* ValuesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EFA4BFA23B30F4F00943616 /* ValuesViewController.swift */; };
+		6EFA4BFD23B30FCB00943616 /* SimplePickerViewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EFA4BFC23B30FCB00943616 /* SimplePickerViewViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +59,19 @@
 		5CDAB17222D867B400CD63E1 /* ExampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleViewController.swift; sourceTree = "<group>"; };
 		6E2F662423964D2F0005EBCC /* Calculator.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Calculator.storyboard; sourceTree = "<group>"; };
 		6E494DA623AB142000B08D2E /* ImagePicker.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ImagePicker.storyboard; sourceTree = "<group>"; };
+		6EFA4BE223B3082200943616 /* PickerView.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = PickerView.storyboard; sourceTree = "<group>"; };
+		6EFA4BE623B30BF500943616 /* ImagePickerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerController.swift; sourceTree = "<group>"; };
+		6EFA4BE823B30C4000943616 /* CalculatorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorViewController.swift; sourceTree = "<group>"; };
+		6EFA4BEA23B30C8400943616 /* WrappersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WrappersViewController.swift; sourceTree = "<group>"; };
+		6EFA4BEC23B30DB700943616 /* SignupDriverViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupDriverViewController.swift; sourceTree = "<group>"; };
+		6EFA4BEE23B30DFB00943616 /* SignupObservableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupObservableViewController.swift; sourceTree = "<group>"; };
+		6EFA4BF023B30E2B00943616 /* LocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationViewController.swift; sourceTree = "<group>"; };
+		6EFA4BF223B30E8D00943616 /* ValidViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidViewController.swift; sourceTree = "<group>"; };
+		6EFA4BF423B30EC500943616 /* NumbersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumbersViewController.swift; sourceTree = "<group>"; };
+		6EFA4BF623B30EEC00943616 /* InputIValidationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputIValidationViewController.swift; sourceTree = "<group>"; };
+		6EFA4BF823B30F2500943616 /* SimpleBindingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleBindingViewController.swift; sourceTree = "<group>"; };
+		6EFA4BFA23B30F4F00943616 /* ValuesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValuesViewController.swift; sourceTree = "<group>"; };
+		6EFA4BFC23B30FCB00943616 /* SimplePickerViewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimplePickerViewViewController.swift; sourceTree = "<group>"; };
 		BC6D2271396FEE0A5270948B /* Pods_RxSwiftSimple.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RxSwiftSimple.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D36134C8C73FFB7282AECB53 /* Pods-RxSwiftSimple.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RxSwiftSimple.release.xcconfig"; path = "Pods/Target Support Files/Pods-RxSwiftSimple/Pods-RxSwiftSimple.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -88,9 +114,22 @@
 			children = (
 				5C5EEB1A222E0DB8004E99A7 /* ViewController.swift */,
 				5CDAB17222D867B400CD63E1 /* ExampleViewController.swift */,
+				6EFA4BFA23B30F4F00943616 /* ValuesViewController.swift */,
+				6EFA4BF823B30F2500943616 /* SimpleBindingViewController.swift */,
+				6EFA4BF623B30EEC00943616 /* InputIValidationViewController.swift */,
+				6EFA4BF423B30EC500943616 /* NumbersViewController.swift */,
+				6EFA4BF223B30E8D00943616 /* ValidViewController.swift */,
+				6EFA4BF023B30E2B00943616 /* LocationViewController.swift */,
+				6EFA4BEE23B30DFB00943616 /* SignupObservableViewController.swift */,
+				6EFA4BEC23B30DB700943616 /* SignupDriverViewController.swift */,
+				6EFA4BEA23B30C8400943616 /* WrappersViewController.swift */,
+				6EFA4BE823B30C4000943616 /* CalculatorViewController.swift */,
+				6EFA4BE623B30BF500943616 /* ImagePickerController.swift */,
+				6EFA4BFC23B30FCB00943616 /* SimplePickerViewViewController.swift */,
 				5CDAB16D22D4C3FC00CD63E1 /* UsageViewController.swift */,
 				6E2F662423964D2F0005EBCC /* Calculator.storyboard */,
 				6E494DA623AB142000B08D2E /* ImagePicker.storyboard */,
+				6EFA4BE223B3082200943616 /* PickerView.storyboard */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -254,6 +293,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5C5EEB23222E0DC4004E99A7 /* LaunchScreen.storyboard in Resources */,
+				6EFA4BE323B3082200943616 /* PickerView.storyboard in Resources */,
 				5C5EEB20222E0DC4004E99A7 /* Assets.xcassets in Resources */,
 				6E2F662523964D2F0005EBCC /* Calculator.storyboard in Resources */,
 				5C5EEB1E222E0DB8004E99A7 /* Main.storyboard in Resources */,
@@ -323,16 +363,28 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6EFA4BFB23B30F4F00943616 /* ValuesViewController.swift in Sources */,
+				6EFA4BF923B30F2500943616 /* SimpleBindingViewController.swift in Sources */,
 				5C5EEB1B222E0DB8004E99A7 /* ViewController.swift in Sources */,
 				5C5EEB19222E0DB8004E99A7 /* AppDelegate.swift in Sources */,
 				5C176B4522EFDA0800ED7BAA /* Views.swift in Sources */,
 				5CCC124222F2E00900749189 /* Extensions.swift in Sources */,
+				6EFA4BF123B30E2B00943616 /* LocationViewController.swift in Sources */,
 				5C176B4D22EFDB0500ED7BAA /* Services.swift in Sources */,
 				5CD466A622FAADC0003FC8FC /* Protocols.swift in Sources */,
+				6EFA4BF323B30E8D00943616 /* ValidViewController.swift in Sources */,
 				5C176B4222EFD99600ED7BAA /* ViewModels.swift in Sources */,
+				6EFA4BE723B30BF500943616 /* ImagePickerController.swift in Sources */,
+				6EFA4BF523B30EC500943616 /* NumbersViewController.swift in Sources */,
+				6EFA4BED23B30DB700943616 /* SignupDriverViewController.swift in Sources */,
+				6EFA4BEF23B30DFB00943616 /* SignupObservableViewController.swift in Sources */,
 				5CDAB17322D867B500CD63E1 /* ExampleViewController.swift in Sources */,
+				6EFA4BF723B30EED00943616 /* InputIValidationViewController.swift in Sources */,
 				5CDAB16E22D4C3FD00CD63E1 /* UsageViewController.swift in Sources */,
+				6EFA4BEB23B30C8400943616 /* WrappersViewController.swift in Sources */,
+				6EFA4BE923B30C4000943616 /* CalculatorViewController.swift in Sources */,
 				5CD466A922FAB4CB003FC8FC /* Commons.swift in Sources */,
+				6EFA4BFD23B30FCB00943616 /* SimplePickerViewViewController.swift in Sources */,
 				5CD466A422FAAD07003FC8FC /* Models.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

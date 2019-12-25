@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="kRP-Kh-Hr9">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Item 2-->
+        <scene sceneID="RX0-Ym-Tc1">
+            <objects>
+                <viewController id="BuF-iU-EoQ" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="zTq-au-bCF">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vET-Jy-bte">
+                                <rect key="frame" x="20" y="340" width="374" height="216"/>
+                            </pickerView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="vET-Jy-bte" firstAttribute="centerX" secondItem="zTq-au-bCF" secondAttribute="centerX" id="G1U-9S-cp9"/>
+                            <constraint firstItem="AHg-J8-LVS" firstAttribute="trailing" secondItem="vET-Jy-bte" secondAttribute="trailing" constant="20" id="Z8C-uH-yJO"/>
+                            <constraint firstItem="vET-Jy-bte" firstAttribute="centerY" secondItem="zTq-au-bCF" secondAttribute="centerY" id="Zqa-pW-DVm"/>
+                            <constraint firstItem="vET-Jy-bte" firstAttribute="leading" secondItem="AHg-J8-LVS" secondAttribute="leading" constant="20" id="qVK-Wn-sXf"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="AHg-J8-LVS"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Item 2" id="Pcq-c7-thF"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="42O-06-GCh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="11.594202898550726" y="77.678571428571431"/>
+        </scene>
+        <!--Item 1-->
+        <scene sceneID="hc1-7s-muh">
+            <objects>
+                <viewController id="CoA-aU-RZ2" customClass="SimplePickerViewViewController" customModule="RxSwiftSimple" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="csY-zS-Joq">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="x9W-2v-GXC">
+                                <rect key="frame" x="0.0" y="44" width="414" height="257"/>
+                            </pickerView>
+                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="taq-cU-uDh">
+                                <rect key="frame" x="0.0" y="301" width="414" height="256"/>
+                            </pickerView>
+                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wWb-4A-FzN">
+                                <rect key="frame" x="0.0" y="557" width="414" height="256"/>
+                            </pickerView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="taq-cU-uDh" firstAttribute="top" secondItem="x9W-2v-GXC" secondAttribute="bottom" id="0bx-9A-Iuc"/>
+                            <constraint firstItem="taq-cU-uDh" firstAttribute="height" secondItem="x9W-2v-GXC" secondAttribute="height" id="4qB-Li-sCq"/>
+                            <constraint firstItem="wWb-4A-FzN" firstAttribute="top" secondItem="taq-cU-uDh" secondAttribute="bottom" id="4yP-6e-aJV"/>
+                            <constraint firstItem="x9W-2v-GXC" firstAttribute="trailing" secondItem="IJl-YD-NYr" secondAttribute="trailing" id="6dk-rJ-Rx4"/>
+                            <constraint firstItem="taq-cU-uDh" firstAttribute="leading" secondItem="IJl-YD-NYr" secondAttribute="leading" id="6yk-wf-IEF"/>
+                            <constraint firstItem="wWb-4A-FzN" firstAttribute="bottom" secondItem="IJl-YD-NYr" secondAttribute="bottom" id="Jy1-eL-yfw"/>
+                            <constraint firstItem="taq-cU-uDh" firstAttribute="trailing" secondItem="IJl-YD-NYr" secondAttribute="trailing" id="Odq-Ix-KUV"/>
+                            <constraint firstItem="wWb-4A-FzN" firstAttribute="leading" secondItem="IJl-YD-NYr" secondAttribute="leading" id="Sf6-3l-M4f"/>
+                            <constraint firstItem="x9W-2v-GXC" firstAttribute="leading" secondItem="IJl-YD-NYr" secondAttribute="leading" id="aoF-Yl-GZT"/>
+                            <constraint firstItem="wWb-4A-FzN" firstAttribute="height" secondItem="x9W-2v-GXC" secondAttribute="height" id="jLM-ho-FBt"/>
+                            <constraint firstItem="wWb-4A-FzN" firstAttribute="trailing" secondItem="IJl-YD-NYr" secondAttribute="trailing" id="sSk-Fu-qCO"/>
+                            <constraint firstItem="x9W-2v-GXC" firstAttribute="top" secondItem="IJl-YD-NYr" secondAttribute="top" id="sdt-9g-wWi"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="IJl-YD-NYr"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Item 1" id="3pR-eJ-XLa"/>
+                    <connections>
+                        <outlet property="pickerView1" destination="x9W-2v-GXC" id="gH1-21-DOA"/>
+                        <outlet property="pickerView2" destination="taq-cU-uDh" id="fzR-wU-av5"/>
+                        <outlet property="pickerView3" destination="wWb-4A-FzN" id="J3i-Rx-maA"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Yo7-oi-aB2" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="11.594202898550726" y="-570.53571428571422"/>
+        </scene>
+        <!--Tab Bar Controller-->
+        <scene sceneID="THW-Hl-UfB">
+            <objects>
+                <tabBarController id="kRP-Kh-Hr9" sceneMemberID="viewController">
+                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="CNO-Me-Ga9">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="49"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="CoA-aU-RZ2" kind="relationship" relationship="viewControllers" id="p4l-8Z-Bv1"/>
+                        <segue destination="BuF-iU-EoQ" kind="relationship" relationship="viewControllers" id="8l6-GA-4XK"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="kQl-W1-iUC" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-906" y="-246"/>
+        </scene>
+    </scenes>
+</document>
