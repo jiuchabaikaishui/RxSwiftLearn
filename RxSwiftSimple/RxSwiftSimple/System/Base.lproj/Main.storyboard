@@ -64,6 +64,7 @@
                         <segue destination="XXq-nd-qUQ" kind="show" identifier="MainToWrappers" id="BwQ-ye-jdF"/>
                         <segue destination="F9P-3u-7yD" kind="show" identifier="MainToCalculator" id="DHj-jr-X7I"/>
                         <segue destination="NDR-3H-0bf" kind="show" identifier="MainToImagePicker" id="0di-4V-qGe"/>
+                        <segue destination="KEN-pb-nRE" kind="show" identifier="MainToPickerView" id="ylj-XL-U3q"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -1000,6 +1001,16 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="07u-0j-UPc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="199" y="782"/>
+        </scene>
+        <!--PickerView-->
+        <scene sceneID="coa-dS-5vV">
+            <objects>
+                <viewControllerPlaceholder storyboardName="PickerView" id="KEN-pb-nRE" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="qyd-VA-ULd"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="eLZ-MY-as9" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="194" y="840"/>
         </scene>
         <!--Signup Driver View Controller-->
         <scene sceneID="Ceq-ej-FGH">

@@ -18,6 +18,12 @@ class SimplePickerViewViewController: ExampleViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        Observable.just([1, 2, 3]).bind(to: pickerView1.rx.item, curriedArgument: <#T##R1#>)
+        Observable.just([1, 2, 3]).bind(to: pickerView1.rx.itemTitles, curriedArgument: { "\($1)" }).disposed(by: bag)
+        pickerView1.rx.itemSelected.subscribe(onNext: { (row, component) in
+            print("选中了第\(component)列第\(row)行")
+            }).disposed(by: bag)
+        pickerView1.rx.modelSelected(Int.self).subscribe(onNext: { (index) in
+                print("选中了元素\(index.first ?? 0)")
+                }).disposed(by: bag)
     }
 }

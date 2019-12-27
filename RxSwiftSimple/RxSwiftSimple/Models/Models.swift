@@ -311,13 +311,12 @@ class RxPickerViewDataSourceProxy: DelegateProxy<UIPickerView, UIPickerViewDataS
         self.register { RxPickerViewDataSourceProxy(pickerView: $0) }
     }
     
-    private weak var requiredMethodsDataSource: UIPickerViewDataSource? = Pick
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        <#code#>
+        return 0
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        <#code#>
+        return 0
     }
     
     

@@ -37,6 +37,7 @@
 		6EFA4BF923B30F2500943616 /* SimpleBindingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EFA4BF823B30F2500943616 /* SimpleBindingViewController.swift */; };
 		6EFA4BFB23B30F4F00943616 /* ValuesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EFA4BFA23B30F4F00943616 /* ValuesViewController.swift */; };
 		6EFA4BFD23B30FCB00943616 /* SimplePickerViewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EFA4BFC23B30FCB00943616 /* SimplePickerViewViewController.swift */; };
+		6EFA4BFF23B4CC9800943616 /* CustomPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EFA4BFE23B4CC9800943616 /* CustomPickerViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -72,6 +73,7 @@
 		6EFA4BF823B30F2500943616 /* SimpleBindingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleBindingViewController.swift; sourceTree = "<group>"; };
 		6EFA4BFA23B30F4F00943616 /* ValuesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValuesViewController.swift; sourceTree = "<group>"; };
 		6EFA4BFC23B30FCB00943616 /* SimplePickerViewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimplePickerViewViewController.swift; sourceTree = "<group>"; };
+		6EFA4BFE23B4CC9800943616 /* CustomPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPickerViewController.swift; sourceTree = "<group>"; };
 		BC6D2271396FEE0A5270948B /* Pods_RxSwiftSimple.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RxSwiftSimple.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D36134C8C73FFB7282AECB53 /* Pods-RxSwiftSimple.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RxSwiftSimple.release.xcconfig"; path = "Pods/Target Support Files/Pods-RxSwiftSimple/Pods-RxSwiftSimple.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -126,6 +128,7 @@
 				6EFA4BE823B30C4000943616 /* CalculatorViewController.swift */,
 				6EFA4BE623B30BF500943616 /* ImagePickerController.swift */,
 				6EFA4BFC23B30FCB00943616 /* SimplePickerViewViewController.swift */,
+				6EFA4BFE23B4CC9800943616 /* CustomPickerViewController.swift */,
 				5CDAB16D22D4C3FC00CD63E1 /* UsageViewController.swift */,
 				6E2F662423964D2F0005EBCC /* Calculator.storyboard */,
 				6E494DA623AB142000B08D2E /* ImagePicker.storyboard */,
@@ -385,6 +388,7 @@
 				6EFA4BE923B30C4000943616 /* CalculatorViewController.swift in Sources */,
 				5CD466A922FAB4CB003FC8FC /* Commons.swift in Sources */,
 				6EFA4BFD23B30FCB00943616 /* SimplePickerViewViewController.swift in Sources */,
+				6EFA4BFF23B4CC9800943616 /* CustomPickerViewController.swift in Sources */,
 				5CD466A422FAAD07003FC8FC /* Models.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

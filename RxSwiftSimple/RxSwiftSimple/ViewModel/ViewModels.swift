@@ -315,6 +315,9 @@ struct ViewControllerVM {
             }),
             TableViewRowVM(title: "图片采集", detail: "绑定。", selected: true, pushed: true, selectedAction: { (controller, tableView, indexPath) in
                 controller.performSegue(withIdentifier: "MainToImagePicker", sender: tableView.cellForRow(at: indexPath))
+            }),
+            TableViewRowVM(title: "PickerView", detail: "绑定。", selected: true, pushed: true, selectedAction: { (controller, tableView, indexPath) in
+                controller.performSegue(withIdentifier: "MainToPickerView", sender: tableView.cellForRow(at: indexPath))
             })
         ])
     ]
