@@ -197,6 +197,12 @@ extension Reactive where Base: UIImagePickerController {
 }
 
 
+
+extension UIColor {
+    /// 随机颜色
+    class var random: UIColor { UIColor(red: CGFloat(arc4random()%256)/255.0, green: CGFloat(arc4random()%256)/255.0, blue: CGFloat(arc4random()%256)/255.0, alpha: 1) }
+}
+
 extension Reactive where Base: UIPickerView {
     public var delegate: DelegateProxy<UIPickerView, UIPickerViewDelegate> {
         return RxPickerViewDelegateProxy.proxy(for: base)
