@@ -318,6 +318,9 @@ struct ViewControllerVM {
             }),
             TableViewRowVM(title: "PickerView", detail: "绑定。", selected: true, pushed: true, selectedAction: { (controller, tableView, indexPath) in
                 controller.performSegue(withIdentifier: "MainToPickerView", sender: tableView.cellForRow(at: indexPath))
+            }),
+            TableViewRowVM(title: "简单的UITableView绑定", detail: "绑定。", selected: true, pushed: true, selectedAction: { (controller, tableView, indexPath) in
+                controller.performSegue(withIdentifier: "MainToSimpleTableView", sender: tableView.cellForRow(at: indexPath))
             })
         ])
     ]

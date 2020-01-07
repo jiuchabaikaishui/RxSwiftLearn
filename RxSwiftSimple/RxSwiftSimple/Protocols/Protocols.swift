@@ -26,5 +26,5 @@ protocol GitHubValidationService {
 
 protocol WireFrame {
     func open(_ url: URL)
-    func promptFor<Action: CustomStringConvertible>(_ title: String, message: String, cancelAction: Action, actions: [Action], animated: Bool, completion: (() -> Void)?) -> Observable<Action>
+    func promptFor<Action: CustomStringConvertible>(_ title: String, message: String, cancelAction: Action, actions: [Action]?, animated: Bool, completion: (() -> Void)?) -> Observable<Action>
 }

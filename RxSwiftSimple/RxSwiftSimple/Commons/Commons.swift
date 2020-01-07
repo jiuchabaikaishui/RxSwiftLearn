@@ -29,16 +29,19 @@ class DefaultWireFrame: WireFrame {
     ///   - actions: 其他按钮
     ///   - animated: 动画
     ///   - completion: 完成操作
-    func promptFor<Action: CustomStringConvertible>(_ title: String, message: String, cancelAction: Action, actions: [Action], animated: Bool = true, completion: (() -> Void)? = nil) -> Observable<Action> {
+    func promptFor<Action: CustomStringConvertible>(_ title: String, message: String, cancelAction: Action, actions: [Action]? = nil, animated: Bool = true, completion: (() -> Void)? = nil) -> Observable<Action> {
         return Observable.create({ (observer) -> Disposable in
             let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: cancelAction.description, style: .cancel, handler: { (_) in
                 observer.onNext(cancelAction)
             }))
-            for action in actions {
-                alert.addAction(UIAlertAction(title: action.description, style: .default, handler: { (_) in
-                    observer.onNext(action)
-                }))
+            
+            if let  actions = actions {
+                for action in actions {
+                    alert.addAction(UIAlertAction(title: action.description, style: .default, handler: { (_) in
+                        observer.onNext(action)
+                    }))
+                }
             }
             
             DefaultWireFrame.rootViewController().present(alert, animated: animated, completion: completion)
