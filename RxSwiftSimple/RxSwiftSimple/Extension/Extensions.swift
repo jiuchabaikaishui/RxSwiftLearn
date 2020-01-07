@@ -147,6 +147,7 @@ private func castOrThrow<T>(resultType: T.Type, object: Any) throws -> T {
     return resultValue
 }
 
+
 extension Reactive where Base: UIImagePickerController {
     public var didCancel: Observable<()> {
         return delegate.methodInvoked(#selector(UIImagePickerControllerDelegate.imagePickerControllerDidCancel(_:))).map { (_) -> () in }
@@ -197,14 +198,7 @@ extension Reactive where Base: UIImagePickerController {
 }
 
 
-
 extension UIColor {
     /// 随机颜色
     class var random: UIColor { UIColor(red: CGFloat(arc4random()%256)/255.0, green: CGFloat(arc4random()%256)/255.0, blue: CGFloat(arc4random()%256)/255.0, alpha: 1) }
-}
-
-extension Reactive where Base: UIPickerView {
-    public var delegate: DelegateProxy<UIPickerView, UIPickerViewDelegate> {
-        return RxPickerViewDelegateProxy.proxy(for: base)
-    }
 }

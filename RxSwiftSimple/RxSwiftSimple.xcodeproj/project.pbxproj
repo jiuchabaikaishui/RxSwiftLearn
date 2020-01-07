@@ -38,6 +38,7 @@
 		6EFA4BFB23B30F4F00943616 /* ValuesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EFA4BFA23B30F4F00943616 /* ValuesViewController.swift */; };
 		6EFA4BFD23B30FCB00943616 /* SimplePickerViewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EFA4BFC23B30FCB00943616 /* SimplePickerViewViewController.swift */; };
 		6EFA4BFF23B4CC9800943616 /* CustomPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EFA4BFE23B4CC9800943616 /* CustomPickerViewController.swift */; };
+		6EFC426C23C42AC9007766FC /* PickerViewViewAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EFC426B23C42AC9007766FC /* PickerViewViewAdapter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -74,6 +75,7 @@
 		6EFA4BFA23B30F4F00943616 /* ValuesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValuesViewController.swift; sourceTree = "<group>"; };
 		6EFA4BFC23B30FCB00943616 /* SimplePickerViewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimplePickerViewViewController.swift; sourceTree = "<group>"; };
 		6EFA4BFE23B4CC9800943616 /* CustomPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPickerViewController.swift; sourceTree = "<group>"; };
+		6EFC426B23C42AC9007766FC /* PickerViewViewAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerViewViewAdapter.swift; sourceTree = "<group>"; };
 		BC6D2271396FEE0A5270948B /* Pods_RxSwiftSimple.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RxSwiftSimple.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D36134C8C73FFB7282AECB53 /* Pods-RxSwiftSimple.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RxSwiftSimple.release.xcconfig"; path = "Pods/Target Support Files/Pods-RxSwiftSimple/Pods-RxSwiftSimple.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -215,6 +217,7 @@
 			isa = PBXGroup;
 			children = (
 				5CD466A322FAAD07003FC8FC /* Models.swift */,
+				6EFC426B23C42AC9007766FC /* PickerViewViewAdapter.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -370,6 +373,7 @@
 				6EFA4BF923B30F2500943616 /* SimpleBindingViewController.swift in Sources */,
 				5C5EEB1B222E0DB8004E99A7 /* ViewController.swift in Sources */,
 				5C5EEB19222E0DB8004E99A7 /* AppDelegate.swift in Sources */,
+				6EFC426C23C42AC9007766FC /* PickerViewViewAdapter.swift in Sources */,
 				5C176B4522EFDA0800ED7BAA /* Views.swift in Sources */,
 				5CCC124222F2E00900749189 /* Extensions.swift in Sources */,
 				6EFA4BF123B30E2B00943616 /* LocationViewController.swift in Sources */,

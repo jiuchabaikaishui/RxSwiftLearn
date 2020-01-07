@@ -287,37 +287,3 @@ class RxImagePickerDelegateProxy: RxNavigationControllerDelegateProxy, UIImagePi
         super.init(navigationController: imagePicker)
     }
 }
-
-
-class RxPickerViewDelegateProxy: DelegateProxy<UIPickerView, UIPickerViewDelegate>, DelegateProxyType, UIPickerViewDelegate {
-    
-    public init(pickerView: ParentObject) {
-        super.init(parentObject: pickerView, delegateProxy: RxPickerViewDelegateProxy.self)
-    }
-    
-    static func registerKnownImplementations() {
-        self.register { RxPickerViewDelegateProxy(pickerView: $0) }
-    }
-}
-
-
-class RxPickerViewDataSourceProxy: DelegateProxy<UIPickerView, UIPickerViewDataSource>, DelegateProxyType, UIPickerViewDataSource {
-    
-    public init(pickerView: ParentObject) {
-        super.init(parentObject: pickerView, delegateProxy: RxPickerViewDataSourceProxy.self)
-    }
-    
-    static func registerKnownImplementations() {
-        self.register { RxPickerViewDataSourceProxy(pickerView: $0) }
-    }
-    
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 0
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return 0
-    }
-    
-    
-}

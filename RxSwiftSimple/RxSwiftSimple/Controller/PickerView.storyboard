@@ -30,6 +30,9 @@
                         <viewLayoutGuide key="safeArea" id="AHg-J8-LVS"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Item 2" id="Pcq-c7-thF"/>
+                    <connections>
+                        <outlet property="pickerView" destination="vET-Jy-bte" id="ehh-3r-b4L"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="42O-06-GCh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
