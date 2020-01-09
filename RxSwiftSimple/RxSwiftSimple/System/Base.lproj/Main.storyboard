@@ -66,6 +66,7 @@
                         <segue destination="NDR-3H-0bf" kind="show" identifier="MainToImagePicker" id="0di-4V-qGe"/>
                         <segue destination="KEN-pb-nRE" kind="show" identifier="MainToPickerView" id="ylj-XL-U3q"/>
                         <segue destination="nDS-S9-SeS" kind="show" identifier="MainToSimpleTableView" id="nVn-Bd-8Pk"/>
+                        <segue destination="xeY-IM-Iap" kind="show" identifier="MainToSimpleSectionedTableView" id="aJc-WK-lM5"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -1022,6 +1023,16 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UyE-0E-hcZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="219" y="896"/>
+        </scene>
+        <!--SimpleSectionedTableView-->
+        <scene sceneID="KeL-fM-Te2">
+            <objects>
+                <viewControllerPlaceholder storyboardName="SimpleSectionedTableView" id="xeY-IM-Iap" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="i9z-nf-ACL"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="DGw-sB-z8o" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="267" y="954"/>
         </scene>
         <!--Signup Driver View Controller-->
         <scene sceneID="Ceq-ej-FGH">
