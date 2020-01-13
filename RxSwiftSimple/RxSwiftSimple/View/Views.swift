@@ -21,6 +21,19 @@ class CommonCell: UITableViewCell {
         defaultSeting()
     }
     
+    static func cellFor(tableView: UITableView) -> CommonCell {
+        let identifier = "CommonCell"
+        let cell = tableView.dequeueReusableCell(withIdentifier: identifier) as? CommonCell
+        var result: CommonCell
+        if let c = cell  {
+            result = c
+        } else {
+            result = CommonCell(style: .default, reuseIdentifier: identifier)
+        }
+        
+        return result
+    }
+    
     func defaultSeting() {
         textLabel?.numberOfLines = 0
         detailTextLabel?.numberOfLines = 0
