@@ -319,11 +319,14 @@ struct ViewControllerVM {
             TableViewRowVM(title: "PickerView", detail: "绑定。", selected: true, pushed: true, selectedAction: { (controller, tableView, indexPath) in
                 controller.performSegue(withIdentifier: "MainToPickerView", sender: tableView.cellForRow(at: indexPath))
             }),
-            TableViewRowVM(title: "UITableView的简单绑定", detail: "绑定。", selected: true, pushed: true, selectedAction: { (controller, tableView, indexPath) in
+            TableViewRowVM(title: "简单的UITableView绑定", detail: "绑定。", selected: true, pushed: true, selectedAction: { (controller, tableView, indexPath) in
                 controller.performSegue(withIdentifier: "MainToSimpleTableView", sender: tableView.cellForRow(at: indexPath))
             }),
-            TableViewRowVM(title: "多组数据的UITableView的简单绑定", detail: "绑定。", selected: true, pushed: true, selectedAction: { (controller, tableView, indexPath) in
+            TableViewRowVM(title: "分组的UITableView绑定", detail: "绑定。", selected: true, pushed: true, selectedAction: { (controller, tableView, indexPath) in
                 controller.performSegue(withIdentifier: "MainToSimpleSectionedTableView", sender: tableView.cellForRow(at: indexPath))
+            }),
+            TableViewRowVM(title: "可编辑的UITableView绑定", detail: "绑定。", selected: true, pushed: true, selectedAction: { (controller, tableView, indexPath) in
+                controller.performSegue(withIdentifier: "MainToEditingTableView", sender: tableView.cellForRow(at: indexPath))
             })
         ])
     ]
