@@ -26,6 +26,9 @@
 		6E2F662523964D2F0005EBCC /* Calculator.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6E2F662423964D2F0005EBCC /* Calculator.storyboard */; };
 		6E330C8323CC1E6400BB40BE /* EditingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E330C8223CC1E6400BB40BE /* EditingViewController.swift */; };
 		6E330C8523CC1E8F00BB40BE /* EditingTableView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6E330C8423CC1E8F00BB40BE /* EditingTableView.storyboard */; };
+		6E330C8723CDA47700BB40BE /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E330C8623CDA47700BB40BE /* DetailViewController.swift */; };
+		6E330C8923CDA66400BB40BE /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E330C8823CDA66400BB40BE /* User.swift */; };
+		6E330C8B23D00E6B00BB40BE /* EditingTableViewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E330C8A23D00E6A00BB40BE /* EditingTableViewViewModel.swift */; };
 		6E494DA723AB142100B08D2E /* ImagePicker.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6E494DA623AB142000B08D2E /* ImagePicker.storyboard */; };
 		6EFA4BE323B3082200943616 /* PickerView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6EFA4BE223B3082200943616 /* PickerView.storyboard */; };
 		6EFA4BE723B30BF500943616 /* ImagePickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EFA4BE623B30BF500943616 /* ImagePickerController.swift */; };
@@ -70,6 +73,9 @@
 		6E2F662423964D2F0005EBCC /* Calculator.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Calculator.storyboard; sourceTree = "<group>"; };
 		6E330C8223CC1E6400BB40BE /* EditingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditingViewController.swift; sourceTree = "<group>"; };
 		6E330C8423CC1E8F00BB40BE /* EditingTableView.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = EditingTableView.storyboard; sourceTree = "<group>"; };
+		6E330C8623CDA47700BB40BE /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		6E330C8823CDA66400BB40BE /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		6E330C8A23D00E6A00BB40BE /* EditingTableViewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditingTableViewViewModel.swift; sourceTree = "<group>"; };
 		6E494DA623AB142000B08D2E /* ImagePicker.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ImagePicker.storyboard; sourceTree = "<group>"; };
 		6EFA4BE223B3082200943616 /* PickerView.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = PickerView.storyboard; sourceTree = "<group>"; };
 		6EFA4BE623B30BF500943616 /* ImagePickerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerController.swift; sourceTree = "<group>"; };
@@ -148,6 +154,7 @@
 				6EFC426D23C474CA007766FC /* SimpleTableViewController.swift */,
 				6EFC427123C48EEC007766FC /* SimpleSectionedTableViewController.swift */,
 				6E330C8223CC1E6400BB40BE /* EditingViewController.swift */,
+				6E330C8623CDA47700BB40BE /* DetailViewController.swift */,
 				5CDAB16D22D4C3FC00CD63E1 /* UsageViewController.swift */,
 				6E2F662423964D2F0005EBCC /* Calculator.storyboard */,
 				6E494DA623AB142000B08D2E /* ImagePicker.storyboard */,
@@ -163,6 +170,7 @@
 			isa = PBXGroup;
 			children = (
 				5C176B4122EFD99600ED7BAA /* ViewModels.swift */,
+				6E330C8A23D00E6A00BB40BE /* EditingTableViewViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -239,6 +247,7 @@
 				5CD466A322FAAD07003FC8FC /* Models.swift */,
 				6EFC426B23C42AC9007766FC /* PickerViewViewAdapter.swift */,
 				6E09F85723C5C15B00C3B4F4 /* TableViewSectionedDataSource.swift */,
+				6E330C8823CDA66400BB40BE /* User.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -397,6 +406,7 @@
 				6EFA4BF923B30F2500943616 /* SimpleBindingViewController.swift in Sources */,
 				5C5EEB1B222E0DB8004E99A7 /* ViewController.swift in Sources */,
 				5C5EEB19222E0DB8004E99A7 /* AppDelegate.swift in Sources */,
+				6E330C8923CDA66400BB40BE /* User.swift in Sources */,
 				6EFC426C23C42AC9007766FC /* PickerViewViewAdapter.swift in Sources */,
 				5C176B4522EFDA0800ED7BAA /* Views.swift in Sources */,
 				5CCC124222F2E00900749189 /* Extensions.swift in Sources */,
@@ -405,6 +415,7 @@
 				5C176B4D22EFDB0500ED7BAA /* Services.swift in Sources */,
 				5CD466A622FAADC0003FC8FC /* Protocols.swift in Sources */,
 				6EFA4BF323B30E8D00943616 /* ValidViewController.swift in Sources */,
+				6E330C8B23D00E6B00BB40BE /* EditingTableViewViewModel.swift in Sources */,
 				5C176B4222EFD99600ED7BAA /* ViewModels.swift in Sources */,
 				6EFA4BE723B30BF500943616 /* ImagePickerController.swift in Sources */,
 				6EFA4BF523B30EC500943616 /* NumbersViewController.swift in Sources */,
@@ -420,6 +431,7 @@
 				5CD466A922FAB4CB003FC8FC /* Commons.swift in Sources */,
 				6EFA4BFD23B30FCB00943616 /* SimplePickerViewViewController.swift in Sources */,
 				6E09F85823C5C15B00C3B4F4 /* TableViewSectionedDataSource.swift in Sources */,
+				6E330C8723CDA47700BB40BE /* DetailViewController.swift in Sources */,
 				6EFA4BFF23B4CC9800943616 /* CustomPickerViewController.swift in Sources */,
 				5CD466A422FAAD07003FC8FC /* Models.swift in Sources */,
 			);
