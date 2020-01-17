@@ -8,8 +8,9 @@
 
 import UIKit
 import RxSwift
+import NVActivityIndicatorView
 
-class DetailViewController: ExampleViewController {
+class DetailViewController: ExampleViewController, NVActivityIndicatorViewable {
     @IBOutlet weak var imageView: UIImageView!
     
     var user: User!
@@ -18,6 +19,10 @@ class DetailViewController: ExampleViewController {
         super.viewDidLoad()
         
         title = user.firstName + " " + user.lastName
-        URLSession.shared.rx.data(request: URLRequest(url: URL(string: user.imageURL)!)).map({ UIImage(data: $0) }).observeOn(MainScheduler.instance).catchErrorJustReturn(nil).subscribe(imageView.rx.image).disposed(by: bag)
+        startAnimating()
+        URLSession.shared.rx.data(request: URLRequest(url: URL(string: user.imageURL)!)).map({ UIImage(data: $0) }).catchErrorJustReturn(nil).observeOn(MainScheduler.instance).subscribe(onNext: { [weak self] (image) in
+            self?.imageView.image = image
+            self?.stopAnimating()
+        }).disposed(by: bag)
     }
 }
