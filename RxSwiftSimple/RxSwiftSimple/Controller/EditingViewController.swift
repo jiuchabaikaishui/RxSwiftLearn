@@ -33,6 +33,7 @@ class EditingViewController: ExampleViewController {
         }).disposed(by: bag)
         
         let events: [Observable<EditingTableViewCommand>] = [
+            UserAPI().getUsers(count: 30).map { EditingTableViewCommand.addUsers(users: $0, to: IndexPath(row: 0, section: 1)) },
             tableView.rx.itemDeleted.map({ (indexPath) -> EditingTableViewCommand in
                 return .deleteUser(indexPath: indexPath)
             }),
@@ -41,9 +42,8 @@ class EditingViewController: ExampleViewController {
         
         let viewModel: EditingTabelViewViewModel = EditingTabelViewViewModel()
         let scheduler = MainScheduler.instance
-        Observable.deferred { Observable<EditingTableViewCommand>.merge(events).scan(viewModel) {
-            $0.excuteCommand(command: $1)
-            } }.subscribeOn(scheduler).startWith(viewModel).map({ $0.sections }).bind(to: tableView.rx.items(dataSource: dataSource)).disposed(by: bag)
+        
+        Observable.deferred { Observable.merge(events).scan(viewModel) { $0.excuteCommand(command: $1) } }.subscribeOn(scheduler).startWith(viewModel).map({ $0.sections }).bind(to: tableView.rx.items(dataSource: dataSource)).disposed(by: bag)
     }
     
     override func setEditing(_ editing: Bool, animated: Bool) {

@@ -36,7 +36,7 @@ struct EditingTabelViewViewModel {
             return EditingTabelViewViewModel(sections: sections)
         case let .deleteUser(indexPath):
             var sections = self.sections
-            sections[indexPath.row].items.remove(at: indexPath.row)
+            sections[indexPath.section].items.remove(at: indexPath.row)
             return EditingTabelViewViewModel(sections: sections)
         }
     }
