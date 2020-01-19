@@ -249,37 +249,54 @@ struct ViewControllerVM {
             ]),
         TableViewSectionVM(title: "Schedulers", rows: [
             TableViewRowVM(title: "observeOn", detail: "要在不同的Schedulers上执行工作，使用observeOn(scheduler)操作符。", selected: true, pushed: false, selectedAction: { (controller, tableView, indexPath) in
-                let disposable = Observable<Int>.create({ (observer) -> Disposable in
-                    observer.onNext((1))
-                    return Disposables.create()
-                }).observeOn(MainScheduler.instance).map({ (n) -> Int in
+                print(Thread.current)
+                DispatchQueue.global().async {
                     print(Thread.current)
-                    print(n)
+                    let disposable = Observable<Int>.create({ (observer) -> Disposable in
+                        let n = 0
+                        print(Thread.current)
+                        print(n)
+                        observer.onNext((n))
+                        return Disposables.create()
+                    }).observeOn(MainScheduler.instance).map({ (n) -> Int in
+                        print(Thread.current)
+                        print(n)
+                        
+                        return n + 1
+                    }).observeOn(ConcurrentDispatchQueueScheduler(qos: .background)).map({ (n) -> Int in
+                        print(Thread.current)
+                        print(n)
+                        
+                        return n + 1
+                    }).subscribe({ (n) in
+                        print(Thread.current)
+                        print(n)
+                    })
                     
-                    return n + 1
-                }).observeOn(ConcurrentDispatchQueueScheduler(qos: .background)).map({ (n) -> Int in
-                    print(Thread.current)
-                    print(n)
-                    
-                    return n + 1
-                }).subscribe({ (n) in
-                    print(Thread.current)
-                    print(n)
-                })
-                
-                Thread.sleep(forTimeInterval: 1)
-                disposable.dispose()
+                    Thread.sleep(forTimeInterval: 1)
+                    disposable.dispose()
+                }
             }),
             TableViewRowVM(title: "subscribeOn", detail: "要在特定scheduler上启动序列生成元素（subscribe方法）并调用dispose，请使用subscribeOn(scheduler)。", selected: true, pushed: false, selectedAction: { (controller, tableView, indexPath) in
-                let disposable = Observable<Void>.create({ (observer) -> Disposable in
-                    observer.onNext(())
-                    return Disposables.create()
-                }).subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background)).subscribe({ (e) in
-                    print(Thread.current)
-                })
-                
-                Thread.sleep(forTimeInterval: 1)
-                disposable.dispose()
+            print("0----\(Thread.current)----")
+                DispatchQueue.global().async {
+                    let disposable = Observable<Int>.create({ (observer) -> Disposable in
+                        let n = 0
+                        print("1----\(Thread.current)----")
+                        observer.onNext(n)
+                        return Disposables.create()
+                    }).observeOn(ConcurrentDispatchQueueScheduler(qos: .background)).map{ (n) -> Int in
+                        print("2----\(Thread.current)----")
+                        print(n)
+                        return n + 1
+                    }.subscribeOn(MainScheduler.instance).subscribe({ (e) in
+                        print("3----\(Thread.current)----")
+                        print(e)
+                    })
+                    
+                    Thread.sleep(forTimeInterval: 1)
+                    disposable.dispose()
+                }
             })
             ]),
         TableViewSectionVM(title: "示例", rows: [

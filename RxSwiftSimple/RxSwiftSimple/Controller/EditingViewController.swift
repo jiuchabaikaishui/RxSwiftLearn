@@ -32,7 +32,9 @@ class EditingViewController: ExampleViewController, NVActivityIndicatorViewable 
         
         let addObservable =  UserAPI().getUsers(count: 30).map { EditingTableViewCommand.addUsers(users: $0, to: IndexPath(row: 0, section: 1)) }
         startAnimating()
-        addObservable.subscribeOn(scheduler).subscribe(onNext: { [weak self] _ in
+        print(Thread.current)
+        addObservable.observeOn(scheduler).subscribe(onNext: { [weak self] _ in
+            print(Thread.current)
             self?.stopAnimating()
         }).disposed(by: bag)
         

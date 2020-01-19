@@ -31,6 +31,6 @@ class UserAPI {
                 }
                 return User(firstName: firstName, lastName: lastName, imageURL: imageURL)
             }
-        }
+        }.share(replay: 1)
     }
 }
