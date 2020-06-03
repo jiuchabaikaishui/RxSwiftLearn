@@ -202,3 +202,9 @@ extension UIColor {
     /// 随机颜色
     class var random: UIColor { UIColor(red: CGFloat(arc4random()%256)/255.0, green: CGFloat(arc4random()%256)/255.0, blue: CGFloat(arc4random()%256)/255.0, alpha: 1) }
 }
+
+extension UIScrollView {
+    func isNearBottomEdge(edgeOffset: CGFloat = 20.0) -> Bool {
+        self.contentOffset.y + self.bounds.size.height + edgeOffset > self.contentSize.height
+    }
+}

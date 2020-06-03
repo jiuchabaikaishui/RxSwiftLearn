@@ -16,6 +16,7 @@ class EditingViewController: ExampleViewController, NVActivityIndicatorViewable 
     
     lazy var dataSource: TableViewSectionedDataSource<SectionModel<String, User>> = { TableViewSectionedDataSource<SectionModel<String, User>>(cellForRow: { ds, tv, indexPath in
         let cell = CommonCell.cellFor(tableView: tv)
+        cell.accessoryType = UITableViewCell.AccessoryType.disclosureIndicator
         cell.textLabel?.text = ds[indexPath].firstName + " " + ds[indexPath].lastName
         
         return cell

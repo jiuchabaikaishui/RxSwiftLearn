@@ -22,7 +22,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HCP-xJ-Ipb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1695" y="711"/>
+            <point key="canvasLocation" x="190" y="804"/>
         </scene>
         <!--RxSwift文档-->
         <scene sceneID="tne-QT-ifu">
@@ -68,11 +68,14 @@
                         <segue destination="nDS-S9-SeS" kind="show" identifier="MainToSimpleTableView" id="nVn-Bd-8Pk"/>
                         <segue destination="xeY-IM-Iap" kind="show" identifier="MainToSimpleSectionedTableView" id="aJc-WK-lM5"/>
                         <segue destination="XfS-3Q-r7f" kind="show" identifier="MainToEditingTableView" id="D6y-PB-Bgo"/>
+                        <segue destination="Sk6-p1-ues" kind="show" identifier="MainToPartialUpdates" id="4cF-Su-sYp"/>
+                        <segue destination="lME-7z-leH" kind="show" identifier="MainToWikipediaSearch" id="OFF-jZ-bxT"/>
+                        <segue destination="yGu-2x-9Hg" kind="show" identifier="MainToGitHubSearch" id="HGs-yu-x6Y"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-940" y="711"/>
+            <point key="canvasLocation" x="1017" y="804"/>
         </scene>
         <!--Numbers View Controller-->
         <scene sceneID="wKV-tR-nCO">
@@ -993,7 +996,7 @@
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NHH-ZO-tSq" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="190" y="710"/>
+            <point key="canvasLocation" x="2721" y="628"/>
         </scene>
         <!--ImagePicker-->
         <scene sceneID="h8U-gs-1KS">
@@ -1003,7 +1006,7 @@
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="07u-0j-UPc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="199" y="782"/>
+            <point key="canvasLocation" x="2729" y="700"/>
         </scene>
         <!--PickerView-->
         <scene sceneID="coa-dS-5vV">
@@ -1013,7 +1016,7 @@
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eLZ-MY-as9" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="194" y="840"/>
+            <point key="canvasLocation" x="2725" y="755"/>
         </scene>
         <!--SimpleTableView-->
         <scene sceneID="QIf-in-WQ0">
@@ -1023,7 +1026,7 @@
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UyE-0E-hcZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="219" y="896"/>
+            <point key="canvasLocation" x="2749" y="811"/>
         </scene>
         <!--SimpleSectionedTableView-->
         <scene sceneID="KeL-fM-Te2">
@@ -1033,7 +1036,7 @@
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DGw-sB-z8o" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="267" y="954"/>
+            <point key="canvasLocation" x="2797" y="870"/>
         </scene>
         <!--EditingTableView-->
         <scene sceneID="PLF-jG-FzD">
@@ -1043,7 +1046,37 @@
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ppG-Um-Ke1" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="221" y="1016"/>
+            <point key="canvasLocation" x="2754" y="933"/>
+        </scene>
+        <!--PartialUpdates-->
+        <scene sceneID="cXi-bT-m64">
+            <objects>
+                <viewControllerPlaceholder storyboardName="PartialUpdates" id="Sk6-p1-ues" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="SC1-QI-YbD"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gdk-yc-nCJ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2745" y="993"/>
+        </scene>
+        <!--WikipediaSearch-->
+        <scene sceneID="O5K-pi-knb">
+            <objects>
+                <viewControllerPlaceholder storyboardName="WikipediaSearch" id="lME-7z-leH" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="gkg-Ll-vHd"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="LNg-K8-Sfy" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2749" y="1052"/>
+        </scene>
+        <!--GitHubSearchRepositories-->
+        <scene sceneID="PU1-3d-gS0">
+            <objects>
+                <viewControllerPlaceholder storyboardName="GitHubSearchRepositories" id="yGu-2x-9Hg" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="CuQ-NF-CK3"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="w4D-AK-YMq" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2772" y="1109"/>
         </scene>
         <!--Signup Driver View Controller-->
         <scene sceneID="Ceq-ej-FGH">

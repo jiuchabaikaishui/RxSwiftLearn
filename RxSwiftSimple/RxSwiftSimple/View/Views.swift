@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SnapKit
 
 
 class CommonCell: UITableViewCell {
@@ -37,5 +38,32 @@ class CommonCell: UITableViewCell {
     func defaultSeting() {
         textLabel?.numberOfLines = 0
         detailTextLabel?.numberOfLines = 0
+    }
+}
+
+class TextCollectionViewCell : UICollectionViewCell {
+    @IBOutlet weak var textLabel: UILabel!
+    
+    static func cellFor(collectionView: UICollectionView, indexPath: IndexPath, identifier: String) -> TextCollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: identifier, for: indexPath)
+        
+        guard let c = cell as? TextCollectionViewCell else {
+            fatalError()
+        }
+        
+        return c
+    }
+}
+
+class TextCollectionReusableView: UICollectionReusableView {
+    @IBOutlet weak var textLabel: UILabel!
+    
+    static func viewFor(collectionView: UICollectionView, indexPath: IndexPath, kind: String, identifier: String) -> TextCollectionReusableView {
+        let view = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: identifier, for: indexPath)
+        guard let v = view as? TextCollectionReusableView else {
+            fatalError()
+        }
+        
+        return v
     }
 }

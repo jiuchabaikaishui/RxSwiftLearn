@@ -344,6 +344,15 @@ struct ViewControllerVM {
             }),
             TableViewRowVM(title: "可编辑的UITableView绑定", detail: "绑定。", selected: true, pushed: true, selectedAction: { (controller, tableView, indexPath) in
                 controller.performSegue(withIdentifier: "MainToEditingTableView", sender: tableView.cellForRow(at: indexPath))
+            }),
+            TableViewRowVM(title: "局部刷新", detail: "UITableView、UICollectionView局部刷新绑定。", selected: true, pushed: true, selectedAction: { (controller, tableView, indexPath) in
+                controller.performSegue(withIdentifier: "MainToPartialUpdates", sender: tableView.cellForRow(at: indexPath))
+            }),
+            TableViewRowVM(title: "搜索", detail: "………………", selected: true, pushed: true, selectedAction: { (controller, tableView, indexPath) in
+                controller.performSegue(withIdentifier: "MainToWikipediaSearch", sender: tableView.cellForRow(at: indexPath))
+            }),
+            TableViewRowVM(title: "搜索", detail: "………………", selected: true, pushed: true, selectedAction: { (controller, tableView, indexPath) in
+                controller.performSegue(withIdentifier: "MainToGitHubSearch", sender: tableView.cellForRow(at: indexPath))
             })
         ])
     ]
