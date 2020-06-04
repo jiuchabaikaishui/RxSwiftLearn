@@ -208,3 +208,16 @@ extension UIScrollView {
         self.contentOffset.y + self.bounds.size.height + edgeOffset > self.contentSize.height
     }
 }
+
+extension Optional {
+    /// 解包
+    func unwrap() throws -> Wrapped {
+        if let unwrapped = self {
+            return unwrapped
+        }
+        else {
+            debugFatalError("解包失败！")
+            throw DifferentiatorError.unwrappingOptional
+        }
+   }
+}

@@ -287,3 +287,15 @@ class RxImagePickerDelegateProxy: RxNavigationControllerDelegateProxy, UIImagePi
         super.init(navigationController: imagePicker)
     }
 }
+
+func debugFatalError(_ message: String) {
+    #if DEBUG
+        fatalError(message)
+    #else
+        print(message)
+    #endif
+}
+enum DifferentiatorError : Error {
+    case unwrappingOptional //解包可选类型
+    case preconditionFailed(message: String)
+}
