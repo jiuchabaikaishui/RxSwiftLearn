@@ -30,14 +30,22 @@ class GitHubSearchRepositoriesViewController: ExampleViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let loadNextPageTrigger: (Driver<GitHubSearchRepositoriesState>) -> Signal<()> = { [weak self] state in
-            self!.tableView.rx.contentOffset.asDriver().withLatestFrom(state).flatMap { (state: GitHubSearchRepositoriesState) in
-                // 滚动到tableView底部但不能加载下一页
-                self!.tableView.isNearBottomEdge(edgeOffset: 20.0) && !state.shouldLoadNextPage ? Signal.just(()) : Signal.empty()
-            }
+//        let loadNextPageTrigger: (Driver<GitHubSearchRepositoriesState>) -> Signal<()> = { [weak self] state in
+//            self!.tableView.rx.contentOffset.asDriver().withLatestFrom(state).flatMap { (state: GitHubSearchRepositoriesState) in
+//                // 滚动到tableView底部但不能加载下一页
+//                self!.tableView.isNearBottomEdge(edgeOffset: 20.0) && !state.shouldLoadNextPage ? Signal.just(()) : Signal.empty()
+//            }
+//        }
+//        let activityIndicator = ActivityIndicator()
+        
+        let initState = GitHubSearchRepositoriesState(searchText: "AFNetworking")
+        guard let searchURL = initState.nextURL else {
+            fatalError("没有加载地址！")
         }
-        let activityIndicator = ActivityIndicator()
-        
-        
+        GitHubSearchRepositoriesAPI.sharedAPI
+            .loadSearchURL(searchURL: searchURL)
+            .subscribe(onNext: { (result) in
+                print("\(result)")
+            }).disposed(by: bag)
     }
 }

@@ -214,8 +214,7 @@ extension Optional {
     func unwrap() throws -> Wrapped {
         if let unwrapped = self {
             return unwrapped
-        }
-        else {
+        } else {
             debugFatalError("解包失败！")
             throw DifferentiatorError.unwrappingOptional
         }

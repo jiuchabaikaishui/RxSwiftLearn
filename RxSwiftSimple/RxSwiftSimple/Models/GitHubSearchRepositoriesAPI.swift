@@ -16,6 +16,8 @@ func exampleError(_ error: String, location: String = "\(#file):\(#line)") -> NS
 
 typealias SearchRepositoriesResponse = Result<(repositories: [Repository], nextURL: URL?), GitHubServiceError>
 class GitHubSearchRepositoriesAPI {
+    static let sharedAPI = GitHubSearchRepositoriesAPI()
+    
     /// 解析json
     /// - Parameters:
     ///   - response: 响应体
@@ -32,19 +34,23 @@ class GitHubSearchRepositoriesAPI {
     /// 加载搜索URL
     /// - Parameter searchURL: RRL
     func loadSearchURL(searchURL: URL) -> Observable<SearchRepositoriesResponse> {
-        return URLSession.shared.rx.response(request: URLRequest(url: searchURL)).retry(3).observeOn(Dependencies.shareDependencies.backgroundScheduler).map { (pair) -> SearchRepositoriesResponse in
-            if pair.response.statusCode == 403 {
-                return .failure(.githubLimitReached)
-            }
-            
-            let jsonRoot = try GitHubSearchRepositoriesAPI.parseJson(response: pair.response, data: pair.data)
-            guard let json = jsonRoot as? [String: AnyObject] else {
-                throw exampleError("数据解析错误！")
-            }
-            
-            let repository = try Repository.parse(json)
-            
-            return .success((repository, URL(string: "xxxx")))
+        return URLSession.shared.rx
+            .response(request: URLRequest(url: searchURL))
+            .retry(3)
+            .observeOn(Dependencies.shareDependencies.backgroundScheduler)
+            .map { (pair) -> SearchRepositoriesResponse in
+                if pair.response.statusCode == 403 {
+                    return .failure(.githubLimitReached)
+                }
+                
+                let jsonRoot = try GitHubSearchRepositoriesAPI.parseJson(response: pair.response, data: pair.data)
+                guard let json = jsonRoot as? [String: AnyObject] else {
+                    throw exampleError("数据解析错误！")
+                }
+                
+                let repository = try Repository.parse(json)
+                
+                return .success((repository, URL(string: "xxxx")))
         }
     }
 }

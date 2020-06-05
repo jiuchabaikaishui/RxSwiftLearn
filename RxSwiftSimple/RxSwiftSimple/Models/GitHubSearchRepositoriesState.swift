@@ -49,6 +49,8 @@ struct Version<Value>: Hashable {
 }
 
 struct GitHubSearchRepositoriesState {
+    static let initial = GitHubSearchRepositoriesState(searchText: "")
+    
     var searchText: String
     var shouldLoadNextPage: Bool
     var repositories: Version<[Repository]> // Version is an optimization. When something unrelated changes, we don't want to reload table view.
