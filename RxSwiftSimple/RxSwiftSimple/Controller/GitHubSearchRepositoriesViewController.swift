@@ -40,12 +40,36 @@ class GitHubSearchRepositoriesViewController: ExampleViewController {
                 print("\(result)")
             }).disposed(by: bag)
         
-//        let loadNextPageTrigger: (Driver<GitHubSearchRepositoriesState>) -> Signal<()> = { [weak self] state in
-//            self!.tableView.rx.contentOffset.asDriver().withLatestFrom(state).flatMap { (state: GitHubSearchRepositoriesState) in
-//                // 滚动到tableView底部但不能加载下一页
-//                self!.tableView.isNearBottomEdge(edgeOffset: 20.0) && !state.shouldLoadNextPage ? Signal.just(()) : Signal.empty()
-//            }
-//        }
-//        let activityIndicator = ActivityIndicator()
+        Observable.just(())
+            .subscribe(onNext: {
+                print($0)
+            }).disposed(by: bag)
+        Observable.empty()
+            .subscribe(onNext: {
+                print($0)
+            }).disposed(by: bag)
+        
+        let loadNextPageTrigger: (Driver<GitHubSearchRepositoriesState>) -> Signal<()> = { [weak self] state in
+            self!.tableView.rx.contentOffset.asDriver().withLatestFrom(state).flatMap { (state: GitHubSearchRepositoriesState) in
+                // 滚动到tableView底部但不能加载下一页
+                self!.tableView.isNearBottomEdge(edgeOffset: 20.0) && !state.shouldLoadNextPage ? Signal.just(()) : Signal.empty()
+            }
+        }
+        let activityIndicator = ActivityIndicator()
+        
+        var state = GitHubSearchRepositoriesState.initial
+        let searchCommand = searchBar.rx.text.orEmpty.changed
+            .throttle(.milliseconds(300), scheduler: MainScheduler())
+            .map(GitHubCommand.changeSearch)
+        let loadNext = tableView.rx.contentOffset
+            .flatMapLatest { [unowned self] _ in
+                self.tableView.isNearBottomEdge(edgeOffset: 20.0) ? Observable.just(()) : Observable.empty()
+            }
+        
+        Observable.deferred {
+            searchCommand.scan(state) { (s: GitHubSearchRepositoriesState, c: GitHubCommand) -> GitHubSearchRepositoriesState in
+                s.reduce(command: c)
+            }
+        }
     }
 }

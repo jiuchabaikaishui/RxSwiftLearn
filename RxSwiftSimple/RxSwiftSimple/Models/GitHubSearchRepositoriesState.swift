@@ -29,6 +29,12 @@ struct Repository: CustomDebugStringConvertible {
 class Unique: NSObject {
 }
 
+enum GitHubCommand {
+    case changeSearch(text: String)
+    case loadMoreItems
+    case gitHubResponseReceived(SearchRepositoriesResponse)
+}
+
 struct Version<Value>: Hashable {
 
     private let _unique: Unique
@@ -63,5 +69,35 @@ struct GitHubSearchRepositoriesState {
         repositories = Version([])
         nextURL = URL(string: "https://api.github.com/search/repositories?q=\(searchText.URLEscaped)")
         failure = nil
+    }
+    
+    func mutate(transform: (inout Self) -> Void) -> Self {
+        var newSelf = self
+        transform(&newSelf)
+        return newSelf
+    }
+    mutating func reduce(command: GitHubCommand) -> Self {
+        switch command {
+        case let .changeSearch(text):
+            self.searchText = text
+            return self
+        case let .gitHubResponseReceived(response):
+            switch response {
+            case let .success((repositories, url)):
+                self.repositories = Version(self.repositories.value + repositories)
+                self.shouldLoadNextPage = false
+                self.nextURL = url
+                self.failure = nil
+                return self
+            case let .failure(error):
+                self.failure = error
+                return self
+            }
+        case .loadMoreItems:
+            if self.failure == nil {
+                self.shouldLoadNextPage = true
+            }
+            return self
+        }
     }
 }

@@ -67,9 +67,15 @@ class CalculatorViewController: ExampleViewController {
         /// 操作线程
         let scheduler = MainScheduler.instance
         /// 绑定
-        Observable.deferred({ Observable.merge(events).scan(initState) { $0.reduce(command: $1) }.subscribeOn(MainScheduler.instance).startWith(initState).observeOn(scheduler) }).subscribe(onNext: { (state) in
+        Observable.deferred({
+            Observable.merge(events)
+                .scan(initState) { $0.reduce(command: $1) }
+                .subscribeOn(MainScheduler.instance)
+                .startWith(initState)
+                .observeOn(scheduler)
+        }).subscribe(onNext: { (state) in
             self.signLabel.text = state.sign
             self.resultLabel.text = state.screen
-            }).disposed(by: bag)
+        }).disposed(by: bag)
     }
 }
