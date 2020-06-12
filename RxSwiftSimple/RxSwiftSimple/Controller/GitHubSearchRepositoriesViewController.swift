@@ -57,19 +57,22 @@ class GitHubSearchRepositoriesViewController: ExampleViewController {
         }
         let activityIndicator = ActivityIndicator()
         
-        var state = GitHubSearchRepositoriesState.initial
+        let state = GitHubSearchRepositoriesState.initial
         let searchCommand = searchBar.rx.text.orEmpty.changed
             .throttle(.milliseconds(300), scheduler: MainScheduler())
             .map(GitHubCommand.changeSearch)
-        let loadNext = tableView.rx.contentOffset
+        let loadMoreCommand = tableView.rx.contentOffset
             .flatMapLatest { [unowned self] _ in
-                self.tableView.isNearBottomEdge(edgeOffset: 20.0) ? Observable.just(()) : Observable.empty()
+                self.tableView.isNearBottomEdge(edgeOffset: 20.0) ? Observable.just(GitHubCommand.loadMoreItems) : Observable.empty()
             }
-        
+        let scheduler = MainScheduler.asyncInstance
         Observable.deferred {
-            searchCommand.scan(state) { (s: GitHubSearchRepositoriesState, c: GitHubCommand) -> GitHubSearchRepositoriesState in
-                s.reduce(command: c)
-            }
+            Observable
+                .merge([searchCommand, loadMoreCommand])
+                .scan(state, accumulator: GitHubSearchRepositoriesState.reduce(state:command:))
+                .subscribeOn(scheduler)
+                .observeOn(scheduler)
+                .startWith(state)
         }
     }
 }

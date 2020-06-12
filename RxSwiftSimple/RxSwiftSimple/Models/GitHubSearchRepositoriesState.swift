@@ -59,7 +59,7 @@ struct GitHubSearchRepositoriesState {
     
     var searchText: String
     var shouldLoadNextPage: Bool
-    var repositories: Version<[Repository]> // Version is an optimization. When something unrelated changes, we don't want to reload table view.
+    var repositories: Version<[Repository]>
     var nextURL: URL?
     var failure: GitHubServiceError?
 
@@ -71,33 +71,29 @@ struct GitHubSearchRepositoriesState {
         failure = nil
     }
     
-    func mutate(transform: (inout Self) -> Void) -> Self {
-        var newSelf = self
-        transform(&newSelf)
-        return newSelf
-    }
-    mutating func reduce(command: GitHubCommand) -> Self {
+    static func reduce(state: GitHubSearchRepositoriesState, command: GitHubCommand) -> Self {
+        var newState = state
         switch command {
         case let .changeSearch(text):
-            self.searchText = text
-            return self
+            newState.searchText = text
+            return newState
         case let .gitHubResponseReceived(response):
             switch response {
             case let .success((repositories, url)):
-                self.repositories = Version(self.repositories.value + repositories)
-                self.shouldLoadNextPage = false
-                self.nextURL = url
-                self.failure = nil
-                return self
+                newState.repositories = Version(state.repositories.value + repositories)
+                newState.shouldLoadNextPage = false
+                newState.nextURL = url
+                newState.failure = nil
+                return newState
             case let .failure(error):
-                self.failure = error
-                return self
+                newState.failure = error
+                return newState
             }
         case .loadMoreItems:
-            if self.failure == nil {
-                self.shouldLoadNextPage = true
+            if state.failure == nil {
+                newState.shouldLoadNextPage = true
             }
-            return self
+            return newState
         }
     }
 }
