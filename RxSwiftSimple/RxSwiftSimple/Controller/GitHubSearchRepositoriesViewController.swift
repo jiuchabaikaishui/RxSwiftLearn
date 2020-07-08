@@ -66,13 +66,39 @@ class GitHubSearchRepositoriesViewController: ExampleViewController {
                 self.tableView.isNearBottomEdge(edgeOffset: 20.0) ? Observable.just(GitHubCommand.loadMoreItems) : Observable.empty()
             }
         let scheduler = MainScheduler.asyncInstance
-        Observable.deferred {
+        
+        let states = Observable<GitHubSearchRepositoriesState>.deferred {
             Observable
                 .merge([searchCommand, loadMoreCommand])
                 .scan(state, accumulator: GitHubSearchRepositoriesState.reduce(state:command:))
-                .subscribeOn(scheduler)
+                .flatMap { (s) -> Observable<GitHubSearchRepositoriesState> in
+                    guard let url = s.nextURL else {
+                        return Observable.empty()
+                    }
+                    return GitHubSearchRepositoriesAPI.sharedAPI.loadSearchURL(searchURL: url).map { (r: Result<(repositories: [Repository], nextURL: URL?), GitHubServiceError>) -> GitHubSearchRepositoriesState in
+                        var result = s
+                        switch r {
+                        case let .success((repositories, nextURL)):
+                            result.repositories = Version(result.repositories.value + repositories)
+                            result.shouldLoadNextPage = false
+                            result.nextURL = nextURL
+                            result.failure = nil
+                        case let .failure(error):
+                            result.failure = error
+                        }
+                        return result
+                    }
+            }.subscribeOn(scheduler)
                 .observeOn(scheduler)
                 .startWith(state)
         }
+        
+        states
+            .map { $0.repositories }
+            .distinctUntilChanged()
+            .map { [SectionModel(model: "Repositories", items: $0.value)] }
+            .asDriver(onErrorDriveWith: Driver.empty())
+            .drive(tableView.rx.items(dataSource: dataSource))
+            .disposed(by: bag)
     }
 }
