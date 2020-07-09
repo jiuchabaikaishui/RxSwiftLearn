@@ -29,7 +29,7 @@ class CommonCell: UITableViewCell {
         if let c = cell  {
             result = c
         } else {
-            result = CommonCell(style: .default, reuseIdentifier: identifier)
+            result = CommonCell(style: .subtitle, reuseIdentifier: identifier)
         }
         
         return result

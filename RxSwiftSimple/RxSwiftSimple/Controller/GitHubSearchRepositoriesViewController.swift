@@ -30,68 +30,84 @@ class GitHubSearchRepositoriesViewController: ExampleViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let initState = GitHubSearchRepositoriesState(searchText: "AFNetworking")
-        guard let searchURL = initState.nextURL else {
-            fatalError("没有加载地址！")
-        }
-        GitHubSearchRepositoriesAPI.sharedAPI
-            .loadSearchURL(searchURL: searchURL)
-            .subscribe(onNext: { (result) in
-                print("\(result)")
-            }).disposed(by: bag)
+//        let initState = GitHubSearchRepositoriesState(searchText: "AFNetworking")
+//        guard let searchURL = initState.nextURL else {
+//            fatalError("没有加载地址！")
+//        }
+//        GitHubSearchRepositoriesAPI.sharedAPI
+//            .loadSearchURL(searchURL: searchURL)
+//            .subscribe(onNext: { (result) in
+//                print("\(result)")
+//            }).disposed(by: bag)
         
-        Observable.just(())
-            .subscribe(onNext: {
-                print($0)
-            }).disposed(by: bag)
-        Observable.empty()
-            .subscribe(onNext: {
-                print($0)
-            }).disposed(by: bag)
+//        Observable.just(())
+//            .subscribe(onNext: {
+//                print($0)
+//            }).disposed(by: bag)
+//        Observable.empty()
+//            .subscribe(onNext: {
+//                print($0)
+//            }).disposed(by: bag)
         
-        let loadNextPageTrigger: (Driver<GitHubSearchRepositoriesState>) -> Signal<()> = { [weak self] state in
-            self!.tableView.rx.contentOffset.asDriver().withLatestFrom(state).flatMap { (state: GitHubSearchRepositoriesState) in
-                // 滚动到tableView底部但不能加载下一页
-                self!.tableView.isNearBottomEdge(edgeOffset: 20.0) && !state.shouldLoadNextPage ? Signal.just(()) : Signal.empty()
-            }
-        }
-        let activityIndicator = ActivityIndicator()
+//        let loadNextPageTrigger: (Driver<GitHubSearchRepositoriesState>) -> Signal<()> = { [weak self] state in
+//            self!.tableView.rx.contentOffset.asDriver().withLatestFrom(state).flatMap { (state: GitHubSearchRepositoriesState) in
+//                // 滚动到tableView底部但不能加载下一页
+//                self!.tableView.isNearBottomEdge(edgeOffset: 20.0) && !state.shouldLoadNextPage ? Signal.just(()) : Signal.empty()
+//            }
+//        }
+//        let activityIndicator = ActivityIndicator()
         
-        let state = GitHubSearchRepositoriesState.initial
+        // 搜索命令
         let searchCommand = searchBar.rx.text.orEmpty.changed
             .throttle(.milliseconds(300), scheduler: MainScheduler())
             .map(GitHubCommand.changeSearch)
+        searchCommand.subscribe(onNext: {
+            print("----\($0)----")
+            }).disposed(by: bag)
+        
+        // 加载更多命令
         let loadMoreCommand = tableView.rx.contentOffset
             .flatMapLatest { [unowned self] _ in
                 self.tableView.isNearBottomEdge(edgeOffset: 20.0) ? Observable.just(GitHubCommand.loadMoreItems) : Observable.empty()
             }
-        let scheduler = MainScheduler.asyncInstance
+        loadMoreCommand.subscribe(onNext: {
+            print("++++\($0)++++")
+            }).disposed(by: bag)
         
-        let states = Observable<GitHubSearchRepositoriesState>.deferred {
-            Observable
-                .merge([searchCommand, loadMoreCommand])
-                .scan(state, accumulator: GitHubSearchRepositoriesState.reduce(state:command:))
-                .flatMap { (s) -> Observable<GitHubSearchRepositoriesState> in
-                    guard let url = s.nextURL else {
-                        return Observable.empty()
-                    }
-                    return GitHubSearchRepositoriesAPI.sharedAPI.loadSearchURL(searchURL: url).map { (r: Result<(repositories: [Repository], nextURL: URL?), GitHubServiceError>) -> GitHubSearchRepositoriesState in
-                        var result = s
-                        switch r {
-                        case let .success((repositories, nextURL)):
-                            result.repositories = Version(result.repositories.value + repositories)
-                            result.shouldLoadNextPage = false
-                            result.nextURL = nextURL
-                            result.failure = nil
-                        case let .failure(error):
-                            result.failure = error
-                        }
-                        return result
-                    }
+        // 合并命令
+        let commands = Observable.merge([searchCommand, loadMoreCommand])
+        commands.subscribe(onNext: {
+            print("****\($0)****")
+            }).disposed(by: bag)
+        
+        let state = GitHubSearchRepositoriesState.initial
+        let scheduler = MainScheduler.asyncInstance
+        let states = commands
+        .scan(state, accumulator: GitHubSearchRepositoriesState.reduce(state:command:))
+        .flatMap { (s) -> Observable<GitHubSearchRepositoriesState> in
+            guard let url = s.nextURL else {
+                return Observable.empty()
+            }
+            return GitHubSearchRepositoriesAPI.sharedAPI.loadSearchURL(searchURL: url).map { (r: Result<(repositories: [Repository], nextURL: URL?), GitHubServiceError>) -> GitHubSearchRepositoriesState in
+                var result = s
+                switch r {
+                case let .success((repositories, nextURL)):
+                    result.repositories = Version(result.repositories.value + repositories)
+                    result.shouldLoadNextPage = false
+                    result.nextURL = nextURL
+                    result.failure = nil
+                case let .failure(error):
+                    result.failure = error
+                }
+                return result
             }.subscribeOn(scheduler)
                 .observeOn(scheduler)
                 .startWith(state)
         }
+        
+        states.subscribe(onNext: {
+            print("####\($0)####")
+            }).disposed(by: bag)
         
         states
             .map { $0.repositories }
