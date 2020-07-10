@@ -61,30 +61,37 @@ class GitHubSearchRepositoriesViewController: ExampleViewController {
         let searchCommand = searchBar.rx.text.orEmpty.changed
             .throttle(.milliseconds(300), scheduler: MainScheduler())
             .map(GitHubCommand.changeSearch)
-        searchCommand.subscribe(onNext: {
-            print("----\($0)----")
-            }).disposed(by: bag)
+//        searchCommand.subscribe(onNext: {
+//            print("----\($0)----")
+//            }).disposed(by: bag)
         
         // 加载更多命令
         let loadMoreCommand = tableView.rx.contentOffset
             .flatMapLatest { [unowned self] _ in
                 self.tableView.isNearBottomEdge(edgeOffset: 20.0) ? Observable.just(GitHubCommand.loadMoreItems) : Observable.empty()
             }
-        loadMoreCommand.subscribe(onNext: {
-            print("++++\($0)++++")
-            }).disposed(by: bag)
+//        loadMoreCommand.subscribe(onNext: {
+//            print("++++\($0)++++")
+//            }).disposed(by: bag)
         
         // 合并命令
         let commands = Observable.merge([searchCommand, loadMoreCommand])
-        commands.subscribe(onNext: {
-            print("****\($0)****")
-            }).disposed(by: bag)
+//        commands.subscribe(onNext: {
+//            print("****\($0)****")
+//            }).disposed(by: bag)
         
         let state = GitHubSearchRepositoriesState.initial
         let scheduler = MainScheduler.asyncInstance
         let states = commands
         .scan(state, accumulator: GitHubSearchRepositoriesState.reduce(state:command:))
         .flatMap { (s) -> Observable<GitHubSearchRepositoriesState> in
+            print("~~~~\(s)~~~~")
+            if !s.shouldLoadNextPage {
+                return Observable.empty()
+            }
+            if s.searchText.isEmpty {
+                return Observable.just(GitHubSearchRepositoriesState.initial)
+            }
             guard let url = s.nextURL else {
                 return Observable.empty()
             }
