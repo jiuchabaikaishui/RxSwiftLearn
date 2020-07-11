@@ -112,9 +112,9 @@ class GitHubSearchRepositoriesViewController: ExampleViewController {
                 .startWith(state)
         }
         
-        states.subscribe(onNext: {
-            print("####\($0)####")
-            }).disposed(by: bag)
+//        states.subscribe(onNext: {
+//            print("####\($0)####")
+//            }).disposed(by: bag)
         
         states
             .map { $0.repositories }
