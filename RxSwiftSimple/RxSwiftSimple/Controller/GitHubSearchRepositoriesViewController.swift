@@ -30,6 +30,20 @@ class GitHubSearchRepositoriesViewController: ExampleViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let r = ReplaySubject<Int>.create(bufferSize: 1)
+        let s = MainScheduler()
+        let o = r.asObserver().do(onNext: {
+            r.onNext($0)
+        }, onSubscribed: {
+            r.onNext(1)
+            }).startWith(0)
+            .observeOn(s)
+            .subscribeOn(s)
+
+        o.subscribe(onNext: {
+            print("----\($0)----")
+            }).disposed(by: bag)
+        
 //        let initState = GitHubSearchRepositoriesState(searchText: "AFNetworking")
 //        guard let searchURL = initState.nextURL else {
 //            fatalError("没有加载地址！")
@@ -58,70 +72,70 @@ class GitHubSearchRepositoriesViewController: ExampleViewController {
 //        let activityIndicator = ActivityIndicator()
         
         // 搜索命令
-        let searchCommand = searchBar.rx.text.orEmpty.changed
-            .throttle(.milliseconds(300), scheduler: MainScheduler())
-            .map(GitHubCommand.changeSearch)
+//        let searchCommand = searchBar.rx.text.orEmpty.changed
+//            .throttle(.milliseconds(300), scheduler: MainScheduler())
+//            .map(GitHubCommand.changeSearch)
 //        searchCommand.subscribe(onNext: {
 //            print("----\($0)----")
 //            }).disposed(by: bag)
         
         // 加载更多命令
-        let loadMoreCommand = tableView.rx.contentOffset
-            .flatMapLatest { [unowned self] _ in
-                self.tableView.isNearBottomEdge(edgeOffset: 20.0) ? Observable.just(GitHubCommand.loadMoreItems) : Observable.empty()
-            }
+//        let loadMoreCommand = tableView.rx.contentOffset
+//            .flatMapLatest { [unowned self] _ in
+//                self.tableView.isNearBottomEdge(edgeOffset: 20.0) ? Observable.just(GitHubCommand.loadMoreItems) : Observable.empty()
+//            }
 //        loadMoreCommand.subscribe(onNext: {
 //            print("++++\($0)++++")
 //            }).disposed(by: bag)
         
         // 合并命令
-        let commands = Observable.merge([searchCommand, loadMoreCommand])
+//        let commands = Observable.merge([searchCommand, loadMoreCommand])
 //        commands.subscribe(onNext: {
 //            print("****\($0)****")
 //            }).disposed(by: bag)
         
-        let state = GitHubSearchRepositoriesState.initial
-        let scheduler = MainScheduler.asyncInstance
-        let states = commands
-        .scan(state, accumulator: GitHubSearchRepositoriesState.reduce(state:command:))
-        .flatMap { (s) -> Observable<GitHubSearchRepositoriesState> in
-            print("~~~~\(s)~~~~")
-            if !s.shouldLoadNextPage {
-                return Observable.empty()
-            }
-            if s.searchText.isEmpty {
-                return Observable.just(GitHubSearchRepositoriesState.initial)
-            }
-            guard let url = s.nextURL else {
-                return Observable.empty()
-            }
-            return GitHubSearchRepositoriesAPI.sharedAPI.loadSearchURL(searchURL: url).map { (r: Result<(repositories: [Repository], nextURL: URL?), GitHubServiceError>) -> GitHubSearchRepositoriesState in
-                var result = s
-                switch r {
-                case let .success((repositories, nextURL)):
-                    result.repositories = Version(result.repositories.value + repositories)
-                    result.shouldLoadNextPage = false
-                    result.nextURL = nextURL
-                    result.failure = nil
-                case let .failure(error):
-                    result.failure = error
-                }
-                return result
-            }.subscribeOn(scheduler)
-                .observeOn(scheduler)
-                .startWith(state)
-        }
+//        let state = GitHubSearchRepositoriesState.initial
+//        let scheduler = MainScheduler.asyncInstance
+//        let states = commands
+//        .scan(state, accumulator: GitHubSearchRepositoriesState.reduce(state:command:))
+//        .flatMap { (s) -> Observable<GitHubSearchRepositoriesState> in
+//            print("~~~~\(s)~~~~")
+//            if !s.shouldLoadNextPage {
+//                return Observable.empty()
+//            }
+//            if s.searchText.isEmpty {
+//                return Observable.just(GitHubSearchRepositoriesState.initial)
+//            }
+//            guard let url = s.nextURL else {
+//                return Observable.empty()
+//            }
+//            return GitHubSearchRepositoriesAPI.sharedAPI.loadSearchURL(searchURL: url).map { (r: Result<(repositories: [Repository], nextURL: URL?), GitHubServiceError>) -> GitHubSearchRepositoriesState in
+//                var result = s
+//                switch r {
+//                case let .success((repositories, nextURL)):
+//                    result.repositories = Version(result.repositories.value + repositories)
+//                    result.shouldLoadNextPage = false
+//                    result.nextURL = nextURL
+//                    result.failure = nil
+//                case let .failure(error):
+//                    result.failure = error
+//                }
+//                return result
+//            }.subscribeOn(scheduler)
+//                .observeOn(scheduler)
+//                .startWith(state)
+//        }
         
 //        states.subscribe(onNext: {
 //            print("####\($0)####")
 //            }).disposed(by: bag)
         
-        states
-            .map { $0.repositories }
-            .distinctUntilChanged()
-            .map { [SectionModel(model: "Repositories", items: $0.value)] }
-            .asDriver(onErrorDriveWith: Driver.empty())
-            .drive(tableView.rx.items(dataSource: dataSource))
-            .disposed(by: bag)
+//        states
+//            .map { $0.repositories }
+//            .distinctUntilChanged()
+//            .map { [SectionModel(model: "Repositories", items: $0.value)] }
+//            .asDriver(onErrorDriveWith: Driver.empty())
+//            .drive(tableView.rx.items(dataSource: dataSource))
+//            .disposed(by: bag)
     }
 }
