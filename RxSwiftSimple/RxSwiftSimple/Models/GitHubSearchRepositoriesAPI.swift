@@ -23,7 +23,7 @@ class GitHubSearchRepositoriesAPI {
     /// 解析链接
     /// - Parameter links: 链接字符串
     private static func parseLinks(links: String) throws -> [String: String] {
-        print(links)
+//        print(links)
         
         let length = (links as NSString).length
         let matches = linksRegex.matches(in: links, options: NSRegularExpression.MatchingOptions(), range: NSRange(location: 0, length: length))
@@ -65,7 +65,7 @@ class GitHubSearchRepositoriesAPI {
             throw exampleError("数据解析错误！")
         }
         
-        print(links)
+//        print(links)
         
         return nextURL
     }
