@@ -51,7 +51,7 @@ struct ViewControllerVM {
     let data = [
         TableViewSectionVM(title: "简介", rows: [
             TableViewRowVM(title: "用法", detail: "从GitHub仓库的搜索", selected: true, pushed: true, selectedAction: { (controller, tableView, indexPath) in
-                controller.performSegue(withIdentifier: "MainToUsage", sender: tableView.cellForRow(at: indexPath))
+                controller.performSegue(withIdentifier: "MainToGitHubSearch", sender: tableView.cellForRow(at: indexPath))
             })
             ]),
         TableViewSectionVM(title: "为何", rows: [
@@ -351,7 +351,7 @@ struct ViewControllerVM {
             TableViewRowVM(title: "搜索", detail: "………………", selected: true, pushed: true, selectedAction: { (controller, tableView, indexPath) in
                 controller.performSegue(withIdentifier: "MainToWikipediaSearch", sender: tableView.cellForRow(at: indexPath))
             }),
-            TableViewRowVM(title: "搜索", detail: "………………", selected: true, pushed: true, selectedAction: { (controller, tableView, indexPath) in
+            TableViewRowVM(title: "Github代码库搜索", detail: "", selected: true, pushed: true, selectedAction: { (controller, tableView, indexPath) in
                 controller.performSegue(withIdentifier: "MainToGitHubSearch", sender: tableView.cellForRow(at: indexPath))
             })
         ])

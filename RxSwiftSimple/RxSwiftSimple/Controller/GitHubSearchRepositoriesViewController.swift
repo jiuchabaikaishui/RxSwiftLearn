@@ -9,8 +9,9 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import NVActivityIndicatorView
 
-class GitHubSearchRepositoriesViewController: ExampleViewController {
+class GitHubSearchRepositoriesViewController: ExampleViewController, NVActivityIndicatorViewable {
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tableView: UITableView!
     
@@ -70,11 +71,9 @@ class GitHubSearchRepositoriesViewController: ExampleViewController {
             let replaySubject = ReplaySubject<GitHubSearchRepositoriesState>.create(bufferSize: 1)
             let scheduler = MainScheduler()
             let events: Observable<GitHubCommand> = Observable.merge([performSearchFeedback, inputFeedback].map({ feedback in
-//                let s = replaySubject.asDriver(onErrorDriveWith: Driver.empty())
-//                return feedback(s).asObservable()
-                let sequence = ObservableSchedulerContext(source: replaySubject.asObservable(), scheduler: MainScheduler.asyncInstance)
-                return feedback(sequence.source.asDriver(onErrorDriveWith: Driver<GitHubSearchRepositoriesState>.empty())).asObservable()
-            }))
+                let s = replaySubject.asDriver(onErrorDriveWith: Driver.empty())
+                return feedback(s).asObservable()
+            })).observeOn(CurrentThreadScheduler.instance)
             
             return events.scan(initState, accumulator: GitHubSearchRepositoriesState.reduce)
                 .do(onNext: { (s) in
@@ -93,28 +92,25 @@ class GitHubSearchRepositoriesViewController: ExampleViewController {
             .map { [SectionModel(model: "Repositories", items: $0.value)] }
             .drive(tableView.rx.items(dataSource: dataSource))
             .disposed(by: bag)
-    }
-}
-
-public struct ObservableSchedulerContext<Element>: ObservableType {
-    public typealias Element = Element
-
-    /// Source observable sequence
-    public let source: Observable<Element>
-
-    /// Scheduler on which observable sequence receives elements
-    public let scheduler: ImmediateSchedulerType
-
-    /// Initializes self with source observable sequence and scheduler
-    ///
-    /// - parameter source: Source observable sequence.
-    /// - parameter scheduler: Scheduler on which source observable sequence receives elements.
-    public init(source: Observable<Element>, scheduler: ImmediateSchedulerType) {
-        self.source = source
-        self.scheduler = scheduler
-    }
-
-    public func subscribe<Observer: ObserverType>(_ observer: Observer) -> Disposable where Observer.Element == Element {
-        return self.source.subscribe(observer)
+        
+        tableView.rx.modelSelected(Repository.self)
+            .subscribe(onNext: { (repository) in
+                if UIApplication.shared.canOpenURL(repository.url) {
+                    if #available(iOS 10.0, *) {
+                        UIApplication.shared.open(repository.url, completionHandler: nil)
+                    } else {
+                        UIApplication.shared.openURL(repository.url)
+                    }
+                }
+            }).disposed(by: bag)
+        
+        tableView.rx.itemSelected.subscribe(onNext: {
+                self.tableView.deselectRow(at: $0, animated: true)
+            }).disposed(by: bag)
+        
+        activityIndicator.drive(onNext: {
+            UIApplication.shared.isNetworkActivityIndicatorVisible = $0
+            $0 ? self.startAnimating() : self.stopAnimating()
+            }).disposed(by: bag)
     }
 }

@@ -91,6 +91,8 @@ class GitHubSearchRepositoriesAPI {
             .retry(3)
             .observeOn(Dependencies.shareDependencies.backgroundScheduler)
             .map { (pair) -> SearchRepositoriesResponse in
+                print("----\(pair.0.url!)----")
+                
                 if pair.response.statusCode == 403 {
                     return .failure(.githubLimitReached)
                 }

@@ -50,7 +50,6 @@
                     <connections>
                         <outlet property="tableView" destination="h7A-77-y3D" id="1Y7-Cp-eGD"/>
                         <segue destination="8zL-MN-gT4" kind="show" identifier="MainToDisposeBag" id="Rsd-bN-1vt"/>
-                        <segue destination="u54-va-eT9" kind="show" identifier="MainToUsage" id="avi-x1-fJm"/>
                         <segue destination="QoI-Mt-4Eg" kind="show" identifier="MainToBanding" id="8Eb-VC-B6q"/>
                         <segue destination="Bok-mK-hcc" kind="show" identifier="MainToImplicit" id="dso-zs-UgA"/>
                         <segue destination="F2G-G3-Q1u" kind="show" identifier="MainToValues" id="IvY-Oy-u6n"/>
@@ -151,42 +150,6 @@
             </objects>
             <point key="canvasLocation" x="2654" y="-65"/>
         </scene>
-        <!--Usage View Controller-->
-        <scene sceneID="jqz-PC-b9R">
-            <objects>
-                <viewController id="u54-va-eT9" customClass="UsageViewController" customModule="RxSwiftSimple" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="hNO-jm-pfx">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="IEA-Yg-NFN">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <searchBar key="tableFooterView" contentMode="redraw" id="y2I-yp-OmW">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                    <textInputTraits key="textInputTraits"/>
-                                </searchBar>
-                            </tableView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstItem="IEA-Yg-NFN" firstAttribute="leading" secondItem="2ji-ge-6M3" secondAttribute="leading" id="0wT-Lw-bpZ"/>
-                            <constraint firstItem="IEA-Yg-NFN" firstAttribute="bottom" secondItem="2ji-ge-6M3" secondAttribute="bottom" id="3nQ-6l-a4Y"/>
-                            <constraint firstItem="IEA-Yg-NFN" firstAttribute="trailing" secondItem="2ji-ge-6M3" secondAttribute="trailing" id="6mt-yb-OZl"/>
-                            <constraint firstItem="IEA-Yg-NFN" firstAttribute="top" secondItem="hNO-jm-pfx" secondAttribute="top" id="geS-v3-ePh"/>
-                        </constraints>
-                        <viewLayoutGuide key="safeArea" id="2ji-ge-6M3"/>
-                    </view>
-                    <connections>
-                        <outlet property="searchBar" destination="y2I-yp-OmW" id="hi8-um-TX8"/>
-                        <outlet property="tableView" destination="IEA-Yg-NFN" id="8OL-v6-eop"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="z70-ag-dGp" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="189.59999999999999" y="-831.63418290854577"/>
-        </scene>
         <!--Banding View Controller-->
         <scene sceneID="2bw-6F-LlS">
             <objects>
@@ -257,7 +220,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ilg-3t-WKC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1016.8" y="-831.63418290854577"/>
+            <point key="canvasLocation" x="190" y="-825"/>
         </scene>
         <!--Dispose Bag View Controller-->
         <scene sceneID="PuY-od-OZo">
@@ -286,7 +249,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zgu-T2-Xkj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1815" y="-832"/>
+            <point key="canvasLocation" x="1017" y="-825"/>
         </scene>
         <!--Location View Controller-->
         <scene sceneID="6sU-Xg-gLb">
@@ -986,7 +949,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="F7o-Sf-OVs" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2655" y="-832"/>
+            <point key="canvasLocation" x="1814" y="-825"/>
         </scene>
         <!--Calculator-->
         <scene sceneID="D0Q-FW-neu">
@@ -996,7 +959,7 @@
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NHH-ZO-tSq" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2721" y="628"/>
+            <point key="canvasLocation" x="2796" y="628"/>
         </scene>
         <!--ImagePicker-->
         <scene sceneID="h8U-gs-1KS">
@@ -1006,7 +969,7 @@
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="07u-0j-UPc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2729" y="700"/>
+            <point key="canvasLocation" x="2804" y="700"/>
         </scene>
         <!--PickerView-->
         <scene sceneID="coa-dS-5vV">
@@ -1016,7 +979,7 @@
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eLZ-MY-as9" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2725" y="755"/>
+            <point key="canvasLocation" x="2800" y="755"/>
         </scene>
         <!--SimpleTableView-->
         <scene sceneID="QIf-in-WQ0">
@@ -1026,7 +989,7 @@
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UyE-0E-hcZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2749" y="811"/>
+            <point key="canvasLocation" x="2824" y="810"/>
         </scene>
         <!--SimpleSectionedTableView-->
         <scene sceneID="KeL-fM-Te2">
@@ -1036,7 +999,7 @@
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DGw-sB-z8o" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2797" y="870"/>
+            <point key="canvasLocation" x="2872" y="870"/>
         </scene>
         <!--EditingTableView-->
         <scene sceneID="PLF-jG-FzD">
@@ -1046,7 +1009,7 @@
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ppG-Um-Ke1" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2754" y="933"/>
+            <point key="canvasLocation" x="2830" y="933"/>
         </scene>
         <!--PartialUpdates-->
         <scene sceneID="cXi-bT-m64">
@@ -1056,7 +1019,7 @@
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gdk-yc-nCJ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2745" y="993"/>
+            <point key="canvasLocation" x="2820" y="991"/>
         </scene>
         <!--WikipediaSearch-->
         <scene sceneID="O5K-pi-knb">
@@ -1066,7 +1029,7 @@
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LNg-K8-Sfy" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2749" y="1052"/>
+            <point key="canvasLocation" x="2824" y="1051"/>
         </scene>
         <!--GitHubSearchRepositories-->
         <scene sceneID="PU1-3d-gS0">
@@ -1076,7 +1039,7 @@
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="w4D-AK-YMq" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2772" y="1109"/>
+            <point key="canvasLocation" x="2871" y="1106"/>
         </scene>
         <!--Signup Driver View Controller-->
         <scene sceneID="Ceq-ej-FGH">

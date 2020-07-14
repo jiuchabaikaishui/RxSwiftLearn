@@ -20,7 +20,6 @@
 		5CD466A422FAAD07003FC8FC /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CD466A322FAAD07003FC8FC /* Models.swift */; };
 		5CD466A622FAADC0003FC8FC /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CD466A522FAADC0003FC8FC /* Protocols.swift */; };
 		5CD466A922FAB4CB003FC8FC /* Commons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CD466A822FAB4CB003FC8FC /* Commons.swift */; };
-		5CDAB16E22D4C3FD00CD63E1 /* UsageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDAB16D22D4C3FC00CD63E1 /* UsageViewController.swift */; };
 		5CDAB17322D867B500CD63E1 /* ExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDAB17222D867B400CD63E1 /* ExampleViewController.swift */; };
 		6E09F85823C5C15B00C3B4F4 /* TableViewSectionedDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E09F85723C5C15B00C3B4F4 /* TableViewSectionedDataSource.swift */; };
 		6E12A9E0243B392A0064502D /* PartialUpdates.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6E12A9DF243B392A0064502D /* PartialUpdates.storyboard */; };
@@ -82,7 +81,6 @@
 		5CD466A322FAAD07003FC8FC /* Models.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 		5CD466A522FAADC0003FC8FC /* Protocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
 		5CD466A822FAB4CB003FC8FC /* Commons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Commons.swift; sourceTree = "<group>"; };
-		5CDAB16D22D4C3FC00CD63E1 /* UsageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsageViewController.swift; sourceTree = "<group>"; };
 		5CDAB17222D867B400CD63E1 /* ExampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleViewController.swift; sourceTree = "<group>"; };
 		6E09F85723C5C15B00C3B4F4 /* TableViewSectionedDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewSectionedDataSource.swift; sourceTree = "<group>"; };
 		6E12A9DF243B392A0064502D /* PartialUpdates.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = PartialUpdates.storyboard; sourceTree = "<group>"; };
@@ -178,25 +176,24 @@
 				6EFA4BEC23B30DB700943616 /* SignupDriverViewController.swift */,
 				6EFA4BEA23B30C8400943616 /* WrappersViewController.swift */,
 				6EFA4BE823B30C4000943616 /* CalculatorViewController.swift */,
+				6E2F662423964D2F0005EBCC /* Calculator.storyboard */,
 				6EFA4BE623B30BF500943616 /* ImagePickerController.swift */,
+				6E494DA623AB142000B08D2E /* ImagePicker.storyboard */,
 				6EFA4BFC23B30FCB00943616 /* SimplePickerViewViewController.swift */,
 				6EFA4BFE23B4CC9800943616 /* CustomPickerViewController.swift */,
-				6EFC426D23C474CA007766FC /* SimpleTableViewController.swift */,
-				6EFC427123C48EEC007766FC /* SimpleSectionedTableViewController.swift */,
-				6E330C8223CC1E6400BB40BE /* EditingViewController.swift */,
-				6E12A9E1243B403B0064502D /* PartialUpdatesViewController.swift */,
-				6EE0343C2456C9F800DC20E2 /* WikipediaSearchViewController.swift */,
-				6EDED93924583FF2005B4717 /* GitHubSearchRepositoriesViewController.swift */,
-				6E330C8623CDA47700BB40BE /* DetailViewController.swift */,
-				5CDAB16D22D4C3FC00CD63E1 /* UsageViewController.swift */,
-				6E2F662423964D2F0005EBCC /* Calculator.storyboard */,
-				6E494DA623AB142000B08D2E /* ImagePicker.storyboard */,
 				6EFA4BE223B3082200943616 /* PickerView.storyboard */,
+				6EFC426D23C474CA007766FC /* SimpleTableViewController.swift */,
 				6EFC426F23C474F9007766FC /* SimpleTableView.storyboard */,
+				6EFC427123C48EEC007766FC /* SimpleSectionedTableViewController.swift */,
 				6EFC427323C48F0D007766FC /* SimpleSectionedTableView.storyboard */,
+				6E330C8223CC1E6400BB40BE /* EditingViewController.swift */,
+				6E330C8623CDA47700BB40BE /* DetailViewController.swift */,
 				6E330C8423CC1E8F00BB40BE /* EditingTableView.storyboard */,
+				6E12A9E1243B403B0064502D /* PartialUpdatesViewController.swift */,
 				6E12A9DF243B392A0064502D /* PartialUpdates.storyboard */,
+				6EE0343C2456C9F800DC20E2 /* WikipediaSearchViewController.swift */,
 				6EE0343A2456C50800DC20E2 /* WikipediaSearch.storyboard */,
+				6EDED93924583FF2005B4717 /* GitHubSearchRepositoriesViewController.swift */,
 				6EDED93724583F2F005B4717 /* GitHubSearchRepositories.storyboard */,
 			);
 			path = Controller;
@@ -481,7 +478,6 @@
 				5CDAB17322D867B500CD63E1 /* ExampleViewController.swift in Sources */,
 				6E8527B7244C9B1200788181 /* Randomizer.swift in Sources */,
 				6EFA4BF723B30EED00943616 /* InputIValidationViewController.swift in Sources */,
-				5CDAB16E22D4C3FD00CD63E1 /* UsageViewController.swift in Sources */,
 				6E330C8323CC1E6400BB40BE /* EditingViewController.swift in Sources */,
 				6EFC426E23C474CA007766FC /* SimpleTableViewController.swift in Sources */,
 				6EFA4BEB23B30C8400943616 /* WrappersViewController.swift in Sources */,
