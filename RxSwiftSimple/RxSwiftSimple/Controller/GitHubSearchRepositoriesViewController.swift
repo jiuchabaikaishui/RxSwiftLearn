@@ -25,7 +25,7 @@ class GitHubSearchRepositoriesViewController: ExampleViewController, NVActivityI
     }, titleForHeader: { (ds, tv, i) -> String? in
         let section = ds[i]
         
-        return section.items.count > 0 ? "\(section.items.count)个仓库" : "没有发现仓库"
+        return section.items.count > 0 ? "\(section.items.count)个仓库" : "没有发现\(section.model)仓库"
     })
     
     override func viewDidLoad() {
@@ -59,6 +59,7 @@ class GitHubSearchRepositoriesViewController: ExampleViewController, NVActivityI
                 guard let url = state.nextURL else {
                     return Signal.empty()
                 }
+                print("----\(url)----")
                 return GitHubSearchRepositoriesAPI.sharedAPI.loadSearchURL(searchURL: url)
                     .trackActivity(activityIndicator)
                     .asSignal(onErrorJustReturn: Result.failure(GitHubServiceError.networkError))
@@ -77,6 +78,7 @@ class GitHubSearchRepositoriesViewController: ExampleViewController, NVActivityI
             
             return events.scan(initState, accumulator: GitHubSearchRepositoriesState.reduce)
                 .do(onNext: { (s) in
+                    print("++++\(s.searchText)++++")
                     replaySubject.onNext(s)
                 }, onSubscribed: {
                     replaySubject.onNext(initState)

@@ -37,13 +37,13 @@
 		6E494DA723AB142100B08D2E /* ImagePicker.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6E494DA623AB142000B08D2E /* ImagePicker.storyboard */; };
 		6E659728246AC98C008C81EC /* GitHubSearchRepositoriesState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E659727246AC98C008C81EC /* GitHubSearchRepositoriesState.swift */; };
 		6E8527B7244C9B1200788181 /* Randomizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E8527B6244C9B1200788181 /* Randomizer.swift */; };
+		6E926C5D24BE9F12004DC63C /* GitHubSearchRepositoriesAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E926C5C24BE9F12004DC63C /* GitHubSearchRepositoriesAPI.swift */; };
 		6EDED7EC2456EDF8005B4717 /* BaikeAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EDED7EB2456EDF8005B4717 /* BaikeAPI.swift */; };
 		6EDED9362457C48C005B4717 /* Dependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EDED9352457C48C005B4717 /* Dependencies.swift */; };
 		6EDED93824583F2F005B4717 /* GitHubSearchRepositories.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6EDED93724583F2F005B4717 /* GitHubSearchRepositories.storyboard */; };
 		6EDED93A24583FF2005B4717 /* GitHubSearchRepositoriesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EDED93924583FF2005B4717 /* GitHubSearchRepositoriesViewController.swift */; };
 		6EE0343B2456C50800DC20E2 /* WikipediaSearch.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6EE0343A2456C50800DC20E2 /* WikipediaSearch.storyboard */; };
 		6EE0343D2456C9F900DC20E2 /* WikipediaSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EE0343C2456C9F800DC20E2 /* WikipediaSearchViewController.swift */; };
-		6EEB42C12488CC4800C9ED81 /* GitHubSearchRepositoriesAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EEB42C02488CC4800C9ED81 /* GitHubSearchRepositoriesAPI.swift */; };
 		6EFA4BE323B3082200943616 /* PickerView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6EFA4BE223B3082200943616 /* PickerView.storyboard */; };
 		6EFA4BE723B30BF500943616 /* ImagePickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EFA4BE623B30BF500943616 /* ImagePickerController.swift */; };
 		6EFA4BE923B30C4000943616 /* CalculatorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EFA4BE823B30C4000943616 /* CalculatorViewController.swift */; };
@@ -98,13 +98,13 @@
 		6E494DA623AB142000B08D2E /* ImagePicker.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ImagePicker.storyboard; sourceTree = "<group>"; };
 		6E659727246AC98C008C81EC /* GitHubSearchRepositoriesState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitHubSearchRepositoriesState.swift; sourceTree = "<group>"; };
 		6E8527B6244C9B1200788181 /* Randomizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Randomizer.swift; sourceTree = "<group>"; };
+		6E926C5C24BE9F12004DC63C /* GitHubSearchRepositoriesAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GitHubSearchRepositoriesAPI.swift; sourceTree = "<group>"; };
 		6EDED7EB2456EDF8005B4717 /* BaikeAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaikeAPI.swift; sourceTree = "<group>"; };
 		6EDED9352457C48C005B4717 /* Dependencies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dependencies.swift; sourceTree = "<group>"; };
 		6EDED93724583F2F005B4717 /* GitHubSearchRepositories.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = GitHubSearchRepositories.storyboard; sourceTree = "<group>"; };
 		6EDED93924583FF2005B4717 /* GitHubSearchRepositoriesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitHubSearchRepositoriesViewController.swift; sourceTree = "<group>"; };
 		6EE0343A2456C50800DC20E2 /* WikipediaSearch.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = WikipediaSearch.storyboard; sourceTree = "<group>"; };
 		6EE0343C2456C9F800DC20E2 /* WikipediaSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WikipediaSearchViewController.swift; sourceTree = "<group>"; };
-		6EEB42C02488CC4800C9ED81 /* GitHubSearchRepositoriesAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitHubSearchRepositoriesAPI.swift; sourceTree = "<group>"; };
 		6EFA4BE223B3082200943616 /* PickerView.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = PickerView.storyboard; sourceTree = "<group>"; };
 		6EFA4BE623B30BF500943616 /* ImagePickerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerController.swift; sourceTree = "<group>"; };
 		6EFA4BE823B30C4000943616 /* CalculatorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorViewController.swift; sourceTree = "<group>"; };
@@ -222,6 +222,7 @@
 				5C176B4C22EFDB0500ED7BAA /* Services.swift */,
 				6E330C8C23D1527900BB40BE /* UserAPI.swift */,
 				6EDED7EB2456EDF8005B4717 /* BaikeAPI.swift */,
+				6E926C5C24BE9F12004DC63C /* GitHubSearchRepositoriesAPI.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -289,7 +290,6 @@
 				6E8527B6244C9B1200788181 /* Randomizer.swift */,
 				6EDED9352457C48C005B4717 /* Dependencies.swift */,
 				6E659727246AC98C008C81EC /* GitHubSearchRepositoriesState.swift */,
-				6EEB42C02488CC4800C9ED81 /* GitHubSearchRepositoriesAPI.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -451,8 +451,8 @@
 				6EFA4BF923B30F2500943616 /* SimpleBindingViewController.swift in Sources */,
 				6E330C8D23D1527900BB40BE /* UserAPI.swift in Sources */,
 				5C5EEB1B222E0DB8004E99A7 /* ViewController.swift in Sources */,
+				6E926C5D24BE9F12004DC63C /* GitHubSearchRepositoriesAPI.swift in Sources */,
 				5C5EEB19222E0DB8004E99A7 /* AppDelegate.swift in Sources */,
-				6EEB42C12488CC4800C9ED81 /* GitHubSearchRepositoriesAPI.swift in Sources */,
 				6E330C8923CDA66400BB40BE /* User.swift in Sources */,
 				6EFC426C23C42AC9007766FC /* PickerViewViewAdapter.swift in Sources */,
 				6EDED7EC2456EDF8005B4717 /* BaikeAPI.swift in Sources */,
