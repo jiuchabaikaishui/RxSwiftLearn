@@ -40,12 +40,12 @@ class GitHubSearchRepositoriesViewController: ExampleViewController, NVActivityI
         let inputFeedback: (Driver<GitHubSearchRepositoriesState>) -> Signal<GitHubCommand> = { [weak self] state in
             let loadNextPage = loadNextPageTrigger(state).map { GitHubCommand.loadMoreItems }
             let searchText = self!.searchBar.rx.text.orEmpty.changed.asSignal()
-                .throttle(.milliseconds(300))
+                .throttle(.seconds(3))
                 .map(GitHubCommand.changeSearch)
-            
+
             return Signal.merge(loadNextPage, searchText)
         }
-        
+
         let activityIndicator = ActivityIndicator()
         let performSearchFeedback: (Driver<GitHubSearchRepositoriesState>) -> Signal<GitHubCommand> = { s in
             s.flatMapLatest { (state) -> Signal<GitHubCommand> in
@@ -55,7 +55,7 @@ class GitHubSearchRepositoriesViewController: ExampleViewController, NVActivityI
                 if state.searchText.isEmpty {
                     return Signal.just(GitHubCommand.gitHubResponseReceived(Result.success((repositories: [], nextURL: nil))))
                 }
-                
+
                 guard let url = state.nextURL else {
                     return Signal.empty()
                 }
@@ -66,7 +66,7 @@ class GitHubSearchRepositoriesViewController: ExampleViewController, NVActivityI
                     .map(GitHubCommand.gitHubResponseReceived)
             }
         }
-        
+
         let initState = GitHubSearchRepositoriesState.initial
         let state = Driver<GitHubSearchRepositoriesState>.deferred {
             let replaySubject = ReplaySubject<GitHubSearchRepositoriesState>.create(bufferSize: 1)
@@ -75,7 +75,7 @@ class GitHubSearchRepositoriesViewController: ExampleViewController, NVActivityI
                 let s = replaySubject.asDriver(onErrorDriveWith: Driver.empty())
                 return feedback(s).asObservable()
             })).observeOn(CurrentThreadScheduler.instance)
-            
+
             return events.scan(initState, accumulator: GitHubSearchRepositoriesState.reduce)
                 .do(onNext: { (s) in
                     print("++++\(s.searchText)++++")
@@ -87,14 +87,15 @@ class GitHubSearchRepositoriesViewController: ExampleViewController, NVActivityI
                 .observeOn(scheduler)
                 .asDriver(onErrorDriveWith: .empty())
         }
-        
-        state
-            .map { $0.repositories }
+
+        state.map {
+                $0.repositories
+        }
             .distinctUntilChanged()
             .map { [SectionModel(model: "Repositories", items: $0.value)] }
             .drive(tableView.rx.items(dataSource: dataSource))
             .disposed(by: bag)
-        
+
         tableView.rx.modelSelected(Repository.self)
             .subscribe(onNext: { (repository) in
                 if UIApplication.shared.canOpenURL(repository.url) {
@@ -105,11 +106,11 @@ class GitHubSearchRepositoriesViewController: ExampleViewController, NVActivityI
                     }
                 }
             }).disposed(by: bag)
-        
+
         tableView.rx.itemSelected.subscribe(onNext: {
                 self.tableView.deselectRow(at: $0, animated: true)
             }).disposed(by: bag)
-        
+
         activityIndicator.drive(onNext: {
             UIApplication.shared.isNetworkActivityIndicatorVisible = $0
             $0 ? self.startAnimating() : self.stopAnimating()

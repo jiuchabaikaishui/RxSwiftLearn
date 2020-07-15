@@ -106,9 +106,7 @@ class GitHubSearchRepositoriesAPI {
                 let nextURL = try GitHubSearchRepositoriesAPI.parseNextURL(response: pair.response)
                 
                 return .success((repository, nextURL))
-        }.catchError { (e) -> Observable<Result<(repositories: [Repository], nextURL: URL?), GitHubServiceError>> in
-            Observable.error(e)
-        }.retry()
+        }
     }
 }
 
