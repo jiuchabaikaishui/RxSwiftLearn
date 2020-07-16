@@ -31,6 +31,10 @@ class GitHubSearchRepositoriesViewController: ExampleViewController, NVActivityI
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        /// 设置UI
+        self.title = "Github搜索示例"
+        tableView.tableFooterView = UIView(frame: CGRect.zero)
+        
         let loadNextPageTrigger: (Driver<GitHubSearchRepositoriesState>) -> Signal<()> = { [weak self] state in
             self!.tableView.rx.contentOffset.asDriver().withLatestFrom(state).flatMap { (state: GitHubSearchRepositoriesState) in
                 // 滚动到tableView底部但不能加载下一页
@@ -40,7 +44,7 @@ class GitHubSearchRepositoriesViewController: ExampleViewController, NVActivityI
         let inputFeedback: (Driver<GitHubSearchRepositoriesState>) -> Signal<GitHubCommand> = { [weak self] state in
             let loadNextPage = loadNextPageTrigger(state).map { GitHubCommand.loadMoreItems }
             let searchText = self!.searchBar.rx.text.orEmpty.changed.asSignal()
-                .throttle(.seconds(3))
+                .throttle(.seconds(1))
                 .map(GitHubCommand.changeSearch)
 
             return Signal.merge(loadNextPage, searchText)
@@ -59,7 +63,6 @@ class GitHubSearchRepositoriesViewController: ExampleViewController, NVActivityI
                 guard let url = state.nextURL else {
                     return Signal.empty()
                 }
-                print("----\(url)----")
                 return GitHubSearchRepositoriesAPI.sharedAPI.loadSearchURL(searchURL: url)
                     .trackActivity(activityIndicator)
                     .asSignal(onErrorJustReturn: Result.failure(GitHubServiceError.networkError))
@@ -88,14 +91,14 @@ class GitHubSearchRepositoriesViewController: ExampleViewController, NVActivityI
                 .asDriver(onErrorDriveWith: .empty())
         }
 
-        state.map {
-                $0.repositories
-        }
+        // 数据绑定
+        state.map { $0.repositories }
             .distinctUntilChanged()
             .map { [SectionModel(model: "Repositories", items: $0.value)] }
             .drive(tableView.rx.items(dataSource: dataSource))
             .disposed(by: bag)
 
+        // 选中数据
         tableView.rx.modelSelected(Repository.self)
             .subscribe(onNext: { (repository) in
                 if UIApplication.shared.canOpenURL(repository.url) {
@@ -106,14 +109,24 @@ class GitHubSearchRepositoriesViewController: ExampleViewController, NVActivityI
                     }
                 }
             }).disposed(by: bag)
-
-        tableView.rx.itemSelected.subscribe(onNext: {
-                self.tableView.deselectRow(at: $0, animated: true)
+        
+        // 选中行
+        tableView.rx.itemSelected
+            .subscribe(onNext: { [weak self] in self!.tableView.deselectRow(at: $0, animated: true) })
+            .disposed(by: bag)
+        
+        // 网络请求中
+        activityIndicator.drive(onNext: { [weak self] in
+                UIApplication.shared.isNetworkActivityIndicatorVisible = $0
+                $0 && self!.tableView.isNearBottomEdge(edgeOffset: 20.0) ? self!.startAnimating() : self!.stopAnimating()
             }).disposed(by: bag)
-
-        activityIndicator.drive(onNext: {
-            UIApplication.shared.isNetworkActivityIndicatorVisible = $0
-            $0 ? self.startAnimating() : self.stopAnimating()
+        
+        // 滑动tableView
+        self.tableView.rx.contentOffset.distinctUntilChanged()
+            .subscribe({ [weak self] _ in
+                if self!.searchBar.isFirstResponder {
+                    self!.searchBar.resignFirstResponder()
+                }
             }).disposed(by: bag)
     }
 }

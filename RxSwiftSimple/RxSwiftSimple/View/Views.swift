@@ -25,11 +25,9 @@ class CommonCell: UITableViewCell {
     static func cellFor(tableView: UITableView) -> CommonCell {
         let identifier = "CommonCell"
         let cell = tableView.dequeueReusableCell(withIdentifier: identifier) as? CommonCell
-        var result: CommonCell
-        if let c = cell  {
-            result = c
-        } else {
-            result = CommonCell(style: .subtitle, reuseIdentifier: identifier)
+        
+        guard let result = cell else {
+            return CommonCell(style: .subtitle, reuseIdentifier: identifier)
         }
         
         return result

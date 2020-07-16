@@ -27,6 +27,8 @@ class ExampleViewController: BaseViewController {
         
         if let title = self.title {
             self.title = title + "示例"
+        } else {
+            self.title = "示例"
         }
         
         guard let _ = self.view?.backgroundColor else {
@@ -132,26 +134,72 @@ class ImplicitViewController: ExampleViewController {
 
 
 class KVOViewController: ExampleViewController {
-    @objc dynamic weak var viewT: UIView?
+    @objc dynamic weak var redView: UIView?
+    @objc dynamic weak var cyanView: UIView?
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let v = UIView()
-        v.backgroundColor = UIColor.cyan
-        view.addSubview(v)
-        viewT = v
-        viewT?.snp.makeConstraints { (maker) in
-            maker.width.height.equalTo(44.0)
-            maker.center.equalTo(view).offset(10.0)
+        let redView = UIView()
+        redView.backgroundColor = UIColor.red
+        view.addSubview(redView)
+        self.redView = redView;
+        redView.snp.makeConstraints { (maker) in
+            maker.left.equalTo(self.view)
+            if #available(iOS 11.0, *) {
+                maker.top.equalTo(self.view.safeAreaLayoutGuide.snp.top)
+            } else {
+                maker.top.equalTo(self.topLayoutGuide.snp.bottom)
+            }
+            maker.width.height.equalTo(50.0)
+        }
+        let cyanView = UIView()
+        cyanView.backgroundColor = UIColor.cyan
+        view.addSubview(cyanView)
+        self.cyanView = cyanView;
+        cyanView.snp.makeConstraints { (maker) in
+            maker.left.equalTo(self.view).offset(50.0)
+            if #available(iOS 11.0, *) {
+                maker.top.equalTo(self.view.safeAreaLayoutGuide.snp.top)
+            } else {
+                maker.top.equalTo(self.topLayoutGuide.snp.bottom)
+            }
+            maker.width.height.equalTo(50.0)
         }
         
-        rx.observe(CGPoint.self, "view.center", retainSelf: false).subscribe { (e) in
-            print(e)
+        rx.observe(CGPoint.self, "redView.center", retainSelf: false).subscribe { (e) in
+            print("redView: \(e)")
         }.disposed(by: bag)
         
-        rx.observeWeakly(CGPoint.self, "viewT.center").subscribe { (e) in
-            print(e)
+        rx.observeWeakly(CGPoint.self, "cyanView.center").subscribe { (e) in
+            print("cyanView: \(e)")
         }.disposed(by: bag)
+        
+        // 添加 pan 手势
+        let redPan = UIPanGestureRecognizer(target: self, action: #selector(redPanAction(sender:)))
+        redView.addGestureRecognizer(redPan)
+        let cyanPan = UIPanGestureRecognizer(target: self, action: #selector(cyanPanAction(sender:)))
+        cyanView.addGestureRecognizer(cyanPan)
+    }
+    
+    @objc func redPanAction(sender: UIPanGestureRecognizer) {
+        self.view.bringSubviewToFront(self.redView!)
+        let point: CGPoint = sender.translation(in: self.view)
+        sender.setTranslation(CGPoint.zero, in: self.view)
+        self.redView?.snp.remakeConstraints({ (maker) in
+        maker.left.equalTo(self.view).offset(self.redView!.frame.origin.x + point.x)
+        maker.top.equalTo(self.view).offset(self.redView!.frame.origin.y + point.y)
+            maker.width.height.equalTo(50.0)
+        })
+    }
+    @objc func cyanPanAction(sender: UIPanGestureRecognizer) {
+        self.view.bringSubviewToFront(self.cyanView!)
+        let point: CGPoint = sender.translation(in: self.view)
+        sender.setTranslation(CGPoint.zero, in: self.view)
+        self.cyanView?.snp.remakeConstraints({ (maker) in
+            maker.left.equalTo(self.view).offset(self.cyanView!.frame.origin.x + point.x)
+            maker.top.equalTo(self.view).offset(self.cyanView!.frame.origin.y + point.y)
+            maker.width.height.equalTo(50.0)
+        })
     }
 }
 

@@ -10,59 +10,51 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class ViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate {
+class ViewController: BaseViewController {
     @IBOutlet weak var tableView: UITableView!
     let vm = ViewControllerVM()
+    let dataSource = TableViewSectionedDataSource<SectionModel<String, TableViewItemModel>>(cellForRow: { (ds, tv, ip) -> UITableViewCell in
+        let cell = CommonCell.cellFor(tableView: tv)
+        let model = ds[ip]
+        cell.textLabel?.text = model.title
+        cell.detailTextLabel?.text = model.detail
+        cell.accessoryType = model.canPushed ? .disclosureIndicator : .none
+        
+        return cell
+    }, titleForHeader: { (ds, tv, i) -> String? in
+        ds[i].model
+    })
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let cell = sender as? UITableViewCell {
+        if let cell = sender as? CommonCell {
             if let indexPath = tableView.indexPath(for: cell) {
-                segue.destination.title = vm.rowVM(indexPath: indexPath)?.title
+                segue.destination.title = dataSource[indexPath].title
             }
         }
     }
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        tableView.delegate = self
-        tableView.dataSource = self
+        // 设置UI
         tableView.tableFooterView = UIView(frame: CGRect.zero)
-    }
-    
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return vm.data.count
-    }
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return vm.data[section].rows.count
-    }
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = CommonCell(style: .subtitle, reuseIdentifier: "CommonCell")
         
-        let row = vm.data[indexPath.section].rows[indexPath.row]
-        cell.textLabel?.text = row.title
-        cell.detailTextLabel?.text = row.detail
-        if row.pushed {
-            cell.accessoryType = .disclosureIndicator
-        }
-        
-        return cell
-    }
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let view = UITableViewHeaderFooterView(reuseIdentifier: "UITableViewHeaderFooterView")
-        
-        let model = vm.data[section]
-        view.textLabel?.text = model.title
-        
-        return view
-    }
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let row = vm.data[indexPath.section].rows[indexPath.row]
-        if let action = row.selectedAction {
-            action(self, tableView, indexPath)
-        }
-        if row.selected {
-            tableView.deselectRow(at: indexPath, animated: true)
-        }
+        // 数据绑定
+        vm.sections
+            .bind(to: tableView.rx.items(dataSource: dataSource))
+            .disposed(by: bag)
+        tableView.rx
+            .itemSelected
+            .subscribe(onNext: { [unowned self] (indexPath) in
+                let model = self.dataSource[indexPath]
+                
+                // nextSegueID 不为空
+                if !model.nextSegueID.isEmpty { self.performSegue(withIdentifier: model.nextSegueID, sender: self.tableView.cellForRow(at: indexPath)) }
+                // selectedAction 有值
+                if let action = model.selectedAction { action(self, self.tableView, indexPath) }
+                
+                // 取消tableView的选中状态
+                self.tableView.deselectRow(at: indexPath, animated: true)
+            }).disposed(by: bag)
     }
 }
 

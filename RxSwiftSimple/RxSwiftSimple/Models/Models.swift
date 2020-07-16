@@ -10,6 +10,15 @@ import Foundation
 import RxCocoa
 import RxSwift
 
+/// 条目数据模型
+struct TableViewItemModel {
+    var title: String // 标题
+    var detail: String // 详情
+    var canPushed = false // 能否push到下个页面
+    var nextSegueID = "" // 下个页面ID
+    var selectedAction: SelectedAction? = nil // 选中操作
+}
+
 /// 有效结果
 enum ValidationResult {
     case ok(message: String)// 有效
