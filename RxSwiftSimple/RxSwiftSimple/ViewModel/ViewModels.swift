@@ -216,158 +216,107 @@ struct ViewControllerVM {
                     
                     controller.navigationController?.pushViewController(nextController, animated: true)
                 })
+            ]),
+            SectionModel(model: "特征", items: [
+                TableViewItemModel(title: "Single", detail: "Single是Observable的变体，它总是保证发出单个元素或错误，而不是发出一系列元素。", canPushed: true, selectedAction: { controller, tableView, indexPath in
+                    let dis = SingleViewController()
+                    if let title = (controller as? ViewController)?.dataSource[indexPath].title {
+                        dis.title = title
+                    }
+                    
+                    controller.navigationController?.pushViewController(dis, animated: true)
+                }),
+                TableViewItemModel(title: "Completable", detail: "Completable是Observable的变体，只能完成或发出错误。保证不发出任何元素。", canPushed: true, selectedAction: { controller, tableView, indexPath in
+                    let dis = CompletableViewController()
+                    if let title = (controller as? ViewController)?.dataSource[indexPath].title {
+                        dis.title = title
+                    }
+                    
+                    controller.navigationController?.pushViewController(dis, animated: true)
+                }),
+                TableViewItemModel(title: "Maybe", detail: "Maybe是Observable的变体，它位于Single和Completable之间。它既可以发出单个元素，也可以在不发出元素的情况下完成，或者发出错误。", canPushed: true, selectedAction: { controller, tableView, indexPath in
+                    let dis = MaybeViewController()
+                    if let title = (controller as? ViewController)?.dataSource[indexPath].title {
+                        dis.title = title
+                    }
+                    
+                    controller.navigationController?.pushViewController(dis, animated: true)
+                })
+            ]),
+            SectionModel(model: "Schedulers", items: [
+                TableViewItemModel(title: "observeOn", detail: "要在不同的Schedulers上执行工作，使用observeOn(scheduler)操作符。", selectedAction: { controller, tableView, indexPath in
+                    print(Thread.current)
+                    DispatchQueue.global().async {
+                        print(Thread.current)
+                        let disposable = Observable<Int>.create({ (observer) -> Disposable in
+                            let n = 0
+                            print(Thread.current)
+                            print(n)
+                            observer.onNext((n))
+                            return Disposables.create()
+                        }).observeOn(MainScheduler.instance).map({ (n) -> Int in
+                            print(Thread.current)
+                            print(n)
+                            
+                            return n + 1
+                        }).observeOn(ConcurrentDispatchQueueScheduler(qos: .background)).map({ (n) -> Int in
+                            print(Thread.current)
+                            print(n)
+                            
+                            return n + 1
+                        }).subscribe({ (n) in
+                            print(Thread.current)
+                            print(n)
+                        })
+                        
+                        Thread.sleep(forTimeInterval: 1)
+                        disposable.dispose()
+                    }
+                }),
+                TableViewItemModel(title: "subscribeOn", detail: "要在特定scheduler上启动序列生成元素（subscribe方法）并调用dispose，请使用subscribeOn(scheduler)。", selectedAction: { controller, tableView, indexPath in
+                    print("0----\(Thread.current)----")
+                    DispatchQueue.global().async {
+                        let disposable = Observable<Int>.create({ (observer) -> Disposable in
+                            let n = 0
+                            print("1----\(Thread.current)----")
+                            observer.onNext(n)
+                            return Disposables.create()
+                        }).observeOn(ConcurrentDispatchQueueScheduler(qos: .background)).map{ (n) -> Int in
+                            print("2----\(Thread.current)----")
+                            print(n)
+                            return n + 1
+                        }.subscribeOn(MainScheduler.instance).subscribe({ (e) in
+                            print("3----\(Thread.current)----")
+                            print(e)
+                        })
+                        
+                        Thread.sleep(forTimeInterval: 1)
+                        disposable.dispose()
+                    }
+                })
+            ]),
+            SectionModel(model: "示例", items: [
+                TableViewItemModel(title: "绑定值", detail: "在这个示例中体会命令式与响应式编程的差异。", canPushed: true, nextSegueID: "MainToValues"),
+                TableViewItemModel(title: "简单UI绑定", detail: "一个简单的UI绑定示例。", canPushed: true, nextSegueID: "MainToSimpleBinding"),
+                TableViewItemModel(title: "自动输入验证", detail: "此示例包含具有进度通知的复杂异步UI验证逻辑。", canPushed: true, nextSegueID: "MainToInputIValidation"),
+                TableViewItemModel(title: "数字相加", detail: "绑定。", canPushed: true, nextSegueID: "MainToNumbers"),
+                TableViewItemModel(title: "简单验证", detail: "绑定。", canPushed: true, nextSegueID: "MainToValid"),
+                TableViewItemModel(title: "定位", detail: "绑定。", canPushed: true, nextSegueID: "MainToLoction"),
+                TableViewItemModel(title: "GitHub注册", detail: "绑定。", canPushed: true, nextSegueID: "MainToSignupObservable"),
+                TableViewItemModel(title: "GitHub登录", detail: "绑定。", canPushed: true, nextSegueID: "MainToSignupDriver"),
+                TableViewItemModel(title: "GitHub登录", detail: "绑定。", canPushed: true, nextSegueID: "MainToWrappers"),
+                TableViewItemModel(title: "计算器", detail: "绑定。", canPushed: true, nextSegueID: "MainToCalculator"),
+                TableViewItemModel(title: "图片采集", detail: "绑定。", canPushed: true, nextSegueID: "MainToImagePicker"),
+                TableViewItemModel(title: "PickerView", detail: "绑定。", canPushed: true, nextSegueID: "MainToPickerView"),
+                TableViewItemModel(title: "简单的UITableView绑定", detail: "绑定。", canPushed: true, nextSegueID: "MainToSimpleTableView"),
+                TableViewItemModel(title: "分组的UITableView绑定", detail: "绑定。", canPushed: true, nextSegueID: "MainToSimpleSectionedTableView"),
+                TableViewItemModel(title: "可编辑的UITableView绑定", detail: "绑定。", canPushed: true, nextSegueID: "MainToEditingTableView"),
+                TableViewItemModel(title: "局部刷新", detail: "UITableView、UICollectionView局部刷新绑定。", canPushed: true, nextSegueID: "MainToPartialUpdates"),
+                TableViewItemModel(title: "搜索", detail: "………………", canPushed: true, nextSegueID: "MainToWikipediaSearch"),
+                TableViewItemModel(title: "Github代码库搜索", detail: "………………", canPushed: true, nextSegueID: "MainToGitHubSearch")
             ])
         ]
     )
-    let data = [
-        TableViewSectionVM(title: "基础", rows: [
-            ]),
-        TableViewSectionVM(title: "特征", rows: [
-            TableViewRowVM(title: "Single", detail: "Single是Observable的变体，它总是保证发出单个元素或错误，而不是发出一系列元素。", selected: true, pushed: true, selectedAction: { (controller, tableView, indexPath) in
-                let dis = SingleViewController()
-                if let title = (controller as? ViewController)?.vm.rowVM(indexPath: indexPath)?.title {
-                    dis.title = title
-                }
-                
-                controller.navigationController?.pushViewController(dis, animated: true)
-            }),
-            TableViewRowVM(title: "Completable", detail: "Completable是Observable的变体，只能完成或发出错误。保证不发出任何元素。", selected: true, pushed: true, selectedAction: { (controller, tableView, indexPath) in
-                let dis = CompletableViewController()
-                if let title = (controller as? ViewController)?.vm.rowVM(indexPath: indexPath)?.title {
-                    dis.title = title
-                }
-                
-                controller.navigationController?.pushViewController(dis, animated: true)
-            }),
-            TableViewRowVM(title: "Maybe", detail: "Maybe是Observable的变体，它位于Single和Completable之间。它既可以发出单个元素，也可以在不发出元素的情况下完成，或者发出错误。", selected: true, pushed: true, selectedAction: { (controller, tableView, indexPath) in
-                let dis = MaybeViewController()
-                if let title = (controller as? ViewController)?.vm.rowVM(indexPath: indexPath)?.title {
-                    dis.title = title
-                }
-                
-                controller.navigationController?.pushViewController(dis, animated: true)
-            })
-            ]),
-        TableViewSectionVM(title: "Schedulers", rows: [
-            TableViewRowVM(title: "observeOn", detail: "要在不同的Schedulers上执行工作，使用observeOn(scheduler)操作符。", selected: true, pushed: false, selectedAction: { (controller, tableView, indexPath) in
-                print(Thread.current)
-                DispatchQueue.global().async {
-                    print(Thread.current)
-                    let disposable = Observable<Int>.create({ (observer) -> Disposable in
-                        let n = 0
-                        print(Thread.current)
-                        print(n)
-                        observer.onNext((n))
-                        return Disposables.create()
-                    }).observeOn(MainScheduler.instance).map({ (n) -> Int in
-                        print(Thread.current)
-                        print(n)
-                        
-                        return n + 1
-                    }).observeOn(ConcurrentDispatchQueueScheduler(qos: .background)).map({ (n) -> Int in
-                        print(Thread.current)
-                        print(n)
-                        
-                        return n + 1
-                    }).subscribe({ (n) in
-                        print(Thread.current)
-                        print(n)
-                    })
-                    
-                    Thread.sleep(forTimeInterval: 1)
-                    disposable.dispose()
-                }
-            }),
-            TableViewRowVM(title: "subscribeOn", detail: "要在特定scheduler上启动序列生成元素（subscribe方法）并调用dispose，请使用subscribeOn(scheduler)。", selected: true, pushed: false, selectedAction: { (controller, tableView, indexPath) in
-            print("0----\(Thread.current)----")
-                DispatchQueue.global().async {
-                    let disposable = Observable<Int>.create({ (observer) -> Disposable in
-                        let n = 0
-                        print("1----\(Thread.current)----")
-                        observer.onNext(n)
-                        return Disposables.create()
-                    }).observeOn(ConcurrentDispatchQueueScheduler(qos: .background)).map{ (n) -> Int in
-                        print("2----\(Thread.current)----")
-                        print(n)
-                        return n + 1
-                    }.subscribeOn(MainScheduler.instance).subscribe({ (e) in
-                        print("3----\(Thread.current)----")
-                        print(e)
-                    })
-                    
-                    Thread.sleep(forTimeInterval: 1)
-                    disposable.dispose()
-                }
-            })
-            ]),
-        TableViewSectionVM(title: "示例", rows: [
-            TableViewRowVM(title: "绑定值", detail: "在这个示例中体会命令式与响应式编程的差异。", selected: true, pushed: true, selectedAction: { (controller, tableView, indexPath) in
-                controller.performSegue(withIdentifier: "MainToValues", sender: tableView.cellForRow(at: indexPath))
-            }),
-            TableViewRowVM(title: "简单UI绑定", detail: "一个简单的UI绑定示例。", selected: true, pushed: true, selectedAction: { (controller, tableView, indexPath) in
-                controller.performSegue(withIdentifier: "MainToSimpleBinding", sender: tableView.cellForRow(at: indexPath))
-            }),
-            TableViewRowVM(title: "自动输入验证", detail: "此示例包含具有进度通知的复杂异步UI验证逻辑。", selected: true, pushed: true, selectedAction: { (controller, tableView, indexPath) in
-                controller.performSegue(withIdentifier: "MainToInputIValidation", sender: tableView.cellForRow(at: indexPath))
-            }),
-            TableViewRowVM(title: "数字相加", detail: "绑定。", selected: true, pushed: true, selectedAction: { (controller, tableView, indexPath) in
-                controller.performSegue(withIdentifier: "MainToNumbers", sender: tableView.cellForRow(at: indexPath))
-            }),
-            TableViewRowVM(title: "简单验证", detail: "绑定。", selected: true, pushed: true, selectedAction: { (controller, tableView, indexPath) in
-                controller.performSegue(withIdentifier: "MainToValid", sender: tableView.cellForRow(at: indexPath))
-            }),
-            TableViewRowVM(title: "定位", detail: "绑定。", selected: true, pushed: true, selectedAction: { (controller, tableView, indexPath) in
-                controller.performSegue(withIdentifier: "MainToLoction", sender: tableView.cellForRow(at: indexPath))
-            }),
-            TableViewRowVM(title: "GitHub注册", detail: "绑定。", selected: true, pushed: true, selectedAction: { (controller, tableView, indexPath) in
-                controller.performSegue(withIdentifier: "MainToSignupObservable", sender: tableView.cellForRow(at: indexPath))
-            }),
-            TableViewRowVM(title: "GitHub登录", detail: "绑定。", selected: true, pushed: true, selectedAction: { (controller, tableView, indexPath) in
-                controller.performSegue(withIdentifier: "MainToSignupDriver", sender: tableView.cellForRow(at: indexPath))
-            }),
-            TableViewRowVM(title: "GitHub登录", detail: "绑定。", selected: true, pushed: true, selectedAction: { (controller, tableView, indexPath) in
-                controller.performSegue(withIdentifier: "MainToWrappers", sender: tableView.cellForRow(at: indexPath))
-            }),
-            TableViewRowVM(title: "计算器", detail: "绑定。", selected: true, pushed: true, selectedAction: { (controller, tableView, indexPath) in
-                controller.performSegue(withIdentifier: "MainToCalculator", sender: tableView.cellForRow(at: indexPath))
-            }),
-            TableViewRowVM(title: "图片采集", detail: "绑定。", selected: true, pushed: true, selectedAction: { (controller, tableView, indexPath) in
-                controller.performSegue(withIdentifier: "MainToImagePicker", sender: tableView.cellForRow(at: indexPath))
-            }),
-            TableViewRowVM(title: "PickerView", detail: "绑定。", selected: true, pushed: true, selectedAction: { (controller, tableView, indexPath) in
-                controller.performSegue(withIdentifier: "MainToPickerView", sender: tableView.cellForRow(at: indexPath))
-            }),
-            TableViewRowVM(title: "简单的UITableView绑定", detail: "绑定。", selected: true, pushed: true, selectedAction: { (controller, tableView, indexPath) in
-                controller.performSegue(withIdentifier: "MainToSimpleTableView", sender: tableView.cellForRow(at: indexPath))
-            }),
-            TableViewRowVM(title: "分组的UITableView绑定", detail: "绑定。", selected: true, pushed: true, selectedAction: { (controller, tableView, indexPath) in
-                controller.performSegue(withIdentifier: "MainToSimpleSectionedTableView", sender: tableView.cellForRow(at: indexPath))
-            }),
-            TableViewRowVM(title: "可编辑的UITableView绑定", detail: "绑定。", selected: true, pushed: true, selectedAction: { (controller, tableView, indexPath) in
-                controller.performSegue(withIdentifier: "MainToEditingTableView", sender: tableView.cellForRow(at: indexPath))
-            }),
-            TableViewRowVM(title: "局部刷新", detail: "UITableView、UICollectionView局部刷新绑定。", selected: true, pushed: true, selectedAction: { (controller, tableView, indexPath) in
-                controller.performSegue(withIdentifier: "MainToPartialUpdates", sender: tableView.cellForRow(at: indexPath))
-            }),
-            TableViewRowVM(title: "搜索", detail: "………………", selected: true, pushed: true, selectedAction: { (controller, tableView, indexPath) in
-                controller.performSegue(withIdentifier: "MainToWikipediaSearch", sender: tableView.cellForRow(at: indexPath))
-            }),
-            TableViewRowVM(title: "Github代码库搜索", detail: "", selected: true, pushed: true, selectedAction: { (controller, tableView, indexPath) in
-                controller.performSegue(withIdentifier: "MainToGitHubSearch", sender: tableView.cellForRow(at: indexPath))
-            })
-        ])
-    ]
-    
-    func rowVM(indexPath: IndexPath) -> TableViewRowVM? {
-        if indexPath.section < data.count {
-            let section = data[indexPath.section]
-            if indexPath.row < section.rows.count {
-                return section.rows[indexPath.row]
-            }
-        }
-        
-        return nil
-    }
 }
 
 class SignupObservableVM {
