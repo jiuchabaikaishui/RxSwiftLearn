@@ -302,18 +302,18 @@ struct ViewControllerVM {
                 TableViewItemModel(title: "数字相加", detail: "绑定。", canPushed: true, nextSegueID: "MainToNumbers"),
                 TableViewItemModel(title: "简单验证", detail: "绑定。", canPushed: true, nextSegueID: "MainToValid"),
                 TableViewItemModel(title: "定位", detail: "绑定。", canPushed: true, nextSegueID: "MainToLoction"),
-                TableViewItemModel(title: "GitHub注册", detail: "绑定。", canPushed: true, nextSegueID: "MainToSignupObservable"),
-                TableViewItemModel(title: "GitHub登录", detail: "绑定。", canPushed: true, nextSegueID: "MainToSignupDriver"),
-                TableViewItemModel(title: "GitHub登录", detail: "绑定。", canPushed: true, nextSegueID: "MainToWrappers"),
-                TableViewItemModel(title: "计算器", detail: "绑定。", canPushed: true, nextSegueID: "MainToCalculator"),
-                TableViewItemModel(title: "图片采集", detail: "绑定。", canPushed: true, nextSegueID: "MainToImagePicker"),
-                TableViewItemModel(title: "PickerView", detail: "绑定。", canPushed: true, nextSegueID: "MainToPickerView"),
-                TableViewItemModel(title: "简单的UITableView绑定", detail: "绑定。", canPushed: true, nextSegueID: "MainToSimpleTableView"),
-                TableViewItemModel(title: "分组的UITableView绑定", detail: "绑定。", canPushed: true, nextSegueID: "MainToSimpleSectionedTableView"),
-                TableViewItemModel(title: "可编辑的UITableView绑定", detail: "绑定。", canPushed: true, nextSegueID: "MainToEditingTableView"),
-                TableViewItemModel(title: "局部刷新", detail: "UITableView、UICollectionView局部刷新绑定。", canPushed: true, nextSegueID: "MainToPartialUpdates"),
-                TableViewItemModel(title: "搜索", detail: "………………", canPushed: true, nextSegueID: "MainToWikipediaSearch"),
-                TableViewItemModel(title: "Github代码库搜索", detail: "………………", canPushed: true, nextSegueID: "MainToGitHubSearch")
+                TableViewItemModel(title: "GitHub注册（使用Observable）", detail: "简单的MVVM示例。", canPushed: true, nextSegueID: "MainToSignupObservable"),
+                TableViewItemModel(title: "GitHub注册（使用Driver）", detail: "简单的MVVM示例。", canPushed: true, nextSegueID: "MainToSignupDriver"),
+                TableViewItemModel(title: "API包装", detail: "API包装示例。", canPushed: true, nextSegueID: "MainToWrappers"),
+                TableViewItemModel(title: "计算器", detail: "无状态的计算器。", canPushed: true, nextSegueID: "MainToCalculator"),
+                TableViewItemModel(title: "UIImagePickerController", detail: "UIImagePickerController绑定。", canPushed: true, nextSegueID: "MainToImagePicker"),
+                TableViewItemModel(title: "UIPickerView", detail: "UIPickerView绑定。", canPushed: true, nextSegueID: "MainToPickerView"),
+                TableViewItemModel(title: "简单的UITableView", detail: "简单的UITableView绑定。", canPushed: true, nextSegueID: "MainToSimpleTableView"),
+                TableViewItemModel(title: "分组的UITableView", detail: "分组的UITableView绑定。", canPushed: true, nextSegueID: "MainToSimpleSectionedTableView"),
+                TableViewItemModel(title: "可编辑的UITableView", detail: "可编辑的UITableView绑定。", canPushed: true, nextSegueID: "MainToEditingTableView"),
+                TableViewItemModel(title: "局部刷新", detail: "UITableView、UICollectionView局部刷新。", canPushed: true, nextSegueID: "MainToPartialUpdates"),
+                TableViewItemModel(title: "维基百科搜索", detail: "复杂的异步指示器。", canPushed: true, nextSegueID: "MainToWikipediaSearch"),
+                TableViewItemModel(title: "Github代码库搜索", detail: "分页加载指示器。", canPushed: true, nextSegueID: "MainToGitHubSearch")
             ])
         ]
     )
