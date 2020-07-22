@@ -117,9 +117,9 @@ class ImplicitViewController: ExampleViewController {
     }
     func work() {
         Observable<Int>.interval(.milliseconds(300), scheduler: ConcurrentDispatchQueueScheduler(qos: .default)).subscribe({ (event) in
-            print("任务1")
+            print("任务开始")
             Thread.sleep(forTimeInterval: 1)
-            print("任务2")
+            print("任务结束")
         }).disposed(by: self.disposeBag)
     }
     @IBAction func clearAction(_ sender: UIButton) {

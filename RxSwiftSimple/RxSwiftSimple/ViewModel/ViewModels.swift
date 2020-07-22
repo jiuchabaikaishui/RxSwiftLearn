@@ -51,12 +51,17 @@ struct ViewControllerVM {
     
     let sections = Observable.just(
         [
+            // 第一组数据
             SectionModel(model: "简介", items: [
                 TableViewItemModel(title: "使用", detail: "从GitHub仓库的搜索", canPushed: true, nextSegueID: "MainToGitHubSearch")
             ]),
+            
+            // 第二组数据
             SectionModel(model: "为何使用RxSwift", items: [
                 TableViewItemModel(title: "绑定", detail: "简单的UI绑定", canPushed: true, nextSegueID: "MainToBanding")
             ]),
+            
+            // 第三组数据
             SectionModel(model: "基础", items: [
                 TableViewItemModel(title: "Disposing", detail: "观察的序列终止的一种方法。想要释放分配用于计算即将到来的元素的所有资源时，可以调用subscribe操作返回的Disposable的dispose操作。", selectedAction: { controller, tableView, indexPath in
                     let scheduler = SerialDispatchQueueScheduler(qos: .default)
@@ -71,7 +76,7 @@ struct ViewControllerVM {
                     print("dispose")
                     subscription.dispose()
                 }),
-                TableViewItemModel(title: "Dispose Bags", detail: "Dispose Bags用于返回类似ARC行为的RX。当DisposeBag被销毁时，它将调用每个添加的disposables的dispose。", canPushed: true, nextSegueID: "MainToDisposeBag"),
+                TableViewItemModel(title: "Dispose Bags", detail: "Dispose Bags用于返回类似ARC行为的RX。当DisposeBag被销毁时，它将调用添加的每个disposables的dispose。", canPushed: true, nextSegueID: "MainToDisposeBag"),
                 TableViewItemModel(title: "Take until", detail: "使用takeUntil操作在dealloc中自动清理订阅。", canPushed: true, selectedAction: { controller, tableView, indexPath in
                     let nextController = TakeuntilViewController()
                     if let title = (controller as? ViewController)?.dataSource[indexPath].title {
@@ -95,7 +100,7 @@ struct ViewControllerVM {
                         print(n)
                     })
                 }),
-                TableViewItemModel(title: "create", detail: "Swift使用create闭包轻松实现subscribe方法。它接受一个参数observer，并返回disposable。", selectedAction: { controller, tableView, indexPath in
+                TableViewItemModel(title: "create", detail: "create使用Swift闭包轻松实现subscribe方法。它接受一个参数observer，并返回disposable。", selectedAction: { controller, tableView, indexPath in
                     func myFrom<E>(_ sequese: [E]) -> Observable<E> {
                         return Observable.create({ (observer) -> Disposable in
                             for element in sequese {
@@ -120,7 +125,7 @@ struct ViewControllerVM {
                     })
                     print("Ended ----")
                 }),
-                TableViewItemModel(title: "创建Observable执行工作", detail: "创建前面使用的interval操作符，这相当于调度队列调度程序的实际实现。", selectedAction: { controller, tableView, indexPath in
+                TableViewItemModel(title: "创建Observable执行工作", detail: "创建前面使用的interval操作符，这相当于调度队列程序的实际实现。", selectedAction: { controller, tableView, indexPath in
                     let counter = myInterval(.milliseconds(100))
                     print("Started ----")
                     let subscription = counter.subscribe({ (n) in
