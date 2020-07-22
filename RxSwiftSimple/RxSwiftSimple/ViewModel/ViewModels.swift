@@ -175,7 +175,7 @@ struct ViewControllerVM {
                     Thread.sleep(forTimeInterval: 0.5)
                     subscription.dispose()
                 }),
-                TableViewItemModel(title: "debug", detail: "debug运算符将所有事件打印到标准输出，也可以添加标记这些事件。", selectedAction: { controller, tableView, indexPath in
+                TableViewItemModel(title: "debug", detail: "debug运算符将所有事件打印到标准输出，也可以为这些事件添加标签。", selectedAction: { controller, tableView, indexPath in
                     let subscription = myInterval(.milliseconds(100)).debug("my probe").map({ (e) in
                         return "This is simply \(e)"
                     }).subscribe({ (n) in
