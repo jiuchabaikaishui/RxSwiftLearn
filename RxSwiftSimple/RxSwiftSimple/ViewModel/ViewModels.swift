@@ -222,6 +222,8 @@ struct ViewControllerVM {
                     controller.navigationController?.pushViewController(nextController, animated: true)
                 })
             ]),
+            
+            // 第四组数据
             SectionModel(model: "特征", items: [
                 TableViewItemModel(title: "Single", detail: "Single是Observable的变体，它总是保证发出单个元素或错误，而不是发出一系列元素。", canPushed: true, selectedAction: { controller, tableView, indexPath in
                     let dis = SingleViewController()
@@ -248,58 +250,54 @@ struct ViewControllerVM {
                     controller.navigationController?.pushViewController(dis, animated: true)
                 })
             ]),
+            
+            // 第五组数据
             SectionModel(model: "Schedulers", items: [
                 TableViewItemModel(title: "observeOn", detail: "要在不同的Schedulers上执行工作，使用observeOn(scheduler)操作符。", selectedAction: { controller, tableView, indexPath in
-                    print(Thread.current)
+                    print("0----\(Thread.current)----")
                     DispatchQueue.global().async {
-                        print(Thread.current)
-                        let disposable = Observable<Int>.create({ (observer) -> Disposable in
-                            let n = 0
-                            print(Thread.current)
-                            print(n)
-                            observer.onNext((n))
-                            return Disposables.create()
-                        }).observeOn(MainScheduler.instance).map({ (n) -> Int in
-                            print(Thread.current)
-                            print(n)
-                            
-                            return n + 1
-                        }).observeOn(ConcurrentDispatchQueueScheduler(qos: .background)).map({ (n) -> Int in
-                            print(Thread.current)
-                            print(n)
-                            
-                            return n + 1
-                        }).subscribe({ (n) in
-                            print(Thread.current)
-                            print(n)
-                        })
+                        let disposable = Observable<Int>.create { (observer) -> Disposable in
+                                print("1----\(Thread.current)----")
+                                observer.onNext((1))
+                                observer.onCompleted()
+                                return Disposables.create()
+                            }.observeOn(MainScheduler.instance)
+                            .map { (n) -> Int in
+                                print("2----\(Thread.current)----")
+                                return n + 1
+                            }.subscribe { (e) in
+                                print("3----\(Thread.current)----")
+                                print(e)
+                            }
                         
-                        Thread.sleep(forTimeInterval: 1)
+                        Thread.sleep(forTimeInterval: 1.0)
                         disposable.dispose()
                     }
                 }),
                 TableViewItemModel(title: "subscribeOn", detail: "要在特定scheduler上启动序列生成元素（subscribe方法）并调用dispose，请使用subscribeOn(scheduler)。", selectedAction: { controller, tableView, indexPath in
                     print("0----\(Thread.current)----")
                     DispatchQueue.global().async {
-                        let disposable = Observable<Int>.create({ (observer) -> Disposable in
-                            let n = 0
-                            print("1----\(Thread.current)----")
-                            observer.onNext(n)
-                            return Disposables.create()
-                        }).observeOn(ConcurrentDispatchQueueScheduler(qos: .background)).map{ (n) -> Int in
-                            print("2----\(Thread.current)----")
-                            print(n)
-                            return n + 1
-                        }.subscribeOn(MainScheduler.instance).subscribe({ (e) in
-                            print("3----\(Thread.current)----")
-                            print(e)
-                        })
+                        let disposable = Observable<Int>.create { (observer) -> Disposable in
+                                print("1----\(Thread.current)----")
+                                observer.onNext((1))
+                                observer.onCompleted()
+                                return Disposables.create()
+                            }.subscribeOn(MainScheduler.instance)
+                            .map { (n) -> Int in
+                                print("2----\(Thread.current)----")
+                                return n + 1
+                            }.subscribe { (e) in
+                                print("3----\(Thread.current)----")
+                                print(e)
+                            }
                         
-                        Thread.sleep(forTimeInterval: 1)
+                        Thread.sleep(forTimeInterval: 1.0)
                         disposable.dispose()
                     }
                 })
             ]),
+            
+            // 第六组数据
             SectionModel(model: "示例", items: [
                 TableViewItemModel(title: "绑定值", detail: "在这个示例中体会命令式与响应式编程的差异。", canPushed: true, nextSegueID: "MainToValues"),
                 TableViewItemModel(title: "简单UI绑定", detail: "一个简单的UI绑定示例。", canPushed: true, nextSegueID: "MainToSimpleBinding"),
