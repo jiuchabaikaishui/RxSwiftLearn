@@ -315,7 +315,7 @@ struct ViewControllerVM {
                 TableViewItemModel(title: "分组的UITableView", detail: "分组的UITableView绑定。", canPushed: true, nextSegueID: "MainToSimpleSectionedTableView"),
                 TableViewItemModel(title: "可编辑的UITableView", detail: "可编辑的UITableView绑定。", canPushed: true, nextSegueID: "MainToEditingTableView"),
                 TableViewItemModel(title: "局部刷新", detail: "UITableView、UICollectionView局部刷新。", canPushed: true, nextSegueID: "MainToPartialUpdates"),
-                TableViewItemModel(title: "维基百科搜索", detail: "复杂的异步指示器。", canPushed: true, nextSegueID: "MainToWikipediaSearch"),
+                TableViewItemModel(title: "维基百科搜索", detail: "无法访问维基百科，此示例未实现。", canPushed: true, nextSegueID: "MainToWikipediaSearch"),
                 TableViewItemModel(title: "Github代码库搜索", detail: "分页加载指示器。", canPushed: true, nextSegueID: "MainToGitHubSearch")
             ])
         ]

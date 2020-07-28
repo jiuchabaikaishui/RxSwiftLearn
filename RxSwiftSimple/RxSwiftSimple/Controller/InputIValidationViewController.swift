@@ -63,10 +63,16 @@ class InputIValidationViewController: ExampleViewController {
                     if available {
                         return .available(message: "用户名有效")
                     } else {
-                        return .invalid(message: "用户名无效")
+                        return .taken(message: "用户名已存在")
                     }
                 }).startWith(loadingValue)
             }.switchLatest().subscribe(onNext: { [unowned self] (validity) in
+                switch validity {
+                case .available: self.error.textColor = UIColor.green
+                case .invalid, .taken: self.error.textColor = UIColor.red
+                case .pending: self.error.textColor = UIColor.black
+                }
+                
                 self.error.text = validity.message
             }).disposed(by: bag)
     }

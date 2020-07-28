@@ -12,6 +12,25 @@ import RxSwift
 import CoreLocation
 
 
+struct UIViewControllerJumpService {
+    let navigationController: UINavigationController?
+    init(navigationController: UINavigationController) {
+        self.navigationController = navigationController
+    }
+    
+    func pushNextController(name: String, title: String = "实例") {
+        var nextController: UIViewController?
+        if name == "TakeuntilViewController" {
+            nextController = TakeuntilViewController()
+        }
+        
+        guard let controller = nextController else {
+            fatalError("\(name)控制器不存在或未实现该功能")
+        }
+        self.navigationController?.pushViewController(controller, animated: true)
+    }
+}
+
 /// 定位服务
 class GeoLocationService {
     static let instance = GeoLocationService()
