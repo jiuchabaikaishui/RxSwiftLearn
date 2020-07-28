@@ -52,19 +52,20 @@ class InputIValidationViewController: ExampleViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        name.rx.text.map { (n) -> Observable<Availability> in
-            guard let username = n, !username.isEmpty else {
-                return Observable.just(.invalid(message: "用户名不能为空."))
-            }
-            
-            let loadingValue = Availability.pending(message: "检查可用性……")
-            return API.usernameAvailable(username).map({ (available) -> Availability in
-                if available {
-                    return .available(message: "用户名有效")
-                } else {
-                    return .invalid(message: "用户名无效")
+        name.rx.text
+            .map { (n) -> Observable<Availability> in
+                guard let username = n, !username.isEmpty else {
+                    return Observable.just(.invalid(message: "用户名不能为空."))
                 }
-            }).startWith(loadingValue)
+                
+                let loadingValue = Availability.pending(message: "检查可用性……")
+                return API.usernameAvailable(username).map({ (available) -> Availability in
+                    if available {
+                        return .available(message: "用户名有效")
+                    } else {
+                        return .invalid(message: "用户名无效")
+                    }
+                }).startWith(loadingValue)
             }.switchLatest().subscribe(onNext: { [unowned self] (validity) in
                 self.error.text = validity.message
             }).disposed(by: bag)

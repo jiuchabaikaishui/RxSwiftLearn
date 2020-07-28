@@ -43,5 +43,7 @@ class SimpleBindingViewController: ExampleViewController {
         super.viewDidLoad()
         
         number.rx.text.map { [unowned self] in self.wolframAlphaIsPrime( Int($0 ?? "") as Int? ?? 0) }.concat().map { "\($0.value) \($0.isPrime ? "是" : "不是")素数！" }.bind(to: result.rx.text).disposed(by: bag)
+        number.text = "43"
+        number.sendActions(for: .editingDidEnd)
     }
 }

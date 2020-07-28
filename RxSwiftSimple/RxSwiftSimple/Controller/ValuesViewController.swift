@@ -19,11 +19,31 @@ class ValuesViewController: ExampleViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // 命令式代码
         if ((Int(a.text ?? "") as Int?) ?? 0) + ((Int(b.text ?? "") as Int?) ?? 0) >= 0 {
             c.text = "c = \(Int(a.text!)! + Int(b.text!)!) is positive"
         }
         
-        Observable.combineLatest(a.rx.text.orEmpty.map({ Int($0) ?? 0 }), b.rx.text.orEmpty.map({ Int($0) ?? 0 })) { $0 + $1 }.filter {  $0 >= 0 }.map { "c = \($0) is positive" }.bind(to: d.rx.text).disposed(by: bag)
-//        Observable.combineLatest(a.rx.text, b.rx.text, resultSelector: { ((Int($0!) as Int?) ?? 0) + ((Int($1!) as Int?) ?? 0) }).filter { $0 >= 0 }.map { "c = \($0) is positive"}.bind(to: d.rx.text).disposed(by: bag)
+        // RxSwif代码
+        let aValue = 1, bValue = 2
+        a.text = "\(aValue)"
+        b.text = "\(bValue)"
+        let aOb = BehaviorRelay(value: aValue)
+        let bOb = BehaviorRelay(value: bValue)
+        a.rx.text.orEmpty
+            .map { Int($0) ?? 0 }
+            .subscribe(onNext: { (v) in
+                aOb.accept(v)
+            }).disposed(by: bag)
+        b.rx.text.orEmpty
+            .map { Int($0) ?? 0 }
+            .subscribe(onNext: {
+                bOb.accept($0)
+            }).disposed(by: bag)
+        Observable.combineLatest(aOb, bOb, resultSelector: +)
+            .filter { $0 > 0 }
+            .map { "d = \($0) is positive" }
+            .bind(to: d.rx.text)
+            .disposed(by: bag)
     }
 }
