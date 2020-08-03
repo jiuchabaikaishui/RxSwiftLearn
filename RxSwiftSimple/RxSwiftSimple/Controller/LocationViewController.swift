@@ -27,15 +27,22 @@ class LocationViewController: ExampleViewController {
         
         let service = GeoLocationService.instance
         
-        service.authorized.drive(noGeolocationView.rx.isHidden).disposed(by: bag)
-        
-        service.location.drive(label.rx.coordinate).disposed(by: bag)
-        
-        button.rx.tap.bind {[unowned self] in self.openAppPreferences() }.disposed(by: bag)
-        
-        button1.rx.tap.bind {[unowned self] in self.openAppPreferences() }.disposed(by: bag)
+        // 绑定UI
+        service.authorized
+            .drive(noGeolocationView.rx.isHidden)
+            .disposed(by: bag)
+        service.location
+            .drive(label.rx.coordinate)
+            .disposed(by: bag)
+        button.rx.tap
+            .bind {[unowned self] in self.openAppPreferences() }
+            .disposed(by: bag)
+        button1.rx.tap
+            .bind {[unowned self] in self.openAppPreferences() }
+            .disposed(by: bag)
     }
     
+    /// 打开首选项
     private func openAppPreferences() {
         UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
     }

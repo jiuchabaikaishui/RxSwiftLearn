@@ -301,7 +301,11 @@ struct ViewControllerVM {
             SectionModel(model: "示例", items: [
                 TableViewItemModel(title: "绑定值", detail: "在这个示例中体会命令式与响应式编程的差异。", canPushed: true, nextSegueID: "MainToValues"),
                 TableViewItemModel(title: "简单UI绑定", detail: "一个简单的UI绑定示例。", canPushed: true, nextSegueID: "MainToSimpleBinding"),
-                TableViewItemModel(title: "自动输入验证", detail: "此示例包含具有进度通知的复杂异步UI验证逻辑。", canPushed: true, nextSegueID: "MainToInputIValidation"),
+                TableViewItemModel(title: "自动输入验证", detail: "此示例包含具有进度通知的复杂异步UI验证逻辑。", canPushed: true, nextSegueID: "MainToInputIValidation")
+            ]),
+            
+            // 第六组数据
+            SectionModel(model: "官方示例", items: [
                 TableViewItemModel(title: "数字相加", detail: "绑定。", canPushed: true, nextSegueID: "MainToNumbers"),
                 TableViewItemModel(title: "简单验证", detail: "绑定。", canPushed: true, nextSegueID: "MainToValid"),
                 TableViewItemModel(title: "定位", detail: "绑定。", canPushed: true, nextSegueID: "MainToLoction"),
@@ -336,7 +340,12 @@ class SignupObservableVM {
     // 登录中
     let signingIn: Observable<Bool>
     
-    init(input: (username: Observable<String>, password: Observable<String>, repeatedPassword: Observable<String>, loginTaps: Observable<Void>), dependency: (API: GithubApi, service: GitHubValidationService)) {
+    /// 初始化
+    /// - Parameters:
+    ///   - input: 输入序列元组
+    ///   - dependency: <#dependency description#>
+    init(
+        input: (username: Observable<String>, password: Observable<String>, repeatedPassword: Observable<String>, loginTaps: Observable<Void>), dependency: (API: GithubApi, service: GitHubValidationService)) {
         let api = dependency.API
         let service = dependency.service
         

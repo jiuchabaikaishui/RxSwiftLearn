@@ -341,7 +341,7 @@
                     <viewLayoutGuide key="safeArea" id="8oo-F9-ZF7"/>
                 </view>
             </objects>
-            <point key="canvasLocation" x="5966" y="-66"/>
+            <point key="canvasLocation" x="4364" y="-65"/>
         </scene>
         <!--Title-->
         <scene sceneID="6c5-PU-1Cj">
@@ -628,7 +628,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="X7c-Nr-Qjm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4342" y="-65"/>
+            <point key="canvasLocation" x="5154" y="-65"/>
         </scene>
         <!--Valid View Controller-->
         <scene sceneID="ool-dO-2rr">
@@ -1149,7 +1149,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cd8-ao-FMR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5166" y="-66"/>
+            <point key="canvasLocation" x="5978" y="-66"/>
         </scene>
     </scenes>
 </document>

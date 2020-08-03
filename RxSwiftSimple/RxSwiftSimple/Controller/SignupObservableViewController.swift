@@ -23,14 +23,17 @@ class SignupObservableViewController: ExampleViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let vm = SignupObservableVM(input: (username: usernameOutlet.rx.text.orEmpty.asObservable(), password: passwordOutlet.rx.text.orEmpty.asObservable(), repeatedPassword: repeatOutlet.rx.text.orEmpty.asObservable(), loginTaps: signupOutlet.rx.tap.asObservable()), dependency: (API: GitHubDefaultAPI.shareApi, service: GitHubDefaultValidationService(GitHubDefaultAPI.shareApi)))
+        let vm = SignupObservableVM(
+            input: (
+                username: usernameOutlet.rx.text.orEmpty.asObservable(),
+                password: passwordOutlet.rx.text.orEmpty.asObservable(),
+                repeatedPassword: repeatOutlet.rx.text.orEmpty.asObservable(),
+                loginTaps: signupOutlet.rx.tap.asObservable()),
+            dependency: (API: GitHubDefaultAPI.shareApi, service: GitHubDefaultValidationService(GitHubDefaultAPI.shareApi)))
         
-        vm.signupEnabled.subscribe(onNext: { [weak self] (valid) in
-            self?.signupOutlet.isEnabled = valid
-            self?.signupOutlet.alpha = valid ? 1.0 : 0.5
-        }).disposed(by: bag)
-//        vm.signupEnabled.bind(to: signupOutlet.rx.isEnabled).disposed(by: bag)
-//        vm.signupEnabled.map { $0 ? 1.0 : 0.5 }.bind(to: signupOutlet.rx.alpha).disposed(by: bag)
+        // 绑定UI
+        vm.signupEnabled.bind(to: signupOutlet.rx.isEnabled).disposed(by: bag)
+        vm.signupEnabled.map { $0 ? 1.0 : 0.5 }.bind(to: signupOutlet.rx.alpha).disposed(by: bag)
         
         vm.validatedUsername.bind(to: usernameValidationOutlet.rx.validationResult).disposed(by: bag)
         

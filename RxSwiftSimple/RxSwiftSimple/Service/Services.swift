@@ -34,14 +34,20 @@ struct UIViewControllerJumpService {
 /// 定位服务
 class GeoLocationService {
     static let instance = GeoLocationService()
+    // 定位权限
     private (set) var authorized: Driver<Bool>
+    // 定位坐标
     private (set) var location: Driver<CLLocationCoordinate2D>
 
+    // 定位管理器
     private let manager = CLLocationManager()
 
     init() {
+        // 更新距离
         manager.distanceFilter = kCLDistanceFilterNone
+        // 定位精度
         manager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
+        
         authorized = Observable.deferred({ [unowned manager] () -> Observable<(CLLocationManager, CLAuthorizationStatus)> in
             let status = CLLocationManager.authorizationStatus()
             
@@ -86,12 +92,12 @@ class GitHubDefaultAPI: GithubApi {
         
         // 直接获取github用户数据
         return session.rx.response(request: request).map({ (pair) -> Bool in
-            // 如果404错误则用户名无效
-            return pair.response.statusCode != 404
+            // 如果404错误则用户名有效，说明没有被使用
+            return pair.response.statusCode == 404
         }).catchErrorJustReturn(false)
     }
     
-    /// 登录
+    /// 注册
     /// - Parameters:
     ///   - username: 用户名
     ///   - password: 密码
