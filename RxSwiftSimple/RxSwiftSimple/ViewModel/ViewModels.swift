@@ -327,23 +327,23 @@ struct ViewControllerVM {
 }
 
 class SignupObservableVM {
-    // 用户名有效的序列
+    // 用户名有效验证的序列
     let validatedUsername: Observable<ValidationResult>
-    // 密码有效的序列
+    // 密码有效验证的序列
     let validatedPassword: Observable<ValidationResult>
-    // 重复密码有效的序列
+    // 重复密码有效验证的序列
     let validatedRepeatedPassword: Observable<ValidationResult>
-    // 允许登录
+    // 允许注册的序列
     let signupEnabled: Observable<Bool>
-    // 登录
+    // 注册的序列
     let signedIn: Observable<Bool>
-    // 登录中
+    // 注册中的序列
     let signingIn: Observable<Bool>
     
     /// 初始化
     /// - Parameters:
     ///   - input: 输入序列元组
-    ///   - dependency: <#dependency description#>
+    ///   - dependency: 依赖的功能模型
     init(
         input: (username: Observable<String>, password: Observable<String>, repeatedPassword: Observable<String>, loginTaps: Observable<Void>), dependency: (API: GithubApi, service: GitHubValidationService)) {
         let api = dependency.API
