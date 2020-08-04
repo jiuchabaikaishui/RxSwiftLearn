@@ -367,7 +367,7 @@ class SignupObservableVM {
         signedIn = input.loginTaps.withLatestFrom(up).flatMapLatest({ (pair) in
             return api.signup(pair.username, password: pair.password).observeOn(MainScheduler.instance).catchErrorJustReturn(false).trackActivity(signingIn)
         }).flatMapLatest({ (loggedIn) -> Observable<Bool> in
-            let message = loggedIn ? "登录GitHub" : "GitHub登录失败"
+            let message = loggedIn ? "GitHub注册成功" : "GitHub注册失败"
             return DefaultWireFrame().promptFor("提示", message: message, cancelAction: "确定", actions: ["否"]).map({ _ in loggedIn })
         }).share(replay: 1)
         
