@@ -345,26 +345,40 @@ class SignupObservableVM {
     ///   - input: 输入序列元组
     ///   - dependency: 依赖的功能模型
     init(
-        input: (username: Observable<String>, password: Observable<String>, repeatedPassword: Observable<String>, loginTaps: Observable<Void>), dependency: (API: GithubApi, service: GitHubValidationService)) {
+        input: (
+            username: Observable<String>,// 用户名输入序列
+            password: Observable<String>,// 密码输入序列
+            repeatedPassword: Observable<String>,// 二次密码输入序列
+            signTaps: Observable<Void>),// 注册点击序列
+        dependency: (
+            API: GithubApi,
+            service: GitHubValidationService))
+    {
         let api = dependency.API
         let service = dependency.service
         
-        validatedUsername = input.username.distinctUntilChanged().flatMapLatest({ (name) in
-            return service.validateUsername(name).observeOn(MainScheduler.instance).catchErrorJustReturn(.failed(message: "服务器报错"))
-        })
+        validatedUsername = input.username
+            .flatMapLatest({ (name) in
+            return service.validateUsername(name)
+                .observeOn(MainScheduler.instance)
+                .catchErrorJustReturn(.failed(message: "服务器报错"))
+            }).share(replay: 1)
         
-        validatedPassword = input.password.map({ (password) in
-            return service.validatePassword(password)
-        }).share(replay: 1)
+        validatedPassword = input.password
+            .map({ (password) in
+                return service.validatePassword(password)
+            }).share(replay: 1)
         
-        validatedRepeatedPassword = Observable.combineLatest(input.password, input.repeatedPassword, resultSelector: service.validateRepeatedPassword).share(replay: 1)
+        validatedRepeatedPassword = Observable
+            .combineLatest(input.password, input.repeatedPassword, resultSelector: service.validateRepeatedPassword)
+            .share(replay: 1)
         
         let signingIn = ActivityIndicator()
         self.signingIn = signingIn.asObservable()
         
         let up = Observable.combineLatest(input.username, input.password) { (username: $0, password: $1) }
         
-        signedIn = input.loginTaps.withLatestFrom(up).flatMapLatest({ (pair) in
+        signedIn = input.signTaps.withLatestFrom(up).flatMapLatest({ (pair) in
             return api.signup(pair.username, password: pair.password).observeOn(MainScheduler.instance).catchErrorJustReturn(false).trackActivity(signingIn)
         }).flatMapLatest({ (loggedIn) -> Observable<Bool> in
             let message = loggedIn ? "GitHub注册成功" : "GitHub注册失败"
