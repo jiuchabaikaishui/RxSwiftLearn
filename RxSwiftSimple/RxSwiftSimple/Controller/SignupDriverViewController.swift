@@ -23,7 +23,7 @@ class SignupDriverViewController: ExampleViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let vm = SignupDriverVM(input: (username: usernameOutlet.rx.text.orEmpty.asDriver(), password: passwordOutlet.rx.text.orEmpty.asDriver(), repeatedPassword: repeatOutlet.rx.text.orEmpty.asDriver(), loginTaps: signupOutlet.rx.tap.asSignal()), depandency: (API: GitHubDefaultAPI.shareApi, service: GitHubDefaultValidationService(GitHubDefaultAPI.shareApi)))
+        let vm = SignupDriverVM(input: (username: usernameOutlet.rx.text.orEmpty.asDriver(), password: passwordOutlet.rx.text.orEmpty.asDriver(), repeatedPassword: repeatOutlet.rx.text.orEmpty.asDriver(), loginTaps: signupOutlet.rx.tap.asSignal()), depandency: (API: GitHubDefaultAPI.shareApi, service: GitHubDefaultValidationService(GitHubDefaultAPI.shareApi), wireframe: DefaultWireFrame()))
         
         // 绑定UI
         vm.usernameValidated.drive(usernameValidationOutlet.rx.validationResult)

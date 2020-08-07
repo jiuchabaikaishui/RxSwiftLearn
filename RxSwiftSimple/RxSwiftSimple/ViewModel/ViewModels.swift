@@ -352,10 +352,12 @@ class SignupObservableVM {
             signTaps: Observable<Void>),// 注册点击序列
         dependency: (
             API: GithubApi,
-            service: GitHubValidationService))
+            service: GitHubValidationService,
+            wireframe: WireFrame))
     {
         let api = dependency.API
         let service = dependency.service
+        let wireframe = dependency.wireframe
         
         validatedUsername = input.username
             .flatMapLatest({ (name) in
@@ -399,8 +401,7 @@ class SignupObservableVM {
                     .trackActivity(signingIn)
             }).flatMapLatest({ (loggedIn) -> Observable<Bool> in
                 let message = loggedIn ? "GitHub注册成功" : "GitHub注册失败"
-                return DefaultWireFrame()
-                    .promptFor("提示", message: message, cancelAction: "确定")
+                return wireframe.promptFor("提示", message: message, cancelAction: "确定", actions: nil, animated: true, completion: nil)
                     .map({ _ in loggedIn })
             }).share(replay: 1)
     }
@@ -416,7 +417,7 @@ class SignupDriverVM {
     let signedIn: Driver<Bool>
     let signingIn: Driver<Bool>
     
-    init(input: (username: Driver<String>, password: Driver<String>, repeatedPassword: Driver<String>, loginTaps: Signal<()>), depandency: (API: GithubApi, service: GitHubValidationService)) {
+    init(input: (username: Driver<String>, password: Driver<String>, repeatedPassword: Driver<String>, loginTaps: Signal<()>), depandency: (API: GithubApi, service: GitHubValidationService, wireframe: WireFrame)) {
         usernameValidated = input.username.flatMapLatest({
             return depandency.service.validateUsername($0).asDriver(onErrorJustReturn: .failed(message: "连接服务器失败"))
         })
@@ -438,7 +439,7 @@ class SignupDriverVM {
             return depandency.API.signup($0.username, password: $0.password).trackActivity(signingIn).asDriver(onErrorJustReturn: false)
         }).flatMapLatest({ (loggedIn) in
             let message = loggedIn ? "GitHub注册成功" : "GitHub注册失败"
-            return DefaultWireFrame().promptFor("提示", message: message, cancelAction: "确定").map({ (_) in loggedIn }).asDriver(onErrorJustReturn: false)
+            return depandency.wireframe.promptFor("提示", message: message, cancelAction: "确定", actions: nil, animated: true, completion: nil).map({ (_) in loggedIn }).asDriver(onErrorJustReturn: false)
         })
         
         signupEnabled = Driver.combineLatest(usernameValidated, passwordValidated, repeatedPasswordValidated, signingIn, resultSelector: { (un, pw, repw, sign) in

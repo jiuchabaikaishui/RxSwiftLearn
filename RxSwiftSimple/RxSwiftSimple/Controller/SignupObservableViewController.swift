@@ -29,7 +29,9 @@ class SignupObservableViewController: ExampleViewController {
                 password: passwordOutlet.rx.text.orEmpty.asObservable(),
                 repeatedPassword: repeatOutlet.rx.text.orEmpty.asObservable(),
                 signTaps: signupOutlet.rx.tap.asObservable()),
-            dependency: (API: GitHubDefaultAPI.shareApi, service: GitHubDefaultValidationService(GitHubDefaultAPI.shareApi)))
+            dependency: (API: GitHubDefaultAPI.shareApi,
+                         service: GitHubDefaultValidationService(GitHubDefaultAPI.shareApi),
+                         wireframe: DefaultWireFrame()))
         
         // 绑定UI
         vm.validatedUsername
