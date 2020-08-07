@@ -437,8 +437,8 @@ class SignupDriverVM {
         signedIn = input.loginTaps.withLatestFrom(Driver.combineLatest(input.username, input.password, resultSelector: { (username: $0, password: $1) } )).flatMapLatest({
             return depandency.API.signup($0.username, password: $0.password).trackActivity(signingIn).asDriver(onErrorJustReturn: false)
         }).flatMapLatest({ (loggedIn) in
-            let message = loggedIn ? "登录GitHub" : "GitHub登录失败"
-            return DefaultWireFrame().promptFor("提示", message: message, cancelAction: "确定", actions: []).map({ (_) in loggedIn }).asDriver(onErrorJustReturn: false)
+            let message = loggedIn ? "GitHub注册成功" : "GitHub注册失败"
+            return DefaultWireFrame().promptFor("提示", message: message, cancelAction: "确定").map({ (_) in loggedIn }).asDriver(onErrorJustReturn: false)
         })
         
         signupEnabled = Driver.combineLatest(usernameValidated, passwordValidated, repeatedPasswordValidated, signingIn, resultSelector: { (un, pw, repw, sign) in

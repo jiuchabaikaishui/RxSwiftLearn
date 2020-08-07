@@ -32,28 +32,40 @@ class SignupObservableViewController: ExampleViewController {
             dependency: (API: GitHubDefaultAPI.shareApi, service: GitHubDefaultValidationService(GitHubDefaultAPI.shareApi)))
         
         // 绑定UI
-        vm.signupEnabled.bind(to: signupOutlet.rx.isEnabled).disposed(by: bag)
-        vm.signupEnabled.map { $0 ? 1.0 : 0.5 }.bind(to: signupOutlet.rx.alpha).disposed(by: bag)
+        vm.validatedUsername
+            .bind(to: usernameValidationOutlet.rx.validationResult)
+            .disposed(by: bag)
+        vm.validatedPassword
+            .bind(to: passwordValidationOutlet.rx.validationResult)
+            .disposed(by: bag)
+        vm.validatedRepeatedPassword
+            .bind(to: repeatValidationOutlet.rx.validationResult)
+            .disposed(by: bag)
         
-        vm.validatedUsername.bind(to: usernameValidationOutlet.rx.validationResult).disposed(by: bag)
-        
-        vm.validatedPassword.bind(to: passwordValidationOutlet.rx.validationResult).disposed(by: bag)
-        
-        vm.validatedRepeatedPassword.bind(to: repeatValidationOutlet.rx.validationResult).disposed(by: bag)
-        
-        vm.signingIn.bind(to: signingupOutlet.rx.isAnimating).disposed(by: bag)
-        vm.signingIn.subscribe(onNext: { (signing) in
-            if (signing) { self.view.endEditing(signing) }
+        vm.signupEnabled
+            .bind(to: signupOutlet.rx.isEnabled)
+            .disposed(by: bag)
+        vm.signupEnabled
+            .map { $0 ? 1.0 : 0.5 }
+            .bind(to: signupOutlet.rx.alpha)
+            .disposed(by: bag)
+        vm.signingIn
+            .bind(to: signingupOutlet.rx.isAnimating)
+            .disposed(by: bag)
+        vm.signingIn
+            .subscribe(onNext: { [weak self] (signing) in
+                if (signing) { self?.view.endEditing(signing) }
+            }).disposed(by: bag)
+        vm.signedIn
+            .subscribe(onNext: { (signed) in
+                print("用户注册\(signed ? "成功" : "失败")")
             }).disposed(by: bag)
         
-        vm.signedIn.subscribe(onNext: { (signed) in
-            print("用户注册\(signed ? "成功" : "失败")")
-        }).disposed(by: bag)
-        
         let tap = UITapGestureRecognizer()
-        tap.rx.event.subscribe(onNext: { [weak self] (tap) in
-            self?.view.endEditing(true)
-        }).disposed(by: bag)
+        tap.rx.event
+            .subscribe(onNext: { [weak self] (tap) in
+                self?.view.endEditing(true)
+            }).disposed(by: bag)
         view.addGestureRecognizer(tap)
     }
 }
