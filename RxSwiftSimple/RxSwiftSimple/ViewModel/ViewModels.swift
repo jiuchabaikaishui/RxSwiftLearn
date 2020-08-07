@@ -378,16 +378,31 @@ class SignupObservableVM {
         
         let up = Observable.combineLatest(input.username, input.password) { (username: $0, password: $1) }
         
-        signedIn = input.signTaps.withLatestFrom(up).flatMapLatest({ (pair) in
-            return api.signup(pair.username, password: pair.password).observeOn(MainScheduler.instance).catchErrorJustReturn(false).trackActivity(signingIn)
-        }).flatMapLatest({ (loggedIn) -> Observable<Bool> in
-            let message = loggedIn ? "GitHub注册成功" : "GitHub注册失败"
-            return DefaultWireFrame().promptFor("提示", message: message, cancelAction: "确定", actions: ["否"]).map({ _ in loggedIn })
-        }).share(replay: 1)
+        signupEnabled = Observable
+            .combineLatest(
+                validatedUsername,
+                validatedPassword,
+                validatedRepeatedPassword,
+                self.signingIn,
+                resultSelector: { (un, pd, repd, sign) in
+                    un.isValidate && pd.isValidate && repd.isValidate && !sign
+                }
+            ).distinctUntilChanged()
+            .share(replay: 1)
         
-        signupEnabled = Observable.combineLatest(validatedUsername, validatedPassword, validatedRepeatedPassword, self.signingIn, resultSelector: { (un, pd, repd, sign) in
-            un.isValidate && pd.isValidate && repd.isValidate && !sign
-        }).distinctUntilChanged().share(replay: 1)
+        signedIn = input.signTaps
+            .withLatestFrom(up)
+            .flatMapLatest({ (pair) in
+                return api.signup(pair.username, password: pair.password)
+                    .observeOn(MainScheduler.instance)
+                    .catchErrorJustReturn(false)
+                    .trackActivity(signingIn)
+            }).flatMapLatest({ (loggedIn) -> Observable<Bool> in
+                let message = loggedIn ? "GitHub注册成功" : "GitHub注册失败"
+                return DefaultWireFrame()
+                    .promptFor("提示", message: message, cancelAction: "确定")
+                    .map({ _ in loggedIn })
+            }).share(replay: 1)
     }
 }
 

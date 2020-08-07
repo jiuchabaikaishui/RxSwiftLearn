@@ -42,9 +42,12 @@ class SignupObservableViewController: ExampleViewController {
         vm.validatedRepeatedPassword.bind(to: repeatValidationOutlet.rx.validationResult).disposed(by: bag)
         
         vm.signingIn.bind(to: signingupOutlet.rx.isAnimating).disposed(by: bag)
+        vm.signingIn.subscribe(onNext: { (signing) in
+            if (signing) { self.view.endEditing(signing) }
+            }).disposed(by: bag)
         
         vm.signedIn.subscribe(onNext: { (signed) in
-            print("用户登录\(signed ? "成功" : "失败")")
+            print("用户注册\(signed ? "成功" : "失败")")
         }).disposed(by: bag)
         
         let tap = UITapGestureRecognizer()
