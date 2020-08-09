@@ -87,10 +87,10 @@ func <-><Base>(textInput: TextInput<Base>, relay: BehaviorRelay<String>) -> Disp
 func <-><T>(property: ControlProperty<T>, relay: BehaviorRelay<T>) -> Disposable {
 #if DEBUG
     if T.self == String.self {
-        fatalError("It is ok to delete this message, but this is here to warn that you are maybe trying to bind to some `rx.text` property directly to relay.\n" +
-            "That will usually work ok, but for some languages that use IME, that simplistic method could cause unexpected issues because it will return intermediate results while text is being inputed.\n" +
-            "REMEDY: Just use `textField <-> relay` instead of `textField.rx.text <-> relay`.\n" +
-        "Find out more here: https://github.com/ReactiveX/RxSwift/issues/649\n")
+        fatalError("删除这个信息也是可以的，但是这是在提醒开发者有可能试着将一些“rx.text”属性绑定到relay。\n" +
+            "这通常能够很好的工作，但是对于一些IME语言这种简单的方法将造成意外的问题，因为当文本正在输入时将会返回中间结果。\n" +
+            "解决方案: 就是使用 `textField <-> relay` 替换 `textField.rx.text <-> relay`.\n" +
+        "了解更多: https://github.com/ReactiveX/RxSwift/issues/649\n")
     }
 #endif
     

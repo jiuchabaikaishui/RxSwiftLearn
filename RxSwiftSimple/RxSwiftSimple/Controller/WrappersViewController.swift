@@ -9,6 +9,7 @@
 import UIKit
 import RxCocoa
 import RxSwift
+import CoreLocation
 
 class WrappersViewController: ExampleViewController {
     @IBOutlet var pan: UITapGestureRecognizer!
@@ -33,7 +34,11 @@ class WrappersViewController: ExampleViewController {
         datePicker.date = Date(timeIntervalSince1970: 0)
         
         pan.rx.event.subscribe(onNext: {
-            self.debug("UIGestureRecognizer event \($0.state.rawValue)")
+            if self.textField.isFirstResponder || self.textField1.isFirstResponder || self.textView.isFirstResponder || self.textView1.isFirstResponder {
+                self.view.endEditing(true)
+            } else {
+                self.debug("UIGestureRecognizer event \($0.state.rawValue)")
+            }
         }).disposed(by: bag)
         
         item.rx.tap.bind {
@@ -66,6 +71,13 @@ class WrappersViewController: ExampleViewController {
             self.present(alter, animated: true, completion: nil)
         }).disposed(by: bag)
         
+        let manager = CLLocationManager()
+        manager.startUpdatingLocation()
+        manager.rx.didChangeAuthorization.subscribe(onNext: { (pair) in
+            let value = "定位权限状态：\(pair.1)"
+            self.debug(value)
+        }).disposed(by: bag)
+        
         // 双向绑定
         let value = BehaviorRelay(value: 0)
         _ = segmentedControl.rx.value <-> value
@@ -73,7 +85,6 @@ class WrappersViewController: ExampleViewController {
             self.debug("UISegmentedControl value \(v)")
         }).disposed(by: bag)
         
-        // 双向绑定
         let switchV = BehaviorRelay(value: true)
         _ = switcher.rx.value <-> switchV
         switchV.asObservable().subscribe(onNext: {
@@ -81,17 +92,24 @@ class WrappersViewController: ExampleViewController {
         }).disposed(by: bag)
         switcher.rx.value.bind(to: activityIndicator.rx.isAnimating).disposed(by: bag)
         
-        let textV = BehaviorRelay(value: "")
-        _ = textField.rx.textInput <-> textV
-        textV.asObservable().subscribe(onNext: {
-            self.debug("UITextField text \($0)")
-        }).disposed(by: bag)
-        
-        let textV1 = BehaviorRelay<NSAttributedString?>(value: NSAttributedString(string: ""))
-        _ = textField1.rx.attributedText <-> textV1
-        textV1.asObservable().subscribe(onNext: {
-            self.debug("UITextField attributedText \($0?.description ?? "")")
-        }).disposed(by: bag)
+        // MARK: UITextField
+
+        // 在ios 11.2中存在内存泄漏
+        //
+        // 最终的类UITextFieldSubclass: UITextField { deinit { print("不好调用")  } }
+        if #available(iOS 11.2, *) {
+            let textV = BehaviorRelay(value: "")
+            _ = textField.rx.textInput <-> textV
+            textV.asObservable().subscribe(onNext: {
+                self.debug("UITextField text \($0)")
+            }).disposed(by: bag)
+            
+            let textV1 = BehaviorRelay<NSAttributedString?>(value: NSAttributedString(string: ""))
+            _ = textField1.rx.attributedText <-> textV1
+            textV1.asObservable().subscribe(onNext: {
+                self.debug("UITextField attributedText \($0?.description ?? "")")
+            }).disposed(by: bag)
+        }
         
         let textViewV = BehaviorRelay(value: "")
         _ = textView.rx.textInput <-> textViewV
