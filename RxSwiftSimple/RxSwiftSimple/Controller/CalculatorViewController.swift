@@ -11,29 +11,49 @@ import RxCocoa
 import RxSwift
 
 class CalculatorViewController: ExampleViewController {
+    /// 显示操作符
     @IBOutlet weak var signLabel: UILabel!
+    /// 显示计算结果
     @IBOutlet weak var resultLabel: UILabel!
     
+    /// 清除屏幕显示
     @IBOutlet weak var clearButton: UIButton!
+    /// 正负号
     @IBOutlet weak var changeSignButton: UIButton!
+    /// 百分号
     @IBOutlet weak var percentButton: UIButton!
-    
+    /// 等于
     @IBOutlet weak var equalButton: UIButton!
+    /// 相加
     @IBOutlet weak var plusButton: UIButton!
+    /// 相减
     @IBOutlet weak var minusButton: UIButton!
+    /// 乘积
     @IBOutlet weak var multiplyButton: UIButton!
+    /// 除以
     @IBOutlet weak var divideButton: UIButton!
     
+    /// 小数点
     @IBOutlet weak var dotButton: UIButton!
+    /// 0
     @IBOutlet weak var zeroButton: UIButton!
+    /// 1
     @IBOutlet weak var oneButton: UIButton!
+    /// 2
     @IBOutlet weak var twoButton: UIButton!
+    /// 3
     @IBOutlet weak var threeButton: UIButton!
+    /// 4
     @IBOutlet weak var fourButton: UIButton!
+    /// 5
     @IBOutlet weak var fiveButton: UIButton!
+    /// 6
     @IBOutlet weak var sixButton: UIButton!
+    /// 7
     @IBOutlet weak var sevenButton: UIButton!
+    /// 8
     @IBOutlet weak var eightButton: UIButton!
+    /// 9
     @IBOutlet weak var nineButton: UIButton!
     
     override func viewDidLoad() {

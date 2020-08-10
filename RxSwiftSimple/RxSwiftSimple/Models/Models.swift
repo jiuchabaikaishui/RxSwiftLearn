@@ -143,7 +143,7 @@ class ActivityIndicator: SharedSequenceConvertibleType {
 }
 
 
-/// 运算符
+/// 基本运算符
 enum Operator {
     case addition // 加
     case subtruction // 减
@@ -152,6 +152,7 @@ enum Operator {
 }
 
 extension Operator {
+    /// 符号字符串
     var sign: String {
         switch self {
         case .addition:
@@ -165,6 +166,7 @@ extension Operator {
         }
     }
     
+    /// 执行运算
     var perform: (Double, Double) -> Double {
         switch self {
         case .addition:
@@ -191,6 +193,7 @@ enum CalculatorCommand {
 }
 
 
+/// 计算器状态
 enum CalculatorState {
     case oneOperand(screen: String) // 一个操作数
     case oneOperandAndOperator(operand: Double, operator: Operator) // 一个操作数和一个操作符
@@ -229,6 +232,7 @@ extension CalculatorState {
         }
     }
     
+    /// 屏幕显示操作符
     var sign: String {
         switch self {
         case .oneOperand(screen: _):
