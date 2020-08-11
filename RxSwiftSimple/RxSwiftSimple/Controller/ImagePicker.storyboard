@@ -17,10 +17,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="3Fr-KR-aCD">
-                                <rect key="frame" x="20" y="64" width="374" height="200"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="200" id="QIh-dz-j7Q"/>
-                                </constraints>
+                                <rect key="frame" x="20" y="64" width="374" height="684"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kpa-h2-zPy">
                                 <rect key="frame" x="180" y="756" width="54" height="30"/>
@@ -48,6 +45,7 @@
                             <constraint firstItem="Kpa-h2-zPy" firstAttribute="centerX" secondItem="6NT-zG-Uyr" secondAttribute="centerX" id="gi9-1E-vFW"/>
                             <constraint firstItem="UwB-6A-qHJ" firstAttribute="bottom" secondItem="LIc-rE-ogM" secondAttribute="bottom" id="lmn-xq-7A8"/>
                             <constraint firstItem="UwB-6A-qHJ" firstAttribute="top" secondItem="XcM-b8-3oR" secondAttribute="bottom" constant="8" id="nxd-A1-odS"/>
+                            <constraint firstItem="Kpa-h2-zPy" firstAttribute="top" secondItem="3Fr-KR-aCD" secondAttribute="bottom" constant="8" id="vVJ-O9-4fd"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="LIc-rE-ogM"/>
                     </view>

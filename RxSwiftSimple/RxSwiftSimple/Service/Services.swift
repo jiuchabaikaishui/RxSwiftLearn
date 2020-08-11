@@ -69,7 +69,9 @@ class GeoLocationService {
             $0.coordinate
         }
         
+        // 请求定位权限
         manager.requestAlwaysAuthorization()
+        // 开始定位
         manager.startUpdatingLocation()
     }
 }
