@@ -20,8 +20,13 @@ class NumbersViewController: ExampleViewController {
         super.viewDidLoad()
         
         // 绑定UI
-        Observable.combineLatest(number1.rx.text.orEmpty, number2.rx.text.orEmpty, number3.rx.text.orEmpty) { (value1, value2, value3) -> Int in
-            return (Int(value1) ?? 0) + (Int(value2) ?? 0) + (Int(value3) ?? 0)
-            }.map { $0.description }.bind(to: result.rx.text).disposed(by: bag)
+        Observable.combineLatest(number1.rx.text.orEmpty,
+                                 number2.rx.text.orEmpty,
+                                 number3.rx.text.orEmpty)
+            { (value1, value2, value3) -> Int in
+                return (Int(value1) ?? 0) + (Int(value2) ?? 0) + (Int(value3) ?? 0)
+            }.map { $0.description }
+            .bind(to: result.rx.text)
+            .disposed(by: bag)
     }
 }

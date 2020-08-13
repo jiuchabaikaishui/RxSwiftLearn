@@ -148,7 +148,7 @@ class GitHubDefaultValidationService: GitHubValidationService {
         }
         
         if password.count < minPasswordCount {
-            return .failed(message: "密码不能小于\(minPasswordCount)6位")
+            return .failed(message: "密码不能小于\(minPasswordCount)位")
         } else if password.count > maxPasswordCount {
             return .failed(message: "密码不能大于于\(maxPasswordCount)位")
         }
