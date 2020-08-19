@@ -91,6 +91,47 @@ extension Reactive where Base: CLLocationManager {
 }
 
 
+/// 有效结果扩展
+extension ValidationResult {
+    /// 是否有效
+    var isValidate: Bool {
+        switch self {
+        case .ok:
+            return true
+        default:
+            return false
+        }
+    }
+    
+    /// 描述
+    var description: String {
+        switch self {
+        case let .ok(message):
+            return message
+        case .empty:
+            return ""
+        case .validating:
+            return "加载中..."
+        case let .failed(message):
+            return message
+        }
+    }
+    
+    /// 文本颜色
+    var textColor: UIColor {
+        switch self {
+        case .ok:
+            return ValidationColors.okColor
+        case .empty:
+            return ValidationColors.defaultColor
+        case .validating:
+            return ValidationColors.defaultColor
+        case .failed:
+            return ValidationColors.errorColor
+        }
+    }
+}
+
 extension Reactive where Base: UILabel {
     var coordinate: Binder<CLLocationCoordinate2D> {
         return Binder(base, binding: { (label, location) in
@@ -103,7 +144,6 @@ extension Reactive where Base: UILabel {
             label.text = result.description
         })
     }
-    
 }
 
 
