@@ -52,42 +52,32 @@ extension ObservableType {
 }
 
 
-extension CLLocationManager: HasDelegate {
-    public typealias Delegate = CLLocationManagerDelegate
-}
-
-
-class CLLocationManagerDelegateProxy: DelegateProxy<CLLocationManager, CLLocationManagerDelegate>, DelegateProxyType, CLLocationManagerDelegate {
-    
-    init(manager: CLLocationManager) {
-        super.init(parentObject: manager, delegateProxy: CLLocationManagerDelegateProxy.self)
-    }
-    static func registerKnownImplementations() {
-        self.register { CLLocationManagerDelegateProxy(manager: $0) }
-    }
-    
-    internal lazy var didUpdateLocationsSubject = PublishSubject<(CLLocationManager, [CLLocation])>()
-    internal lazy var didChangeAuthorizationSubject = PublishSubject<(CLLocationManager, CLAuthorizationStatus)>()
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        didUpdateLocationsSubject.onNext((manager, locations))
-    }
-    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        didChangeAuthorizationSubject.onNext((manager, status))
-    }
-}
-
-
 extension Reactive where Base: CLLocationManager {
-    var delegate: DelegateProxy<CLLocationManager, CLLocationManagerDelegate> {
+    var delegate: CLLocationManagerDelegateProxy {
         return CLLocationManagerDelegateProxy.proxy(for: base)
     }
     
     var didUpdateLocations: Observable<(CLLocationManager, [CLLocation])> {
-        return CLLocationManagerDelegateProxy.proxy(for: base).didUpdateLocationsSubject
+        return delegate.didUpdateLocationsSubject
     }
     var didChangeAuthorization: Observable<(CLLocationManager, CLAuthorizationStatus)> {
-        return CLLocationManagerDelegateProxy.proxy(for: base).didChangeAuthorizationSubject
+        return delegate.methodInvoked(#selector(CLLocationManagerDelegate.locationManager(_:didChangeAuthorization:)))
+            .map { (a) -> (CLLocationManager, CLAuthorizationStatus) in
+                let manager = try castOrThrow(resultType: CLLocationManager.self, object: a[0])
+                let number = try castOrThrow(resultType: NSNumber.self, object: a[1])
+                let status = CLAuthorizationStatus(rawValue: number.int32Value)!
+                
+                return (manager, status)
+            }
     }
+}
+
+private func castOrThrow<T>(resultType: T.Type, object: Any) throws -> T {
+    guard let resultValue = object as? T else {
+        throw RxCocoaError.castingError(object: object, targetType: resultType)
+    }
+    
+    return resultValue
 }
 
 
@@ -177,14 +167,6 @@ func dismissViewController(viewController: UIViewController, animated: Bool) {
     } else if viewController.presentingViewController != nil {
         viewController.dismiss(animated: animated, completion: nil)
     }
-}
-
-private func castOrThrow<T>(resultType: T.Type, object: Any) throws -> T {
-    guard let resultValue = object as? T else {
-        throw RxCocoaError.castingError(object: object, targetType: resultType)
-    }
-    
-    return resultValue
 }
 
 
