@@ -308,11 +308,11 @@ struct ViewControllerVM {
             SectionModel(model: "官方示例", items: [
                 TableViewItemModel(title: "数字相加", detail: "绑定。", canPushed: true, nextSegueID: "MainToNumbers"),
                 TableViewItemModel(title: "简单验证", detail: "绑定。", canPushed: true, nextSegueID: "MainToValid"),
-                TableViewItemModel(title: "定位", detail: "绑定。", canPushed: true, nextSegueID: "MainToLoction"),
                 TableViewItemModel(title: "GitHub注册（使用Observable）", detail: "简单的MVVM示例。", canPushed: true, nextSegueID: "MainToSignupObservable"),
                 TableViewItemModel(title: "GitHub注册（使用Driver）", detail: "简单的MVVM示例。", canPushed: true, nextSegueID: "MainToSignupDriver"),
                 TableViewItemModel(title: "API包装", detail: "API包装示例。", canPushed: true, nextSegueID: "MainToWrappers"),
                 TableViewItemModel(title: "计算器", detail: "无状态的计算器。", canPushed: true, nextSegueID: "MainToCalculator"),
+                TableViewItemModel(title: "定位", detail: "绑定。", canPushed: true, nextSegueID: "MainToLoction"),
                 TableViewItemModel(title: "UIImagePickerController", detail: "UIImagePickerController绑定。", canPushed: true, nextSegueID: "MainToImagePicker"),
                 TableViewItemModel(title: "UIPickerView", detail: "UIPickerView绑定。", canPushed: true, nextSegueID: "MainToPickerView"),
                 TableViewItemModel(title: "简单的UITableView", detail: "简单的UITableView绑定。", canPushed: true, nextSegueID: "MainToSimpleTableView"),
