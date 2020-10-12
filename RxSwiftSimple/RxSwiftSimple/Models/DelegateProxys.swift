@@ -35,3 +35,9 @@ class CLLocationManagerDelegateProxy: DelegateProxy<CLLocationManager, CLLocatio
         didUpdateLocationsSubject.onCompleted()
     }
 }
+
+class RxImagePickerDelegateProxy: RxNavigationControllerDelegateProxy, UIImagePickerControllerDelegate {
+    public init(imagePicker: UIImagePickerController) {
+        super.init(navigationController: imagePicker)
+    }
+}

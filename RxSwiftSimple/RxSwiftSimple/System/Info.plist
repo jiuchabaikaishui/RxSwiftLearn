@@ -3,16 +3,16 @@
 <plist version="1.0">
 <dict>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>我们需要访问照片</string>
+	<string>我们需要访问照您的相册</string>
 	<key>NSCameraUsageDescription</key>
-	<string>我们需要访问相机</string>
+	<string>我们需要使用您的相机</string>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>我们需要访问位置信息</string>
+	<string>我们需要访问您的位置信息</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>我们需要访问您的位置信息</string>
 	<key>CFBundleDevelopmentRegion</key>

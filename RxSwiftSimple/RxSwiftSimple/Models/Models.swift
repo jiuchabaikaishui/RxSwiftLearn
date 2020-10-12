@@ -254,12 +254,6 @@ extension CalculatorState {
     }
 }
 
-class RxImagePickerDelegateProxy: RxNavigationControllerDelegateProxy, UIImagePickerControllerDelegate {
-    public init(imagePicker: UIImagePickerController) {
-        super.init(navigationController: imagePicker)
-    }
-}
-
 func debugFatalError(_ message: String) {
     #if DEBUG
         fatalError(message)
