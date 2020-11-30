@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="kRP-Kh-Hr9">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="kRP-Kh-Hr9">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17126"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -16,22 +17,28 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vET-Jy-bte">
-                                <rect key="frame" x="20" y="340" width="374" height="216"/>
+                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hk3-Un-tsf">
+                                <rect key="frame" x="0.0" y="340" width="414" height="216"/>
+                            </pickerView>
+                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0nf-XZ-0Cr">
+                                <rect key="frame" x="0.0" y="44" width="414" height="216"/>
                             </pickerView>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        <constraints>
-                            <constraint firstItem="vET-Jy-bte" firstAttribute="centerX" secondItem="zTq-au-bCF" secondAttribute="centerX" id="G1U-9S-cp9"/>
-                            <constraint firstItem="AHg-J8-LVS" firstAttribute="trailing" secondItem="vET-Jy-bte" secondAttribute="trailing" constant="20" id="Z8C-uH-yJO"/>
-                            <constraint firstItem="vET-Jy-bte" firstAttribute="centerY" secondItem="zTq-au-bCF" secondAttribute="centerY" id="Zqa-pW-DVm"/>
-                            <constraint firstItem="vET-Jy-bte" firstAttribute="leading" secondItem="AHg-J8-LVS" secondAttribute="leading" constant="20" id="qVK-Wn-sXf"/>
-                        </constraints>
                         <viewLayoutGuide key="safeArea" id="AHg-J8-LVS"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="hk3-Un-tsf" firstAttribute="leading" secondItem="AHg-J8-LVS" secondAttribute="leading" id="Ws3-kw-qTo"/>
+                            <constraint firstItem="0nf-XZ-0Cr" firstAttribute="trailing" secondItem="AHg-J8-LVS" secondAttribute="trailing" id="ap0-kb-oNZ"/>
+                            <constraint firstItem="0nf-XZ-0Cr" firstAttribute="leading" secondItem="AHg-J8-LVS" secondAttribute="leading" id="huL-A7-bSB"/>
+                            <constraint firstItem="hk3-Un-tsf" firstAttribute="trailing" secondItem="AHg-J8-LVS" secondAttribute="trailing" id="jlf-cC-EZJ"/>
+                            <constraint firstItem="hk3-Un-tsf" firstAttribute="centerY" secondItem="zTq-au-bCF" secondAttribute="centerY" id="mNW-ZH-nzP"/>
+                            <constraint firstItem="0nf-XZ-0Cr" firstAttribute="top" secondItem="AHg-J8-LVS" secondAttribute="top" id="yPD-tG-VeN"/>
+                        </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Item 2" id="Pcq-c7-thF"/>
                     <connections>
-                        <outlet property="pickerView" destination="vET-Jy-bte" id="ehh-3r-b4L"/>
+                        <outlet property="centerPickerView" destination="hk3-Un-tsf" id="lKT-cA-pet"/>
+                        <outlet property="pickerView" destination="0nf-XZ-0Cr" id="bqb-gI-yCO"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="42O-06-GCh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -56,7 +63,8 @@
                                 <rect key="frame" x="0.0" y="556.5" width="414" height="256.5"/>
                             </pickerView>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="IJl-YD-NYr"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="taq-cU-uDh" firstAttribute="top" secondItem="x9W-2v-GXC" secondAttribute="bottom" id="0bx-9A-Iuc"/>
                             <constraint firstItem="taq-cU-uDh" firstAttribute="height" secondItem="x9W-2v-GXC" secondAttribute="height" id="4qB-Li-sCq"/>
@@ -71,7 +79,6 @@
                             <constraint firstItem="wWb-4A-FzN" firstAttribute="trailing" secondItem="IJl-YD-NYr" secondAttribute="trailing" id="sSk-Fu-qCO"/>
                             <constraint firstItem="x9W-2v-GXC" firstAttribute="top" secondItem="IJl-YD-NYr" secondAttribute="top" id="sdt-9g-wWi"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="IJl-YD-NYr"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Item 1" id="3pR-eJ-XLa"/>
                     <connections>
@@ -103,4 +110,9 @@
             <point key="canvasLocation" x="-906" y="-246"/>
         </scene>
     </scenes>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
 </document>
