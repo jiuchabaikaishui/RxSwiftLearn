@@ -36,13 +36,17 @@ class SimpleSectionedTableViewController: ExampleViewController, UITableViewDele
             SectionModel(model: 8, items: Array(1...10)),
             SectionModel(model: 9, items: Array(1...10)),
             SectionModel(model: 10, items: Array(1...10))
-        ]).bind(to: tableView.rx.items(dataSource: dataSource)).disposed(by: bag)
+        ]).bind(to: tableView.rx.items(dataSource: dataSource))
+        .disposed(by: bag)
         
-        tableView.rx.modelSelected(Int.self).subscribe(onNext: { print("我是元素\($0)") }).disposed(by: bag)
+        tableView.rx.modelSelected(Int.self)
+            .subscribe(onNext: { print("我是元素\($0)") })
+            .disposed(by: bag)
         
-        tableView.rx.itemSelected.flatMap { [weak self] (indexPath) -> Observable<String> in
-            return DefaultWireFrame().promptFor("提示", message: "我是第\(indexPath.section)行第\(indexPath.row)个，点我干嘛？", cancelAction: "确定", actions: nil, animated: true) { self?.tableView.deselectRow(at: indexPath, animated: true) }
-        }.subscribe().disposed(by: bag)
+        tableView.rx.itemSelected
+            .flatMap { [weak self] (indexPath) -> Observable<String> in
+                return DefaultWireFrame().promptFor("提示", message: "我是第\(indexPath.section)行第\(indexPath.row)个，点我干嘛？", cancelAction: "确定", actions: nil, animated: true) { self?.tableView.deselectRow(at: indexPath, animated: true) }
+            }.subscribe().disposed(by: bag)
         
         tableView.rx.setDelegate(self).disposed(by: bag)
     }

@@ -9,7 +9,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Item 2-->
+        <!--多组数据复杂绑定-->
         <scene sceneID="RX0-Ym-Tc1">
             <objects>
                 <viewController id="BuF-iU-EoQ" customClass="CustomPickerViewController" customModule="RxSwiftSimple" customModuleProvider="target" sceneMemberID="viewController">
@@ -23,20 +23,27 @@
                             <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0nf-XZ-0Cr">
                                 <rect key="frame" x="0.0" y="44" width="414" height="216"/>
                             </pickerView>
+                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rca-XS-8Rt">
+                                <rect key="frame" x="0.0" y="597" width="414" height="216"/>
+                            </pickerView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="AHg-J8-LVS"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="rca-XS-8Rt" firstAttribute="trailing" secondItem="AHg-J8-LVS" secondAttribute="trailing" id="TYX-6Y-5Ra"/>
                             <constraint firstItem="hk3-Un-tsf" firstAttribute="leading" secondItem="AHg-J8-LVS" secondAttribute="leading" id="Ws3-kw-qTo"/>
+                            <constraint firstItem="rca-XS-8Rt" firstAttribute="leading" secondItem="AHg-J8-LVS" secondAttribute="leading" id="Y8T-OT-oVW"/>
                             <constraint firstItem="0nf-XZ-0Cr" firstAttribute="trailing" secondItem="AHg-J8-LVS" secondAttribute="trailing" id="ap0-kb-oNZ"/>
                             <constraint firstItem="0nf-XZ-0Cr" firstAttribute="leading" secondItem="AHg-J8-LVS" secondAttribute="leading" id="huL-A7-bSB"/>
                             <constraint firstItem="hk3-Un-tsf" firstAttribute="trailing" secondItem="AHg-J8-LVS" secondAttribute="trailing" id="jlf-cC-EZJ"/>
                             <constraint firstItem="hk3-Un-tsf" firstAttribute="centerY" secondItem="zTq-au-bCF" secondAttribute="centerY" id="mNW-ZH-nzP"/>
+                            <constraint firstItem="rca-XS-8Rt" firstAttribute="bottom" secondItem="AHg-J8-LVS" secondAttribute="bottom" id="qyr-Kh-jKX"/>
                             <constraint firstItem="0nf-XZ-0Cr" firstAttribute="top" secondItem="AHg-J8-LVS" secondAttribute="top" id="yPD-tG-VeN"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Item 2" id="Pcq-c7-thF"/>
+                    <tabBarItem key="tabBarItem" title="多组数据复杂绑定" id="Pcq-c7-thF"/>
                     <connections>
+                        <outlet property="bottomPickerView" destination="rca-XS-8Rt" id="bCF-K6-E3Y"/>
                         <outlet property="centerPickerView" destination="hk3-Un-tsf" id="lKT-cA-pet"/>
                         <outlet property="pickerView" destination="0nf-XZ-0Cr" id="bqb-gI-yCO"/>
                     </connections>
@@ -45,7 +52,7 @@
             </objects>
             <point key="canvasLocation" x="11.594202898550726" y="77.678571428571431"/>
         </scene>
-        <!--Item 1-->
+        <!--单组数据简单绑定-->
         <scene sceneID="hc1-7s-muh">
             <objects>
                 <viewController id="CoA-aU-RZ2" customClass="SimplePickerViewViewController" customModule="RxSwiftSimple" customModuleProvider="target" sceneMemberID="viewController">
@@ -80,7 +87,7 @@
                             <constraint firstItem="x9W-2v-GXC" firstAttribute="top" secondItem="IJl-YD-NYr" secondAttribute="top" id="sdt-9g-wWi"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Item 1" id="3pR-eJ-XLa"/>
+                    <tabBarItem key="tabBarItem" title="单组数据简单绑定" id="3pR-eJ-XLa"/>
                     <connections>
                         <outlet property="pickerView1" destination="x9W-2v-GXC" id="gH1-21-DOA"/>
                         <outlet property="pickerView2" destination="taq-cU-uDh" id="fzR-wU-av5"/>

@@ -13,6 +13,7 @@ import RxCocoa
 class CustomPickerViewController: ExampleViewController {
     @IBOutlet weak var pickerView: UIPickerView!
     @IBOutlet weak var centerPickerView: UIPickerView!
+    @IBOutlet weak var bottomPickerView: UIPickerView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -73,5 +74,26 @@ class CustomPickerViewController: ExampleViewController {
                 }
             }, { (_, _) in 50.0 }, nil, nil)).disposed(by: bag)
         }
+        
+        let adapter = SectionedPickerViewAdapter<Int>(viewForRow: { (_, row, component, _) -> UIView in
+            let label = UILabel()
+            label.font = UIFont.systemFont(ofSize: 12.0)
+            label.textAlignment = .center
+            label.backgroundColor = UIColor.random
+            label.text = data[component][row].description
+            return label
+        }, widthForComponent: { _, component in
+            switch component {
+            case 0:
+                return 120.0
+            case 1:
+                return 80.0
+            default:
+                return 40.0
+            }
+        }, heightForComponent: { (_, _) in 40.0 })
+        Observable.just(data)
+            .bind(to: bottomPickerView.rx.items(adapter: adapter))
+            .disposed(by: bag)
     }
 }
