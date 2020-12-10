@@ -10,7 +10,7 @@ import Foundation
 import RxSwift
 import RxCocoa
 
-class SectionedDataSource<Section: SectionModelType>: NSObject, SectionedViewDataSourceType {
+class SectionedDataSource<Section: SectionModelType>: NSObject,  SectionedViewDataSourceType {
     
     private var _sectionModels: [Section] = []
     

@@ -13,19 +13,10 @@ import RxCocoa
 class SimpleSectionedTableViewController: ExampleViewController, UITableViewDelegate {
     @IBOutlet weak var tableView: UITableView!
     
-    let dataSource = TableViewSectionedDataSource<SectionModel<Int, Int>>(cellForRow: { (dataSource, tableView, indexPath) -> UITableViewCell in
-        let cell = CommonCell.cellFor(tableView: tableView)
-
-        let item = dataSource[indexPath]
-        cell.textLabel?.text = "我是(\(indexPath.section), \(indexPath.row)), \(item)"
-
-        return cell
-    }, titleForHeader: { "第\($2)组我是\($0[$2].model)" })
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        Observable.just([
+        let observable = Observable.just([
             SectionModel(model: 1, items: Array(1...10)),
             SectionModel(model: 2, items: Array(1...10)),
             SectionModel(model: 3, items: Array(1...10)),
@@ -36,7 +27,16 @@ class SimpleSectionedTableViewController: ExampleViewController, UITableViewDele
             SectionModel(model: 8, items: Array(1...10)),
             SectionModel(model: 9, items: Array(1...10)),
             SectionModel(model: 10, items: Array(1...10))
-        ]).bind(to: tableView.rx.items(dataSource: dataSource))
+        ])
+        let dataSource = TableViewSectionedDataSource<SectionModel<Int, Int>>(cellForRow: { (dataSource, tableView, indexPath) -> UITableViewCell in
+            let cell = CommonCell.cellFor(tableView: tableView)
+
+            let item = dataSource[indexPath]
+            cell.textLabel?.text = "我是(\(indexPath.section), \(indexPath.row)), \(item)"
+
+            return cell
+        }, titleForHeader: { "第\($2)组我是\($0[$2].model)" })
+        observable.bind(to: tableView.rx.items(dataSource: dataSource))
         .disposed(by: bag)
         
         tableView.rx.modelSelected(Int.self)

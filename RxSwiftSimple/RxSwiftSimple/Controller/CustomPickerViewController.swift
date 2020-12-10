@@ -92,7 +92,7 @@ class CustomPickerViewController: ExampleViewController {
                 return 40.0
             }
         }, heightForComponent: { (_, _) in 40.0 })
-        Observable.just(data)
+        Observable.just([Array(0..<10), Array(10..<100), Array(100..<1000)])
             .bind(to: bottomPickerView.rx.items(adapter: adapter))
             .disposed(by: bag)
     }

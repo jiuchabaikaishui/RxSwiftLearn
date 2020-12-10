@@ -10,6 +10,7 @@ import Foundation
 import CoreLocation
 import RxSwift
 import RxCocoa
+import NVActivityIndicatorView
 
 
 extension ObservableType {
@@ -166,6 +167,23 @@ func dismissViewController(viewController: UIViewController, animated: Bool) {
         }
     } else if viewController.presentingViewController != nil {
         viewController.dismiss(animated: animated, completion: nil)
+    }
+}
+
+
+extension Reactive where Base: UIViewController & NVActivityIndicatorViewable {
+    var animating: Binder<Bool> {
+        return Binder(base) { (t, v) in
+            if v != t.isAnimating {
+                if v {
+                    t.startAnimating()
+                } else {
+                    t.stopAnimating()
+                }
+            }
+            
+            UIApplication.shared.isNetworkActivityIndicatorVisible = v
+        }
     }
 }
 

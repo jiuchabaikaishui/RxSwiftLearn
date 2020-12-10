@@ -8,8 +8,12 @@
 
 import Foundation
 
-struct User {
+struct User: CustomStringConvertible {
     var firstName: String
     var lastName: String
     var imageURL: String
+    
+    var description: String {
+        return "\(firstName) \(lastName)"
+    }
 }

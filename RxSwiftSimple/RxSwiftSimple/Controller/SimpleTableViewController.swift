@@ -16,9 +16,18 @@ class SimpleTableViewController: ExampleViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        Observable.just(0..<100)
-            .bind(to: tableView.rx.items(cellIdentifier: "Cell", cellType: UITableViewCell.self), curriedArgument: { $2.textLabel?.text = "第\($0)行元素为：\($1)" })
-            .disposed(by: bag)
+        if true {
+            Observable.just(0..<100)
+                .bind(to: tableView.rx.items(cellIdentifier: "Cell", cellType: UITableViewCell.self), curriedArgument: { $2.textLabel?.text = "第\($0)行元素为：\($1)" })
+                .disposed(by: bag)
+        } else {
+            Observable.just(0..<100)
+                .bind(to: tableView.rx.items, curriedArgument: { (tv, row, element) -> UITableViewCell in
+                    let cell = tv.dequeueReusableCell(withIdentifier: "CellIdentifier", for: IndexPath(row: row, section: 0))
+                    cell.textLabel?.text = "第\(row)行元素为：\(element)"
+                    return cell
+                }).disposed(by: bag)
+        }
         
         tableView.rx.itemSelected
             .flatMapLatest({ (indexPath) in

@@ -11,7 +11,7 @@ import RxCocoa
 import RxSwift
 
 class UserAPI {
-    func getUsers(count: Int) -> Observable<[User]> {
+    class func getUsers(count: Int) -> Observable<[User]> {
         let url = URL(string: "http://api.randomuser.me/?results=\(count)")!
         return URLSession.shared.rx.json(url: url).map { (json) -> [User] in
             guard let json = json as? [String: AnyObject] else {

@@ -7,6 +7,8 @@
 //
 
 import Foundation
+import RxSwift
+import RxCocoa
 
 enum EditingTableViewCommand {
     case addUsers(users: [User], to: IndexPath)
@@ -15,29 +17,44 @@ enum EditingTableViewCommand {
 }
 
 struct EditingTabelViewViewModel {
-    var sections: [SectionModel<String, User>] = [
+    static let initalSections: [SectionModel<String, User>] = [
         SectionModel<String, User>(model: "Favorite Users", items: [
             User(firstName: "Super", lastName: "Man", imageURL: "http://nerdreactor.com/wp-content/uploads/2015/02/Superman1.jpg"),
             User(firstName: "Wat", lastName: "Man", imageURL: "http://www.iri.upc.edu/files/project/98/main.GIF")]),
         SectionModel<String, User>(model: "Normal Users", items: [User]())
     ]
+    private let activity = ActivityIndicator()
     
-    func excuteCommand(command: EditingTableViewCommand) -> EditingTabelViewViewModel {
+    let sections: Driver<[SectionModel<String, User>]>
+    let loading: Driver<Bool>
+    
+    static func excuteCommand(sections: [SectionModel<String, User>], command: EditingTableViewCommand) -> [SectionModel<String, User>] {
+        var result = sections
         switch command {
         case let .addUsers(users, to):
-            var sections = self.sections
-            sections[to.section].items.insert(contentsOf: users, at: to.row)
-            return EditingTabelViewViewModel(sections: sections)
+            result[to.section].items.insert(contentsOf: users, at: to.row)
         case let .moveUser(from, to):
-            var sections = self.sections
             let user = sections[from.section].items[from.row]
-            sections[from.section].items.remove(at: from.row)
-            sections[to.section].items.insert(user, at: to.row)
-            return EditingTabelViewViewModel(sections: sections)
+            result[from.section].items.remove(at: from.row)
+            result[to.section].items.insert(user, at: to.row)
         case let .deleteUser(indexPath):
-            var sections = self.sections
-            sections[indexPath.section].items.remove(at: indexPath.row)
-            return EditingTabelViewViewModel(sections: sections)
+            result[indexPath.section].items.remove(at: indexPath.row)
         }
+        return result
+    }
+    
+    init(itemDelete: RxCocoa.ControlEvent<IndexPath>, itemMoved: RxCocoa.ControlEvent<RxCocoa.ItemMovedEvent>) {
+        self.loading = activity.asDriver(onErrorJustReturn: false)
+        let add = UserAPI.getUsers(count: 30)
+            .map { EditingTableViewCommand.addUsers(users: $0, to: IndexPath(row: 0, section: 1)) }
+            .trackActivity(activity)
+        
+        sections = Observable.deferred {
+            let delete = itemDelete.map { EditingTableViewCommand.deleteUser(indexPath: $0) }
+            let move = itemMoved.map(EditingTableViewCommand.moveUser)
+            return Observable.merge(add, delete, move)
+                .scan(EditingTabelViewViewModel.initalSections, accumulator: EditingTabelViewViewModel.excuteCommand(sections:command:))
+        }.startWith(EditingTabelViewViewModel.initalSections)
+        .asDriver(onErrorJustReturn: EditingTabelViewViewModel.initalSections)
     }
 }
