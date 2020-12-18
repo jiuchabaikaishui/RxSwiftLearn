@@ -51,46 +51,59 @@ class GitHubSearchRepositoriesViewController: ExampleViewController, NVActivityI
         }
 
         let activityIndicator = ActivityIndicator()
-        let performSearchFeedback: (Driver<GitHubSearchRepositoriesState>) -> Signal<GitHubCommand> = { s in
-            s.flatMapLatest { (state) -> Signal<GitHubCommand> in
-                if !state.shouldLoadNextPage {
-                    return Signal.empty()
-                }
-                if state.searchText.isEmpty {
-                    return Signal.just(GitHubCommand.gitHubResponseReceived(Result.success((repositories: [], nextURL: nil))))
-                }
-
-                guard let url = state.nextURL else {
-                    return Signal.empty()
-                }
-                return GitHubSearchRepositoriesAPI.sharedAPI.loadSearchURL(searchURL: url)
-                    .trackActivity(activityIndicator)
-                    .asSignal(onErrorJustReturn: Result.failure(GitHubServiceError.networkError))
-                    .map(GitHubCommand.gitHubResponseReceived)
-            }
-        }
+//        let performSearchFeedback: (Driver<GitHubSearchRepositoriesState>) -> Signal<GitHubCommand> = { s in
+//            s.flatMapLatest { (state) -> Signal<GitHubCommand> in
+//                if !state.shouldLoadNextPage {
+//                    return Signal.empty()
+//                }
+//                if state.searchText.isEmpty {
+//                    return Signal.just(GitHubCommand.gitHubResponseReceived(Result.success((repositories: [], nextURL: nil))))
+//                }
+//
+//                guard let url = state.nextURL else {
+//                    return Signal.empty()
+//                }
+//                return GitHubSearchRepositoriesAPI.sharedAPI.loadSearchURL(searchURL: url)
+//                    .trackActivity(activityIndicator)
+//                    .asSignal(onErrorJustReturn: Result.failure(GitHubServiceError.networkError))
+//                    .map(GitHubCommand.gitHubResponseReceived)
+//            }
+//        }
 
         let initState = GitHubSearchRepositoriesState.initial
-        let state = Driver<GitHubSearchRepositoriesState>.deferred {
-            let replaySubject = ReplaySubject<GitHubSearchRepositoriesState>.create(bufferSize: 1)
-            let scheduler = MainScheduler()
-            let events: Observable<GitHubCommand> = Observable.merge([performSearchFeedback, inputFeedback].map({ feedback in
-                let s = replaySubject.asDriver(onErrorDriveWith: Driver.empty())
-                return feedback(s).asObservable()
-            })).observeOn(CurrentThreadScheduler.instance)
+//        let state = Driver<GitHubSearchRepositoriesState>.deferred {
+//            let replaySubject = ReplaySubject<GitHubSearchRepositoriesState>.create(bufferSize: 1)
+//            let scheduler = MainScheduler()
+//            let events: Observable<GitHubCommand> = Observable.merge([performSearchFeedback, inputFeedback].map({ feedback in
+//                let s = replaySubject.asDriver(onErrorDriveWith: Driver.empty())
+//                return feedback(s).asObservable()
+//            })).observeOn(CurrentThreadScheduler.instance)
+//
+//            return events.scan(initState, accumulator: GitHubSearchRepositoriesState.reduce)
+//                .do(onNext: { (s) in
+//                    print("++++\(s.searchText)++++")
+//                    replaySubject.onNext(s)
+//                }, onSubscribed: {
+//                    replaySubject.onNext(initState)
+//                }).subscribeOn(scheduler)
+//                .startWith(initState)
+//                .observeOn(scheduler)
+//                .asDriver(onErrorDriveWith: .empty())
+//        }
+        
+        let updateAll = searchBar.rx.text.orEmpty.changed
+            .throttle(.milliseconds(300), scheduler: MainScheduler())
+            .map(GitHubCommand.changeSearch(text:))
+        let loadMore = tableView.rx.contentOffset
+            .filter { [weak self] _ in self!.tableView.isNearBottomEdge(edgeOffset: 20.0) }
+            .map { _ in GitHubCommand.loadMoreItems }
+        
+        Observable.merge(updateAll, loadMore)
+            .scan(initState, accumulator: GitHubSearchRepositoriesState.reduce(state:command:))
 
-            return events.scan(initState, accumulator: GitHubSearchRepositoriesState.reduce)
-                .do(onNext: { (s) in
-                    print("++++\(s.searchText)++++")
-                    replaySubject.onNext(s)
-                }, onSubscribed: {
-                    replaySubject.onNext(initState)
-                }).subscribeOn(scheduler)
-                .startWith(initState)
-                .observeOn(scheduler)
-                .asDriver(onErrorDriveWith: .empty())
-        }
-
+        
+        let state = Driver<GitHubSearchRepositoriesState>.empty()
+        
         // 数据绑定
         state.map { $0.repositories }
             .distinctUntilChanged()

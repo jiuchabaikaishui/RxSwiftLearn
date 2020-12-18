@@ -84,7 +84,7 @@ class GitHubSearchRepositoriesAPI {
     }
     
     /// 加载搜索URL
-    /// - Parameter searchURL: RRL
+    /// - Parameter searchURL: URL
     func loadSearchURL(searchURL: URL) -> Observable<SearchRepositoriesResponse> {
         return URLSession.shared.rx
             .response(request: URLRequest(url: searchURL))
