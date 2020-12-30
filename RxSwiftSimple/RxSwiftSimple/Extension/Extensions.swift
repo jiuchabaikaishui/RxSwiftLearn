@@ -248,6 +248,11 @@ extension UIScrollView {
         self.contentOffset.y + self.bounds.size.height + edgeOffset > self.contentSize.height
     }
 }
+extension Reactive where Base: UIScrollView {
+    func nearBottom(edgeOffset: CGFloat = 20.0) -> Observable<Bool> {
+        contentOffset.map { _ in base.isNearBottomEdge(edgeOffset: edgeOffset) }
+    }
+}
 
 extension Optional {
     /// 解包

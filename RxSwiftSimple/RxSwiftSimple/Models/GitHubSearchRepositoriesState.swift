@@ -32,7 +32,7 @@ class Unique: NSObject {
 enum GitHubCommand {
     case changeSearch(text: String)
     case loadMoreItems
-//    case gitHubResponseReceived(SearchRepositoriesResponse)
+    case gitHubResponseReceived(SearchRepositoriesResponse)
 }
 
 struct Version<Value>: Hashable {
@@ -65,7 +65,7 @@ struct GitHubSearchRepositoriesState {
 
     init(searchText: String) {
         self.searchText = searchText
-        shouldLoadNextPage = false
+        shouldLoadNextPage = true
         repositories = Version([])
         nextURL = URL(string: "https://api.github.com/search/repositories?q=\(searchText.URLEscaped)")
         failure = nil
@@ -79,23 +79,23 @@ struct GitHubSearchRepositoriesState {
 //            guard let url = resultState.nextURL else { return resultState }
 //            GitHubSearchRepositoriesAPI.sharedAPI.loadSearchURL(searchURL: url)
             return resultState
-//        case let .gitHubResponseReceived(response):
-//            var newState = state
-//            switch response {
-//            case let .success((repositories, url)):
-//                newState.repositories = Version(state.repositories.value + repositories)
-//                newState.shouldLoadNextPage = true
-//                newState.nextURL = url
-//                newState.failure = nil
-//                return newState
-//            case let .failure(error):
-//                newState.failure = error
-//                return newState
-//            }
+        case let .gitHubResponseReceived(response):
+            var newState = state
+            switch response {
+            case let .success((repositories, url)):
+                newState.repositories = Version(state.repositories.value + repositories)
+                newState.shouldLoadNextPage = false
+                newState.nextURL = url
+                newState.failure = nil
+                return newState
+            case let .failure(error):
+                newState.failure = error
+                return newState
+            }
         case .loadMoreItems:
             var newState = state
             if state.failure == nil {
-                newState.shouldLoadNextPage = false
+                newState.shouldLoadNextPage = true
             }
             return newState
         }
