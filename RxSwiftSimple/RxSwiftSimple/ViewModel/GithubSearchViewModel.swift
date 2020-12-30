@@ -22,7 +22,7 @@ struct GithubSearchViewModel {
         loading = activityIndicator.loading
         let searchText = search.orEmpty.changed
             .asDriver()
-            .throttle(.seconds(1))
+            .throttle(.milliseconds(300))
             .distinctUntilChanged()
             .map(GitHubCommand.changeSearch)
 
