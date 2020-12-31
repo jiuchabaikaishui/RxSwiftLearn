@@ -34,17 +34,11 @@ struct GithubSearchViewModel {
         
         let inputFeedback: (Driver<GitHubSearchRepositoriesState>) -> Driver<GitHubCommand> = { state in
             let performSearch = state.flatMapLatest { (state) -> Driver<GitHubCommand> in
-                if !state.shouldLoadNextPage {
+                if (!state.shouldLoadNextPage) || state.searchText.isEmpty || state.nextURL == nil {
                     return Driver.empty()
                 }
-                if state.searchText.isEmpty {
-                    return Driver.empty()
-                }
-
-                guard let url = state.nextURL else {
-                    return Driver.empty()
-                }
-                return GitHubSearchRepositoriesAPI.sharedAPI.loadSearchURL(searchURL: url)
+                
+                return GitHubSearchRepositoriesAPI.sharedAPI.loadSearchURL(searchURL: state.nextURL!)
                     .trackActivity(activityIndicator)
                     .asDriver(onErrorJustReturn: Result.failure(GitHubServiceError.networkError))
                     .map(GitHubCommand.gitHubResponseReceived)

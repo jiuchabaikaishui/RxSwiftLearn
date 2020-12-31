@@ -72,32 +72,26 @@ struct GitHubSearchRepositoriesState {
     }
     
     static func reduce(state: GitHubSearchRepositoriesState, command: GitHubCommand) -> Self {
+        var result = state
         switch command {
         case let .changeSearch(text):
-            var resultState = GitHubSearchRepositoriesState(searchText: text)
-            resultState.failure = state.failure
-//            guard let url = resultState.nextURL else { return resultState }
-//            GitHubSearchRepositoriesAPI.sharedAPI.loadSearchURL(searchURL: url)
-            return resultState
+            result = GitHubSearchRepositoriesState(searchText: text)
+            result.failure = state.failure
         case let .gitHubResponseReceived(response):
-            var newState = state
             switch response {
             case let .success((repositories, url)):
-                newState.repositories = Version(state.repositories.value + repositories)
-                newState.shouldLoadNextPage = false
-                newState.nextURL = url
-                newState.failure = nil
-                return newState
+                result.repositories = Version(state.repositories.value + repositories)
+                result.shouldLoadNextPage = false
+                result.nextURL = url
+                result.failure = nil
             case let .failure(error):
-                newState.failure = error
-                return newState
+                result.failure = error
             }
         case .loadMoreItems:
-            var newState = state
             if state.failure == nil {
-                newState.shouldLoadNextPage = true
+                result.shouldLoadNextPage = true
             }
-            return newState
         }
+        return result
     }
 }
