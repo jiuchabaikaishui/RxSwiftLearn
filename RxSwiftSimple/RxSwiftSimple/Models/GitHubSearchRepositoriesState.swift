@@ -94,4 +94,27 @@ struct GitHubSearchRepositoriesState {
         }
         return result
     }
+    static func reduce1(state: GitHubSearchRepositoriesState, command: GitHubCommand) -> Self {
+        var result = state
+        switch command {
+        case let .changeSearch(text):
+            result = GitHubSearchRepositoriesState(searchText: text)
+            result.failure = state.failure
+        case let .gitHubResponseReceived(response):
+            switch response {
+            case let .success((repositories, url)):
+                result.repositories = Version(state.repositories.value + repositories)
+                result.shouldLoadNextPage = false
+                result.nextURL = url
+                result.failure = nil
+            case let .failure(error):
+                result.failure = error
+            }
+        case .loadMoreItems:
+            if state.failure == nil {
+                result.shouldLoadNextPage = true
+            }
+        }
+        return result
+    }
 }

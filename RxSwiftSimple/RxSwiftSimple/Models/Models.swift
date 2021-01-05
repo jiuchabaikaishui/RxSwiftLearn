@@ -67,6 +67,9 @@ class ActivityIndicator: SharedSequenceConvertibleType {
     init() {
         loading = relay.asDriver().map({ $0 > 0 }).distinctUntilChanged()
     }
+    deinit {
+        print("\(self)销毁了")
+    }
     
     /// 增量计数
     func increment() {

@@ -11,15 +11,12 @@ import RxSwift
 import RxCocoa
 
 struct GithubSearchViewModel {
-    private let activity: ActivityIndicator
     let loading: Driver<Bool>
     let sections: Driver<[SectionModel<String, Repository>]>
-    let bag = DisposeBag()
 
     init(search: RxCocoa.ControlProperty<String?>, loadMore: Observable<(Bool)>) {
-        let activityIndicator = ActivityIndicator()
-        activity = activityIndicator
-        loading = activityIndicator.loading
+        let activity = ActivityIndicator()
+        loading = activity.loading
         let searchText = search.orEmpty.changed
             .asDriver()
             .throttle(.milliseconds(300))
@@ -39,7 +36,7 @@ struct GithubSearchViewModel {
                 }
                 
                 return GitHubSearchRepositoriesAPI.sharedAPI.loadSearchURL(searchURL: state.nextURL!)
-                    .trackActivity(activityIndicator)
+                    .trackActivity(activity)
                     .asDriver(onErrorJustReturn: Result.failure(GitHubServiceError.networkError))
                     .map(GitHubCommand.gitHubResponseReceived)
             }
